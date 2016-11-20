@@ -1,0 +1,16 @@
+{
+  "name": "kolajisko",
+  "version": "1.0.0",
+  "description": "Kolajisko",
+  "main": "index.ts",
+  "scripts": {
+    "start": "node --inspect kolajisko/",
+    "test": "test"
+  },
+  "author": "Mišo",
+  "license": "ISC",
+  "dependencies": {
+    "serialport": "4.0.6"
+
+  }
+}
