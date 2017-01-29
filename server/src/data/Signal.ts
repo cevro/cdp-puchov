@@ -1,13 +1,16 @@
+import VlakovaCesta from "./VlakovaCesta";
+import wsServer from './../webSocetServer';
 export class Signal {
     public constructor({name, type, arduino, port}) {
         this.name = name;
         this.arduino = arduino;
         this.port = port;
         this.type = type;
+        this.navestID = 0;
     }
 
-    private VCTo;
-    private VCFrom;
+    private VCTo: VlakovaCesta;
+    private VCFrom: VlakovaCesta;
     protected name: string;
     protected type: string;
     private navestID: number;
@@ -16,21 +19,34 @@ export class Signal {
     protected port: number;
 
     public setNavest(id: number) {
+
+        if (this.navestID == id) {
+            return;
+        }
+        this.navestID = id;
+
         let callback = (data: any) => {
             this.displayNavestID = id;
-            console.log(this);
+            //console.log(this);
             if (this.VCFrom) {
                 this.VCFrom.change();
             }
             if (this.VCTo) {
                 this.VCTo.change();
             }
+            this.sendStatus();
         };
         this.arduino.write(this.port, id, callback);
-        this.navestID = id;
+
     }
 
-    setVCFrom(vlakovaCesta) {
+    private sendStatus() {
+        let {name, type, navestID, displayNavestID} = this;
+        let msg = {name, type, navestID, displayNavestID};
+        wsServer.broadcast(JSON.stringify(msg));
+    }
+
+    setVCFrom(vlakovaCesta: VlakovaCesta) {
         console.log('addVCFrom');
         this.VCFrom = vlakovaCesta;
     }
@@ -39,7 +55,7 @@ export class Signal {
         this.VCFrom = null;
     }
 
-    setVCTo(vlakovaCesta) {
+    setVCTo(vlakovaCesta: VlakovaCesta) {
         console.log('addVCTo');
         this.VCTo = vlakovaCesta;
     }

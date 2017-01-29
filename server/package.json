@@ -1,0 +1,29 @@
+{
+  "name": "kolajisko",
+  "version": "1.0.0",
+  "description": "Kolajisko",
+  "main": "index.ts",
+  "scripts": {
+    "start": "webpack-dev-server --display-error-details",
+    "test": "test"
+  },
+  "author": "Mišo",
+  "license": "ISC",
+  "dependencies": {
+    "serialport": "4.0.6",
+    "@types/serialport": "latest",
+    "react": "latest",
+    "@types/react": "latest",
+    "react-dom": "latest",
+    "@types/react-dom": "latest",
+    "http": "latest",
+    "websocket": "latest",
+    "@types/websocket": "latest",
+    "tslint-loader": "latest",
+    "tslint": "latest",
+    "ts-loader": "latest",
+    "ts": "latest",
+    "awesome-typescript-loader": "latest",
+    "source-map-loader": "latest"
+  }
+}
