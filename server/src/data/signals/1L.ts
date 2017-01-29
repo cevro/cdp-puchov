@@ -1,4 +1,4 @@
-import {Signal, VCHODOVE} from '../AbstractSignal';
+import {Signal, VCHODOVE} from '../Signal';
 import arduino from '../../ardu';
 
 export default new Signal({

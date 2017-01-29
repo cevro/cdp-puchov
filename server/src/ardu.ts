@@ -57,7 +57,7 @@ class Arduino {
         let msg = this.getMsg(object, signal);
 
         this.connector.write(msg);
-        console.log('Sending ' + msg);
+       // console.log('Sending ' + msg);
     }
 
     private dateRetrive() {

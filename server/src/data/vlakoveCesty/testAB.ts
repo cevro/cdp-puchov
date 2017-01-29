@@ -1,9 +1,9 @@
 import VlakovaCesta from '../VlakovaCesta';
+import signalAB1 from '../signals/AB1';
 import signalAB2 from '../signals/AB2';
-import signal1L from '../signals/1L';
 
 export default new VlakovaCesta({
-    signalFrom: signalAB2,
-    signalTo: signal1L ,
+    signalFrom: signalAB1,
+    signalTo: signalAB2,
     toSide: false,
 });

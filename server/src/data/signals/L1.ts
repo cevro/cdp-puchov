@@ -1,4 +1,4 @@
-import {Signal, ODCHODOVE} from '../AbstractSignal';
+import {Signal, ODCHODOVE} from '../Signal';
 import arduino from '../../ardu';
 
 export default new Signal({

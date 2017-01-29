@@ -2,8 +2,8 @@ import {Signal, ODDIELOVE} from '../Signal';
 import arduino from '../../ardu';
 
 export default new Signal({
-    name: '119-1',
+    name: '118-1',
     arduino: arduino,
-    port: 3,
+    port: 2,
     type: ODDIELOVE,
 });

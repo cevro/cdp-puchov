@@ -1,21 +1,20 @@
-import signalL1 from './data/signals/L1';
-import signalAB2 from './data/signals/AB2';
+import wsServer from './webSocetServer';
 import VC from './data/vlakoveCesty/1L-L1';
 import ABtest from './data/vlakoveCesty/testAB';
-import wsServer from './webSocetServer';
+import poslednyAB from './data/vlakoveCesty/poslednyAB';
 
 class Main {
     public run = () => {
         VC;
         ABtest;
         wsServer;
+        poslednyAB;
         setInterval(() => {
             let signal = Math.floor(Math.random() * 16);
             if (signal != 5 && signal != 13) {
-                signalL1.setNavest(signal);
-                signalAB2.setNavest(signal);
+
             }
-        }, 10000);
+        }, 20000);
     }
 }
 (new Main()).run();

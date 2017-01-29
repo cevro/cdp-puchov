@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "../../assets/",
+    "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": false,
     "module": "CommonJS",

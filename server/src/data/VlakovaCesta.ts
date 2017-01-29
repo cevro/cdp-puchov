@@ -1,4 +1,4 @@
-import {Signal} from "./AbstractSignal";
+import {Signal} from "./Signal";
 
 export default class VlakovaCesta {
     private signalFrom: Signal;
@@ -17,7 +17,7 @@ export default class VlakovaCesta {
     }
 
     public change() {
-        console.log('change');
+       // console.log('change');
         if (!this.active) {
             return;
         }

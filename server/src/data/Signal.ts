@@ -40,10 +40,14 @@ export class Signal {
 
     }
 
-    private sendStatus() {
+    public sendStatus(connection = null) {
         let {name, type, navestID, displayNavestID} = this;
         let msg = {name, type, navestID, displayNavestID};
-        wsServer.broadcast(JSON.stringify(msg));
+        if(connection){
+            connection.send(JSON.stringify(msg));
+        }else{
+            wsServer.broadcast(JSON.stringify(msg));
+        }
     }
 
     setVCFrom(vlakovaCesta: VlakovaCesta) {
