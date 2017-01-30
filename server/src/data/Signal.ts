@@ -1,33 +1,31 @@
 import VlakovaCesta from "./VlakovaCesta";
-import wsServer from './../webSocetServer';
-export class Signal {
+
+import {AbstractObject} from "./AbstractObject";
+
+export class Signal extends AbstractObject {
     public constructor({name, type, arduino, port}) {
-        this.name = name;
+        super({name});
+        this.SignalType = type;
         this.arduino = arduino;
         this.port = port;
-        this.type = type;
-        this.navestID = 0;
+        this.type = 'signal';
+        this.status = 8;
     }
 
     private VCTo: VlakovaCesta;
     private VCFrom: VlakovaCesta;
-    protected name: string;
-    protected type: string;
-    private navestID: number;
-    private displayNavestID: number;
+    protected SignalType: string;
     protected arduino: any;
     protected port: number;
 
     public setNavest(id: number) {
 
-        if (this.navestID == id) {
+        if (this.status == id) {
             return;
         }
-        this.navestID = id;
 
         let callback = (data: any) => {
-            this.displayNavestID = id;
-            //console.log(this);
+            this.status = id;
             if (this.VCFrom) {
                 this.VCFrom.change();
             }
@@ -40,18 +38,8 @@ export class Signal {
 
     }
 
-    public sendStatus(connection = null) {
-        let {name, type, navestID, displayNavestID} = this;
-        let msg = {name, type, navestID, displayNavestID};
-        if(connection){
-            connection.send(JSON.stringify(msg));
-        }else{
-            wsServer.broadcast(JSON.stringify(msg));
-        }
-    }
 
     setVCFrom(vlakovaCesta: VlakovaCesta) {
-        console.log('addVCFrom');
         this.VCFrom = vlakovaCesta;
     }
 
@@ -60,7 +48,6 @@ export class Signal {
     }
 
     setVCTo(vlakovaCesta: VlakovaCesta) {
-        console.log('addVCTo');
         this.VCTo = vlakovaCesta;
     }
 
@@ -68,8 +55,12 @@ export class Signal {
         this.VCTo = null;
     }
 
+    /**
+     * @deprecated
+     * @returns {number}
+     */
     public getNavestID() {
-        return this.displayNavestID;
+        return this.status;
     }
 }
 

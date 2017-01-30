@@ -1,10 +1,28 @@
 import {server} from 'websocket';
-import signalL1 from './data/signals/L1';
 import {signals} from './data/Signals';
+import {obvody} from './data/Obvody';
 let http = require('http');
 
-export const clients = [];
-
+const handelWebSocketReceive = (data) => {
+    switch (data.type) {
+        case'signal':
+            signals.map((signal) => {
+                if (data.name == signal.getName()) {
+                    signal.setNavest(data.status);
+                }
+            });
+            break;
+        case 'obvod':
+            obvody.map((obvod) => {
+                if (data.name == obvod.getName()) {
+                    obvod.changeStatus(data.status);
+                }
+            });
+            break;
+        default:
+            console.warn('no type match')
+    }
+};
 
 let httpServer = http.createServer(function (request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
@@ -34,17 +52,17 @@ wsServer.on('request', (request) => {
     }
 
     let connection = request.accept('echo-protocol', request.origin);
-    signals.map((signal)=>signal.sendStatus(connection));
-
+    signals.map((signal) => signal.sendStatus(connection));
     console.log((new Date()) + ' Connection accepted.');
+
     connection.on('message', function (message) {
         if (message.type === 'utf8') {
             console.log('Received Message: ' + message.utf8Data);
-            signalL1.setNavest(+message.utf8Data);
+            let data = JSON.parse(message.utf8Data);
+            handelWebSocketReceive(data);
         }
         else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
+            console.error('Received Binary Message of ' + message.binaryData.length + ' bytes');
         }
     });
     connection.on('close', function (reasonCode, description) {

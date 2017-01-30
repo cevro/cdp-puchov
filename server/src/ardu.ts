@@ -28,6 +28,7 @@ class Arduino {
     };
 
     private getMsg(obj: number, signal: any) {
+        console.log(arguments);
         return obj.toString() + '|' + signal.toString();
     }
 
@@ -57,7 +58,7 @@ class Arduino {
         let msg = this.getMsg(object, signal);
 
         this.connector.write(msg);
-       // console.log('Sending ' + msg);
+        // console.log('Sending ' + msg);
     }
 
     private dateRetrive() {
@@ -65,7 +66,7 @@ class Arduino {
             let waitingObject = this.waitingObject;
             this.waitingObject = {busy: false};
             console.log(data);
-          //  console.log(waitingObject);
+            //  console.log(waitingObject);
             waitingObject.callback(data);
             this.sendOnce();
         })
