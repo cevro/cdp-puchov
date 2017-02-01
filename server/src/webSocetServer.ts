@@ -1,6 +1,7 @@
 import {server} from 'websocket';
 import {signals} from './data/Signals';
 import {obvody} from './data/Obvody';
+import {vlakoveCesty} from './data/VlakoveCesty';
 let http = require('http');
 
 const handelWebSocketReceive = (data) => {
@@ -16,6 +17,17 @@ const handelWebSocketReceive = (data) => {
             obvody.map((obvod) => {
                 if (data.name == obvod.getName()) {
                     obvod.changeStatus(data.status);
+                }
+            });
+            break;
+        case'cesta':
+            vlakoveCesty.map((cesta) => {
+                if (data.name == cesta.getName()) {
+                    if (data.act == 'build') {
+                        cesta.build();
+                    } else if (data.act == 'hard_down') {
+                        cesta.hardDown();
+                    }
                 }
             });
             break;
@@ -53,6 +65,8 @@ wsServer.on('request', (request) => {
 
     let connection = request.accept('echo-protocol', request.origin);
     signals.map((signal) => signal.sendStatus(connection));
+    obvody.map((obvod) => obvod.sendStatus(connection));
+    vlakoveCesty.map((cesta) => cesta.sendStatus(connection));
     console.log((new Date()) + ' Connection accepted.');
 
     connection.on('message', function (message) {

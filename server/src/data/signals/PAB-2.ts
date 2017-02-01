@@ -1,9 +1,9 @@
-import {Signal, ODDIELOVE} from '../Signal';
+import {Signal, VCHODOVE} from '../Signal';
 import arduino from '../../ardu';
 
 export default new Signal({
-    name: '118-1',
+    name: 'PAB-2',
     arduino: arduino,
     port: 2,
-    type: ODDIELOVE,
+    type: VCHODOVE,
 });

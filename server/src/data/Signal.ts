@@ -2,27 +2,36 @@ import VlakovaCesta from "./VlakovaCesta";
 
 import {AbstractObject} from "./AbstractObject";
 
-export class Signal extends AbstractObject {
-    public constructor({name, type, arduino, port}) {
-        super({name});
-        this.SignalType = type;
-        this.arduino = arduino;
-        this.port = port;
-        this.type = 'signal';
-        this.status = 8;
-    }
+import {
+    MSG_ERROR,
+    MSG_INFO,
+    MSG_SUCCESS,
+    MSG_WARNING
+} from '../consts/messages/levels';
+export const Signal_TYPE = 'signal';
 
+export class Signal extends AbstractObject {
     private VCTo: VlakovaCesta;
     private VCFrom: VlakovaCesta;
-    protected SignalType: string;
+    protected signalType: string;
     protected arduino: any;
     protected port: number;
+
+    public constructor({name, type, arduino, port}) {
+        super({name});
+        this.signalType = type;
+        this.arduino = arduino;
+        this.port = port;
+        this.type = Signal_TYPE;
+        this.status = 0;
+    }
 
     public setNavest(id: number) {
 
         if (this.status == id) {
             return;
         }
+        this.sendMessage('návestidlo:' + this.name + ' sa prestavuje do polohy' + id, MSG_INFO);
 
         let callback = (data: any) => {
             this.status = id;
@@ -33,6 +42,7 @@ export class Signal extends AbstractObject {
                 this.VCTo.change();
             }
             this.sendStatus();
+            this.sendMessage('návestidlo:' + this.name + ' bolo prestavené do polohy' + id, MSG_SUCCESS);
         };
         this.arduino.write(this.port, id, callback);
 

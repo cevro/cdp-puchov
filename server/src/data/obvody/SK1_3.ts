@@ -1,5 +1,5 @@
 import Obvod from '../Obvod';
 
 export default new Obvod({
-    name: "priblizovak",
+    name: "SK1_3",
 });

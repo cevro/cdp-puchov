@@ -25,4 +25,9 @@ export abstract class AbstractObject {
     public getStatus() {
         return this.status;
     }
+
+    protected sendMessage(text, lvl = 1) {
+        let msg = {type: 'message', text, lvl};
+        wsServer.broadcast(JSON.stringify(msg));
+    }
 }

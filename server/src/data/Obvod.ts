@@ -1,10 +1,7 @@
 import VlakovaCesta from "./VlakovaCesta";
 import {AbstractObject} from './AbstractObject';
-const STATUS_FREE = 1;
-const STATUS_BUSY = 0;
-const STATUS_IN_VC = 2;
-const STATUS_IN_PC = 3;
-const STATUS_VYLUKA = 4;
+
+import {STATUS_FREE} from '../consts/obvod/status';
 
 export default class Obvod extends AbstractObject {
     private inVC: Array<VlakovaCesta>;
@@ -14,7 +11,7 @@ export default class Obvod extends AbstractObject {
 
         this.inVC = [];
         this.type = 'obvod';
-        this.status = STATUS_BUSY;
+        this.status = STATUS_FREE;
     }
 
     public addVC(VlakovaCesta: VlakovaCesta) {

@@ -1,22 +1,33 @@
 import {Signal} from "./Signal";
 import Obvod from './Obvod';
+import {AbstractObject} from "./AbstractObject";
+import {
+    MSG_ERROR,
+    MSG_INFO,
+    MSG_SUCCESS,
+    MSG_WARNING
+} from '../consts/messages/levels';
 
-const STATUS_FREE = 1;
-const STATUS_BUSY = 0;
-const STATUS_IN_VC = 2;
-const STATUS_IN_PC = 3;
-const STATUS_VYLUKA = 4;
+import  {NAVEST_STOJ}    from '../consts/signal/signals';
 
+import {signalStrategy} from './navestStategy';
 
-export default class VlakovaCesta {
-    private signalFrom: Signal;
-    private signalTo: Signal;
-    private active: boolean;
-    private toSide: boolean;
-    private status: number;
-    private obvody: Array<Obvod>;
+import {STATUS_FREE, STATUS_BUSY, STATUS_IN_VC} from '../consts/obvod/status';
+import wsServer from "../webSocetServer";
 
-    constructor({signalFrom, signalTo, toSide, obvody}) {
+export const VlakovaCesta_TYPE = 'cesta';
+
+export default class VlakovaCesta extends AbstractObject {
+    protected signalFrom: Signal;
+    protected signalTo: Signal;
+    protected active: boolean;
+    protected toSide: boolean;
+    protected obvody: Array<Obvod>;
+    protected persistent: boolean;
+    protected isBlocked: boolean = false;
+
+    constructor({name, signalFrom, signalTo, toSide, obvody, persistent = false}) {
+        super({name});
         this.signalFrom = signalFrom;
         this.signalTo = signalTo;
         this.signalTo.setVCTo(this);
@@ -26,91 +37,121 @@ export default class VlakovaCesta {
         this.obvody.forEach((obvod) => {
             obvod.addVC(this);
         });
-        this.active = true;
-        this.status = STATUS_BUSY;
+        this.active = false;
+        this.status = 0; // 0 entry signal to STOJ
+        this.type = VlakovaCesta_TYPE;
+        this.persistent = persistent;
     }
 
-    public change() {
+    public deactivePersistent() {
+        if (!this.persistent) {
+            return;
+        }
+        this.persistent = false;
+        this.hardDown();
+    }
+
+    public hardDown() {
         if (!this.active) {
             return;
         }
+        if (this.persistent) {
+            this.sendMessage('Persstentá cesta nejde natvrd zrušiť!', MSG_ERROR);
+            return;
+        }
+        this.sendMessage('Ruší sa vlaková cesta' + this.getName());
+        this.isBlocked = true;
+        this.status = 0;
         this.refreshSignals();
+        setTimeout(() => {
+            this.obvody.forEach((obvod) => {
+                obvod.changeStatus(STATUS_FREE);
+            });
+            this.isBlocked = false;
+            this.takeDown(true);
+        }, 30000);
+    }
+
+    protected canChange() {
+        if (this.active) {
+            if (!this.isBlocked)
+                return true;
+        }
+        return false;
+    }
+
+    public change() {
+        if (!this.canChange()) {
+            return;
+        }
+
+        let status = 1;
+        this.obvody.forEach((obvod) => {
+            if (obvod.getStatus() != STATUS_IN_VC) {
+                status = 0;
+            }
+        });
+        this.status = status;
+
+        this.refreshSignals();
+        this.takeDown();
     };
 
-    private getStatus() {
-        this.status = this.obvody.reduce((status, obvod) => {
-            return status && obvod.getStatus();
-        }, 1);
-        return this.status;
+    private isFree() {
+        let isFree = true;
+        this.obvody.forEach((obvod) => {
+            if (obvod.getStatus() != STATUS_FREE) {
+                isFree = false;
+            }
+        });
+        return isFree;
+    }
 
+    private isBuildAble() {
+        return (this.isFree() && !this.active);
+    }
+
+    public build() {
+        this.sendMessage('Stavá sa vlaková cesta: ' + this.getName(), MSG_INFO);
+        let canBuild = this.isBuildAble();
+        if (!canBuild) {
+            this.change();
+            this.sendMessage('Nedá sa postaviť vlaková cesta: ' + this.getName(), MSG_ERROR);
+            return;
+        }
+        this.obvody.forEach((obvod) => {
+            obvod.changeStatus(STATUS_IN_VC);
+        });
+        this.active = true;
+        this.sendMessage('Postavila sa vlaková cesta: ' + this.getName(), MSG_SUCCESS);
+        this.change();
+    }
+
+    /**
+     * Uplna bloková podmienka
+     * @returns {boolean}
+     */
+    private isDownAble() {
+        return (this.isFree() && this.signalTo.getStatus() == NAVEST_STOJ);
+    }
+
+
+    public takeDown(hard: boolean = false) {
+        if (!this.active) {
+            return;
+        }
+        if (this.isDownAble() || hard) {
+            this.active = false;
+            this.sendMessage('Vlakova cesta zrušena: ' + this.getName(), MSG_WARNING);
+            if (this.persistent) {
+                this.build();
+            }
+        }
     }
 
     private refreshSignals() {
-        let toNavest = this.signalTo.getNavestID();
-        let fromNavest = 0;
-        console.log('status' + this.status);
-        if (this.getStatus() == STATUS_BUSY) {
-            fromNavest = 0;
-        } else {
-            if (this.toSide) {
-                fromNavest = this.getNavestToSide(toNavest);
-            } else {
-                fromNavest = this.getNavestStraight(toNavest);
-            }
-        }
-        console.log(fromNavest);
-        this.signalFrom.setNavest(fromNavest);
+        let signal = signalStrategy(this.signalFrom, this.signalTo, this.status, this.toSide);
+        this.signalFrom.setNavest(signal);
     };
-
-    private getNavestToSide(toNavest) {
-        switch (toNavest) {
-            case 0:
-            case 8:
-            case 9:
-            case 10:
-            case 12:
-            case 15:
-                return 6;
-            case 1:
-            case 2:
-            case 3:
-            case 11:
-                return 4;
-            case 4:
-            case 6:
-            case 7:
-            case 14:
-            case 16:
-                return 7;
-            default:
-                return 0;
-
-        }
-    }
-
-    private getNavestStraight(toNavest) {
-        switch (toNavest) {
-            case 0:
-            case 8:
-            case 9:
-            case 10:
-            case 12:
-            case 15:
-                return 2;
-            case 1:
-            case 2:
-            case 3:
-            case 11:
-                return 1;
-            case 4:
-            case 6:
-            case 7:
-            case 14:
-            case 16:
-                return 3;
-            default:
-                return 0;
-        }
-    }
 }
 

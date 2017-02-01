@@ -1,5 +1,5 @@
 import Obvod from '../Obvod';
 
 export default new Obvod({
-    name: "AB",
+    name: "SK2_1",
 });

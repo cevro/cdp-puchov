@@ -2,16 +2,21 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // import WebSocketClient from './webSocetClient';
 
+import Signal from './Signal';
+import Obvod from './obvod';
+
 const ws = new WebSocket('ws://localhost:8081/', 'echo-protocol');
 
 interface IMainState {
     data: Array<any>;
     displaySignal: any;
+    messages: Array<any>;
+    availableCesty: Array<any>;
 }
 class Main extends React.Component<void, IMainState> {
     constructor() {
         super();
-        this.state = {data: [], displaySignal: {}};
+        this.state = {data: [], displaySignal: {}, messages: [], availableCesty: []};
 
     }
 
@@ -20,6 +25,23 @@ class Main extends React.Component<void, IMainState> {
         ws.onmessage = ({data}) => {
             let parsedData = JSON.parse(data);
             console.log(data);
+            if (parsedData.type == 'message') {
+
+                let {messages} = this.state;
+
+                let newMessage = [...messages, parsedData];
+                if (newMessage.length > 20) {
+                    newMessage.shift();
+                }
+                this.setState({messages: newMessage});
+                this.forceUpdate();
+                return;
+            }
+            if (parsedData.type == 'cesta') {
+                let newAavailableCesty = [...this.state.availableCesty, parsedData];
+                this.setState({availableCesty: newAavailableCesty});
+            }
+
             let isIn = false;
 
             let newData = this.state.data.map((signal: any) => {
@@ -39,111 +61,89 @@ class Main extends React.Component<void, IMainState> {
 
 
     render() {
-        const displayNavest = (signal: any) => {
-            this.setState({displaySignal: signal});
-        };
+        /* const displayNavest = (signal: any) => {
+         this.setState({displaySignal: signal});
+         };*/
+
+        const cesty = this.state.availableCesty.map((cesta, key) => {
+            let {type, name} = cesta;
+            const buildClick = () => {
+                ws.send(JSON.stringify({type, name, act: 'build'}));
+            };
+            const downClick = () => {
+                ws.send(JSON.stringify({type, name, act: 'hard_down'}));
+            };
+            return (
+                <div key={key}>{name}
+                    <button onClick={()=>buildClick()}>
+                        Postav!
+                    </button>
+                    <button onClick={()=>downClick()}>
+                        zruš!
+                    </button>
+                </div>
+            );
+        });
+
+        const objects = this.state.data.map((object, key) => {
+            switch (object.type) {
+                case 'signal':
+                    return (
+                        <Signal
+                            key={key}
+                            {...object}
+                        />
+                    );
+                case 'obvod':
+                    return (
+                        <Obvod
+                            key={key}
+                            {...object}
+                        />
+                    );
+                default:
+                    return (
+                        <g
+                            key={key}
+                        />
+                    );
+            }
+        });
         return (
             <div>
-                <svg viewBox="0 0 1200 700" width="1200">
-                    <Signal
-                        x="50"
-                        y="250"
-                        displayNavest={displayNavest}
-                        {...
-                            this.state.data.reduce((selected: any, signal: any) => {
-                                return ("118-1" == signal.name) ? signal : selected;
-                            }, {})}
-                    />
-                    <Signal
-                        x="150"
-                        y="250"
-                        displayNavest={displayNavest} {...
-                        this.state.data.reduce((selected: any, signal: any) => {
-                            return ("119-1" == signal.name) ? signal : selected;
-                        }, {})}
-                    />
-                    <Signal
-                        x="250"
-                        y="250" displayNavest={displayNavest}
-                        {...
-                            this.state.data.reduce((selected: any, signal: any) => {
-                                return ("1L" == signal.name) ? signal : selected;
-                            }, {})}
-                    />
-                    <Obvod
-                        px="250"
-                        py="250"
-                        points="0,0 100,0"
-                        {...this.state.data.reduce((selected: any, signal: any) => {
-                            return ("1SK" == signal.name) ? signal : selected;
-                        }, {})}
-                    />
-                    <Obvod
-                        px="150"
-                        py="250"
-                        points="0,0 100,0"
-                        {...this.state.data.reduce((selected: any, signal: any) => {
-                            return ("priblizovak" == signal.name) ? signal : selected;
-                        }, {})}
-                    />
-                    <Obvod
-                        px="50"
-                        py="250"
-                        points="0,0 100,0"
-                        {...this.state.data.reduce((selected: any, signal: any) => {
-                            return ("AB" == signal.name) ? signal : selected;
-                        }, {})}
-                    />
-                    <Signal
-                        x="350"
-                        y="250"
-                        displayNavest={displayNavest} {...
-                        this.state.data.reduce((selected: any, signal: any) => {
-                            return ("L1" == signal.name) ? signal : selected;
-                        }, {})}
-                    />
+                <svg viewBox="-300 150 1000 350" style={{width:"75%"}}>
+                    {objects}
                 </svg>
-                <NavestDisplay {...this.state.displaySignal}/>
-                <NavestButton
-                    type="obvod"
-                    name="1SK"
-                    ws={this.state.ws}
-                />
-                <NavestButton
-                    type="obvod"
-                    name="AB"
-                    ws={this.state.ws}
-                />
-                <NavestButton
-                    type="obvod"
-                    name="priblizovak"
-                    ws={this.state.ws}
-                />
-                <NavestButton
-                    type="signal"
-                    name="L1"
-                    ws={this.state.ws}
-                />
-                <NavestButton
-                    type="signal"
-                    name="119-1"
-                    ws={this.state.ws}
-                />
-
+                <MessageBox data={this.state.messages}/>
+                {cesty}
+                {this.state.data.map((object, index) => {
+                    return (<NavestButton
+                        key={index}
+                        {...object}
+                        ws={this.state.ws}
+                    />)
+                })}
             </div>
         );
     }
 }
-
-class Obvod extends React.Component<any,any> {
+class MessageBox extends React.Component<any,any> {
     render() {
+        let msgs = this.props.data.map((message, index) => {
+            let {text, lvl} = message;
+            let className = (lvl == -1 ? 'error' : ((lvl == 0) ? 'info' : 'success'));
+            return (<div className={'message '+ className} key={index}>
+                {text}
+            </div>);
+        });
         return (
-            <g transform={'translate('+this.props.px+','+this.props.py+')'}>
-                <polyline stroke={this.props.status?'green':'red'} points={this.props.points}/>
-            </g>
-        );
+            <div style={{width:'25%',float:'right'}}>
+                {msgs}
+            </div>
+        )
     }
 }
+
 
 class NavestButton extends React.Component<any,any> {
     render() {
@@ -152,7 +152,7 @@ class NavestButton extends React.Component<any,any> {
         if (type == 'obvod') {
             signals = [0, 1];
         } else {
-            signals = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+            //  signals = [0, 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
         }
         let buttons = signals.map((signal, index) => {
             const onClick = () => {
@@ -215,45 +215,6 @@ class NavestDisplay extends React.Component<any,any> {
                 </g>
             </svg>
         );
-    }
-}
-
-
-class Signal extends React.Component<any, any> {
-    public constructor() {
-        super();
-    }
-
-    componentWillReceiveProps(nextProps: any) {
-        this.forceUpdate();
-    }
-
-    render() {
-        let {status, name, type} = this.props;
-        if (name) {
-            console.log(status);
-            return (
-                <g
-                    transform={'translate('+this.props.x+','+this.props.y+')'}
-                >
-                    <g transform={'translate(0,-10)'}>
-                        <text>{name}--{status}</text>
-                    </g>
-                    <polygon
-                        onClick={()=>{this.props.displayNavest(this.props)}}
-                        points="0,10 0,-10 10,0"
-                        fill={
-                        (status==0)?'red':((status==13|| status==5)?'yellow':'green')
-                    }
-                    />
-                </g>
-            );
-        }
-        else {
-            return (<g/>)
-        }
-
-
     }
 }
 

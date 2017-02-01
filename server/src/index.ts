@@ -1,20 +1,13 @@
 import wsServer from './webSocetServer';
-import VC from './data/vlakoveCesty/1L-L1';
-import ABtest from './data/vlakoveCesty/testAB';
-import poslednyAB from './data/vlakoveCesty/poslednyAB';
+import VC3 from './data/vlakoveCesty/PAB-2S';
+import VC4 from './data/vlakoveCesty/PAB-1S';
 
 class Main {
     public run = () => {
-        VC;
-        ABtest;
-        wsServer;
-        poslednyAB;
-        setInterval(() => {
-            let signal = Math.floor(Math.random() * 16);
-            if (signal != 5 && signal != 13) {
+        VC4.build();
+        VC3.build();
 
-            }
-        }, 20000);
+        wsServer;
     }
 }
-(new Main()).run();
+setTimeout(() => (new Main()).run(), 20000);

@@ -1,0 +1,18 @@
+"use strict";
+exports.NAVEST_STOJ = 0;
+exports.NAVEST_VOLNO = 1;
+exports.NAVEST_VYSTRAHA = 2;
+exports.NAVEST_OCAKAVAJ_40 = 3;
+exports.NAVEST_40_A_VOLNO = 4;
+exports.NAVEST_TEST = 5;
+exports.NAVEST_40_A_VYSTRAHA = 6;
+exports.NAVEST_40_A_OCAKAVAJ_40 = 7;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0;
+//export const NAVEST_STOJ =0; 
