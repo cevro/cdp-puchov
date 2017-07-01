@@ -1,16 +1,22 @@
 import * as SerialPort from 'serialport';
 
-interface IWaitingObject {
-    object?: number;
-    signal?: number;
-    callback?: Function;
-    busy: boolean;
+interface ISendingObject {
+    object: number;
+    signal: number;
+}
+interface IWaitingObject extends ISendingObject {
+    callback: Function;
 }
 
-class Arduino {
+export const getSerialMessage = (obj: ISendingObject): string => {
+    return obj.object.toString() + '|' + obj.signal.toString();
+};
+
+export class Arduino {
     private waitingObject: IWaitingObject;
-    private Buffer: Array<any>;
+    private Buffer: Array<IWaitingObject>;
     public connector: any;
+    private busy: boolean;
 
     constructor(PORT: string) {
         this.connector = new SerialPort(PORT, {
@@ -22,40 +28,26 @@ class Arduino {
             flowControl: false,
             parser: SerialPort.parsers.readline('\n')
         });
+        this.busy = false;
         this.Buffer = [];
-        this.waitingObject = {busy: false};
         this.dateRetrive();
     };
 
-    private getMsg(obj: number, signal: any) {
-        console.log(arguments);
-        return obj.toString() + '|' + signal.toString();
-    }
-
-    public write(object: number, signal: any, callback: Function, p: boolean = false) {
-        let o = {object, signal, callback, busy: true};
-        this.Buffer = this.Buffer.filter((d) => {
-            return d.object != object;
-        });
-        if (p) {
-            this.Buffer.unshift(o);
-
-        } else {
-            this.Buffer.push(o);
-        }
+    public write(object: ISendingObject, callback: Function) {
+        this.Buffer.push(Object.assign({}, object, {callback}));
         this.sendOnce();
     }
 
     private sendOnce() {
-        if (this.waitingObject.busy) {
+        if (this.busy) {
             return;
         }
         if (!this.Buffer.length) {
             return;
         }
+        this.busy = true;
         this.waitingObject = this.Buffer.shift();
-        let {object, signal} =  this.waitingObject;
-        let msg = this.getMsg(object, signal);
+        let msg = getSerialMessage(this.waitingObject);
 
         this.connector.write(msg);
         // console.log('Sending ' + msg);
@@ -64,14 +56,12 @@ class Arduino {
     private dateRetrive() {
         this.connector.on('data', (data) => {
             let waitingObject = this.waitingObject;
-            this.waitingObject = {busy: false};
-            console.log(data);
-            //  console.log(waitingObject);
+            this.busy = false;
             waitingObject.callback(data);
             this.sendOnce();
-        })
+        });
     }
 }
 
-export default new Arduino('/dev/ttyACM0');
+export default new Arduino('/dev/ttyUSB0');
 

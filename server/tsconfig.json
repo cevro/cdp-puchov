@@ -4,8 +4,13 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "module": "CommonJS",
-    "target": "es5",
-    "rootDir": "./src/"
+    "target": "es6",
+    "rootDir": "./src/",
+    "lib": [
+      "dom",
+      "es2015.promise",
+      "es5"
+    ]
   },
   "include": [
     "./**/*"

@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Hello React!</title>
+    <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css">
     <style>
+        body {
+            background: black;
+            color: #ccc;
+        }
+
         svg {
             background: black;
         }
@@ -12,24 +18,23 @@
             fill: white;
         }
 
-        .message {
-            font-weight: bold;
+        .busy {
+            animation: blink-animation .5s infinite;
         }
 
-        .message.error {
-            color: red;
-            font-weight: bold;
+        .selected {
+            stroke: white;
+            stroke-width: 1;
         }
 
-        .message.info {
-            color: mediumblue;
-        }
-
-        .message.success {
-            color: green;
+        @keyframes blink-animation {
+            50% {
+                opacity: 0;
+            }
         }
 
     </style>
+
 </head>
 <body>
 <div id="example"></div>
@@ -40,6 +45,6 @@
 
 <main>
 </main>
-<script src="./../dist/bundle.js"></script>
+<script src="./../dist/bundle.min.js"></script>
 </body>
 </html>

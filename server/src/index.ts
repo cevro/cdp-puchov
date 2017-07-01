@@ -1,13 +1,17 @@
 import wsServer from './webSocetServer';
-import VC3 from './data/vlakoveCesty/PAB-2S';
-import VC4 from './data/vlakoveCesty/PAB-1S';
+import {signals} from './data/signals/index';
 
 class Main {
-    public run = () => {
-        VC4.build();
-        VC3.build();
-
+    public async run() {
+        // stupid touch
         wsServer;
+
+        for (let signal of signals) {
+           // await signal.init();
+        }
+      //  VC4.emit('ROUTE_BUILD');
+      //  VC3.emit('ROUTE_BUILD');
+
     }
 }
-setTimeout(() => (new Main()).run(), 20000);
+setTimeout(() => (new Main()).run(), 2000);

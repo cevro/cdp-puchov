@@ -14,11 +14,12 @@
     "@types/react": "latest",
     "react-dom": "latest",
     "@types/react-dom": "latest",
-    "websocket": "latest",
-    "@types/websocket": "latest",
+    "react-redux": "latest",
+    "@types/react-redux": "latest",
+    "redux": "latest",
+    "@types/redux": "latest",
     "typescript": "latest",
     "awesome-typescript-loader": "latest",
-    "source-map-loader": "latest",
-    "react-websocket" :"latest"
+    "source-map-loader": "latest"
   }
 }
