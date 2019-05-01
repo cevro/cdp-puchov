@@ -12,5 +12,6 @@ export default new TrainRoute({
     signalTo: signal1S,
     speed: null,
     sectorsGroup: new SectorsGroup([trat1S_1, trat1S_2]),
+    SVGData: null,
     // persistent: true,
 });

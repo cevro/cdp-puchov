@@ -12,7 +12,7 @@ import {
 
 import  {NAVEST_STOJ}    from '../consts/signal/signals';
 
-import {signalStrategy} from '../inc/objects/signal/signal-strategy';
+import signalStrategy from '../inc/objects/signal/signal-strategy';
 
 import {
     STATUS_FREE,
@@ -24,11 +24,11 @@ export const VlakovaCesta_TYPE = 'cesta';
 export default class persistentVC extends VlakovaCesta {
 
     public takeDown(hard?: boolean):boolean {
-        if (!this.active) {
+        if (!this.built) {
             return;
         }
         if (this.isDownAble()) {
-            this.active = false;
+            this.built = false;
             this.sendMessage('Vlakova cesta zrušena: ' + this.getName(), MSG_WARNING);
             this.handleBuild();
         }

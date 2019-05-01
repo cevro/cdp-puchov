@@ -6,4 +6,5 @@ export default new Signal({
     arduino: arduino,
     port: 12,
     type: VCHODOVE,
+    SVGData:{rotate: 180, x: "500", y: "250"},
 });

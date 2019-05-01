@@ -1,4 +1,7 @@
-import {Signal, VCHODOVE} from '../../inc/objects/signal/signal';
+import {
+    Signal,
+    VCHODOVE,
+} from '../../inc/objects/signal/signal';
 import arduino from '../../ardu';
 
 export default new Signal({
@@ -6,4 +9,5 @@ export default new Signal({
     arduino: arduino,
     port: 11,
     type: VCHODOVE,
+    SVGData: {rotate: 0, x: "50", y: "250"},
 });

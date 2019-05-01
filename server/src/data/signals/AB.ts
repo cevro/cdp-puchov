@@ -4,6 +4,7 @@ import arduino from '../../ardu';
 export default new Signal({
     name: 'AB',
     arduino: arduino,
-    port: 3,
+    port: 4,
     type: VCHODOVE,
+    SVGData:{rotate: 0, x: "600", y: "225"},
 });

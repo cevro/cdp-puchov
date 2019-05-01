@@ -1,1 +1,2 @@
-export const ROUTE_BUILD = 'ROUTE_BUILD';
+export const REQUEST_ROUTE_BUILD = 'ROUTE_BUILD';
+export const REQUEST_ROUTE_CANCEL = 'ROUTE_CANCEL';

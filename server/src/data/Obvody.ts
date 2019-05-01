@@ -14,10 +14,24 @@ import trat1S_2 from './obvody/trat/1S_2';
 import trat2S_1 from './obvody/trat/2S_1';
 import trat2S_2 from './obvody/trat/2S_2';
 
-export const obvody = [obvodSK1_1, obvodSK1_2, obvodSK1_3, SK1_4,
-    obvodSK2_1, obvodSK2_2, obvodSK2_3, obvodSK2_4,
-    trat1S_1,
-    trat1S_2,
-    trat2S_1,
-    trat2S_2,
-];
+/*
+ export const obvody = [obvodSK1_1, obvodSK1_2, obvodSK1_3, SK1_4,
+ obvodSK2_1, obvodSK2_2, obvodSK2_3, obvodSK2_4,
+ trat1S_1,
+ trat1S_2,
+ trat2S_1,
+ trat2S_2,
+ ];*/
+
+import * as sectors_1SK from './puchov/sectors/1SK';
+import * as sectors_2SK from './puchov/sectors/2SK';
+
+export const obvody = [];
+
+for (let index in sectors_1SK) {
+    obvody.push(sectors_1SK[index]);
+}
+for (let index in sectors_2SK) {
+    obvody.push(sectors_2SK[index]);
+}
+console.log(obvody);
