@@ -10,20 +10,20 @@ export default class SignalFactory {
 
     constructor() {
         this.signals = [
-            new Signal(1, '1L', this.SIGNAL_ENTRY),
-            new Signal(2, '2L', this.SIGNAL_ENTRY),
-            new Signal(3, 'L1', this.SIGNAL_EXIT),
-            new Signal(4, 'L2', this.SIGNAL_EXIT),
-            new Signal(5, 'L3a', this.SIGNAL_EXIT),
-            new Signal(6, 'Lc3', this.SIGNAL_EXIT),
-            new Signal(7, 'L4', this.SIGNAL_EXIT),
-            new Signal(8, 'L6', this.SIGNAL_EXIT),
-            new Signal(9, 'L8', this.SIGNAL_EXIT),
-            new Signal(10, 'L10', this.SIGNAL_EXIT),
-            new Signal(11, 'L12', this.SIGNAL_EXIT),
-            new Signal(12, 'L14a', this.SIGNAL_EXIT),
-            new Signal(13, 'Lc14', this.SIGNAL_EXIT),
-            new Signal(14, 'Lc16', this.SIGNAL_EXIT),
+            new Signal(1),
+            new Signal(2),
+            new Signal(3),
+            new Signal(4),
+            new Signal(5),
+            new Signal(6),
+            new Signal(7),
+            new Signal(8),
+            new Signal(9),
+            new Signal(10),
+            new Signal(11),
+            new Signal(12),
+            new Signal(13),
+            new Signal(14),
         ];
     }
 

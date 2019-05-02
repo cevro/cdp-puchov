@@ -38,16 +38,18 @@ class RouteBuilder extends React.Component<IProps, IState> {
         const objects = availableRoutes.map((route) => {
             const {id} = route;
             const buildClick = () => {
-                onClearSelect();
-                sendMessage({type: 'cesta', name: id, act: 'build'});
+                if (window.confirm('postaviť' + id)) {
+                    this.setState({availableRoutes: []})
+                    onClearSelect();
+                    sendMessage({type: 'cesta', name: id, act: 'build'});
+                }
             };
 
-            return (<p key={id} className="row">
-                    <span className="col-6">{id}</span>
+            return (
+                <p key={id} className="row">
                     <button onClick={() => {
                         buildClick();
-                        this.setState({availableRoutes: []});
-                    }} className="col-6 btn btn-success">Build!
+                    }} className="col-6 btn btn-success">{id} -Build!
                     </button>
                 </p>
             );

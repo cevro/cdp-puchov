@@ -14,7 +14,7 @@ class RouteDestroyer extends React.Component<IProps, void> {
         return (<div>
 
             {Object.keys(routes).map((key) => routes[key]).filter((route) => {
-                return route.status;
+                return route.active && !route.busy;
             }).map((route) => {
                 const downClick = () => {
                     sendMessage({type: 'cesta', name: route.name, act: 'hard_down'});

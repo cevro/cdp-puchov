@@ -1,8 +1,8 @@
-export const ACTION_SIGNAL_CONTEXT_MENU_DISPLAY = 'ACTION_SIGNAL_CONTEXT_MENU_DISPLAY';
+export const ACTION_HANDLE_COMMAND_ARRIVE = 'ACTION_HANDLE_COMMAND_ARRIVE';
 
-export const singalContextMenuDisplay = (data) => {
+export const handleCommandArrive = (data) => {
     return {
-        type: ACTION_SIGNAL_CONTEXT_MENU_DISPLAY,
+        type: ACTION_HANDLE_COMMAND_ARRIVE,
         data,
     };
 };

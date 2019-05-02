@@ -1,8 +1,15 @@
-import {ACTION_SIGNAL_RETRIEVE} from '../actions/webSocets';
+import { ACTION_SIGNAL_RETRIEVE } from '../actions/webSocets';
 
-const signalRetrieve = (state, action) => {
-    const {name} = action.data;
-    return {...state, [name]: action.data};
+export interface SignalsState {
+    [id: number]: number;
+}
+
+const signalRetrieve = (reducerState, action) => {
+    const {id, state} = action.data;
+    return {
+        ...reducerState,
+        [+id]: +state,
+    };
 };
 
 export const signals = (state = {}, action) => {

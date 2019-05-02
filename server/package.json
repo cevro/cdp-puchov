@@ -10,13 +10,18 @@
   "author": "Mišo",
   "license": "ISC",
   "dependencies": {
-    "serialport": "4.0.6",
+    "serialport": "latest",
     "@types/serialport": "latest",
     "http": "latest",
+    "sleep": "latest",
+    "@types/sleep": "latest",
     "websocket": "latest",
     "@types/websocket": "latest",
     "ts-loader": "latest",
     "ts": "latest",
     "source-map-loader": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^2.8.3"
   }
 }

@@ -1,10 +1,5 @@
 export default class Signal {
     public id;
-
-    public name;
-
-    public type;
-
     //public lockedBy = null;
 
     /**
@@ -13,10 +8,8 @@ export default class Signal {
      * @param name
      * @param type
      */
-    constructor(id: number, name: string, type: number) {
+    constructor(id: number) {
         this.id = id;
-        this.name = name;
-        this.type = type;
     }
 
     public getState(): number {

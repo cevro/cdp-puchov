@@ -4,12 +4,12 @@
     "sourceMap": true,
     "noImplicitAny": false,
     "module": "CommonJS",
-    "target": "es6",
+    "target": "ES6",
     "rootDir": "./src/",
     "lib": [
       "dom",
-      "es2015.promise",
-      "es5"
+      "ES2015.promise",
+      "ES6"
     ]
   },
   "include": [

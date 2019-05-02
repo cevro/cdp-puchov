@@ -1,5 +1,5 @@
 #include "navestidlo.h"
-class KolajObvod {
+/*class KolajObvod {
   private:
     int pin;
     int values[5];
@@ -29,10 +29,10 @@ class KolajObvod {
       return this->status;
     }
 };
+*/
+Navestidlo* N[4];
 
-Navestidlo* N[4] = {new Navestidlo(), new Navestidlo(), new Navestidlo(), new Navestidlo() };
-
-KolajObvod* O[2] = {new KolajObvod(), new KolajObvod()};
+//KolajObvod* O[2] = {new KolajObvod(), new KolajObvod()};
 
 
 void setup() {
@@ -41,8 +41,8 @@ void setup() {
   while (!Serial) {
     ;
   }
-  O[0]->setPin(A0);
-  O[2]->setPin(A1);
+ // O[0]->setPin(A0);
+ // O[2]->setPin(A1);
 
   N[0]->setPin(11);
   N[1]->setPin(10);
@@ -51,7 +51,7 @@ void setup() {
 
 }
 char tmp[10];
-bool status = O[0]->getStatus();
+//bool status = O[0]->getStatus();
 void loop() {
   //N[0]->setNavest(1);
   if (Serial.available()) {
@@ -59,6 +59,7 @@ void loop() {
     memset(tmp, 0, sizeof(tmp));
 
     Serial.readBytes(tmp, 10);
+    Serial.println(tmp);
     char* data = strtok(tmp, ":")    ;
     char* results[3] ;
     memset(results, 0, sizeof(results));
@@ -70,27 +71,27 @@ void loop() {
       data = strtok(NULL, ":");
     }
     int addr = String(results[1]).toInt();
-    switch (results[0][0]) {
-      case 's':
-        if (results[2][0] == '?') {
+   // switch (results[0][0]) {
+   //   case 's':
+        /*if (results[2][0] == '?') {
           Serial.print("s:");
           Serial.print(addr);
           Serial.print(":");
           Serial.println(N[addr]->getNavest());
-        } else {
+        } else {*/
           int status = String(results[2]).toInt();
           N[addr]->setNavest(status);
-        }
-        break;
-      case'o':
+       // }
+  //      break;
+    /*  case'o':
         if (results[2][0] == '?') {
           Serial.print("o:");
           Serial.print(addr);
           Serial.print(":");
           Serial.println(O[addr]->getStatus());
-        }
+        }*/
 
-    }
+  //  }
 
 
 
@@ -115,7 +116,7 @@ void loop() {
        }
       }*/
   }
-
+/*
   if (status != O[0]->getStatus()) {
     //Serial.println("change status");
     status = O[0]->getStatus();
@@ -126,14 +127,14 @@ void loop() {
 
     }
   }
-
+*/
   for (int i = 0; i < 4; i++) {
     N[i]->clock();
     //Serial.print(i);
     //Serial.print(":");
     //Serial.println(N[i]->getNavest());
   }
-  O[0]->clock();
+ // O[0]->clock();
 
   delay(10);
 

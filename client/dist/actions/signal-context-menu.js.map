@@ -1,0 +1,1 @@
+{"version":3,"file":"signal-context-menu.js","sourceRoot":"","sources":["../../src/actions/signal-context-menu.ts"],"names":[],"mappings":";AAAa,QAAA,4BAA4B,GAAG,8BAA8B,CAAC;AAE9D,QAAA,mBAAmB,GAAG,CAAC,IAAI;IACpC,MAAM,CAAC;QACH,IAAI,EAAE,oCAA4B;QAClC,IAAI;KACP,CAAC;AACN,CAAC,CAAC"}

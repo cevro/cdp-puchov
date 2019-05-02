@@ -1,7 +1,4 @@
 import {ws} from '../webSocetClient';
-/**
- * Created by miso on 1.7.2017.
- */
 
 export const ACTION_MESSAGE_RETRIEVE = 'ACTION_MESSAGE_RETRIEVE';
 export const onMessageRetrieve = (data) => {

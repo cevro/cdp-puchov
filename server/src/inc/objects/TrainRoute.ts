@@ -10,7 +10,7 @@ export default class TrainRoute {
     private readonly endSignal: Signal;
     private readonly speed: number | null;
 
-    constructor(sectors: Array<any>, pointPositions: PointPosition[], startSignal: Signal, endSignal: Signal, speed: number | null) {
+    constructor(name:string,sectors: Array<any>, pointPositions: PointPosition[], startSignal: Signal, endSignal: Signal, speed: number | null) {
         this.sectors = sectors;
         this.pointPositions = pointPositions;
         this.startSignal = startSignal;

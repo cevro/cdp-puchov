@@ -5,7 +5,7 @@ interface IProps {
     messages?: Array<any>;
 }
 
-class Box extends React.Component<IProps, void> {
+class Box extends React.Component<IProps, {}> {
     render() {
         const {messages} = this.props;
         const msgs = messages.map((message, index) => {

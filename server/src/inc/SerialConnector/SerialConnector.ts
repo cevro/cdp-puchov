@@ -16,9 +16,8 @@ class SerialConnector {
     };
 
     public write(msg): void {
-        console.log(msg);
         this.connector.write(msg);
-
+        console.log(msg);
     }
 
     private dateReceive(): void {
@@ -31,5 +30,5 @@ class SerialConnector {
     }
 }
 
-export default new SerialConnector('/dev/ttyUSB0');
+export default new SerialConnector('/dev/ttyUSB1');
 

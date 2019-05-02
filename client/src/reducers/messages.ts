@@ -1,9 +1,9 @@
 import {ACTION_MESSAGE_RETRIEVE} from '../actions/webSocets';
 
 const messageRetrieve = (state, action) => {
-    const newMessages = [...state, action.data];
-    if (newMessages.length > 20) {
-        newMessages.shift();
+    const newMessages = [ action.data,...state];
+    if (newMessages.length > 5) {
+        newMessages.pop();
     }
     return newMessages;
 };
