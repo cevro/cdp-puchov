@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import Signal from './Signal';
 import { Signals as SignalDefs } from '../../../definitions/Signals';
 
-interface Props {
+interface State {
     signals?: any;
 }
 
-class Signals extends React.Component<Props, {}> {
+class Signals extends React.Component<State, {}> {
 
     render() {
 
@@ -21,9 +21,8 @@ class Signals extends React.Component<Props, {}> {
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state): State => {
     return {
-        ...ownProps,
         signals: state.signals,
     };
 };

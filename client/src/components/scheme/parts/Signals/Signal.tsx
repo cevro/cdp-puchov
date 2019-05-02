@@ -7,7 +7,7 @@ import { SignalDefinition } from '../../../definitions/Signals';
 import { Store } from '../../../../reducers';
 import { getSignal } from '../../../../middleware/signal';
 
-interface IProps {
+interface Props {
     definition: SignalDefinition;
 }
 
@@ -20,7 +20,7 @@ interface State {
     signalTo?: string;
 }
 
-class Signal extends React.Component<IProps & State, {}> {
+class Signal extends React.Component<Props & State, {}> {
     render() {
         const {
             state,
@@ -37,6 +37,7 @@ class Signal extends React.Component<IProps & State, {}> {
         } = this.props;
         return (
             <g
+                className={'signal ' + this.getStateClassName(state)}
                 transform={'translate(' + x + ',' + y + ')'}
                 onClick={() => {
                     onSignalSelect(name);
@@ -54,16 +55,24 @@ class Signal extends React.Component<IProps & State, {}> {
                     className={(busy ? 'busy' : 'free') + ' ' + ((signalFrom === name || signalTo === name) ? 'selected' : '')}
                     transform={'rotate(' + rotate + ')'}
                     points="0,8 0,-8 8,0"
-                    fill={
-                        (state === 0) ? 'red' : ((state === undefined || state === 13 || state === 5) ? 'yellow' : 'green')
-                    }
                 />
             </g>
         );
     }
+
+    private getStateClassName(state: number | null = null): string {
+        if (state === 0) {
+            return 'state-not-allowed';
+        }
+        if ((!state) || state === 13 || state === 5) {
+            return 'state-undefined'
+        }
+        return 'state-allowed';
+
+    }
 }
 
-const mapStateToProps = (state: Store, ownProps: IProps): State => {
+const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
         signalFrom: state.routeBuilder.signalFrom,
         signalTo: state.routeBuilder.signalTo,
@@ -71,7 +80,7 @@ const mapStateToProps = (state: Store, ownProps: IProps): State => {
     };
 };
 
-const mapDispatchToProps = (dispatch, ownProps: IProps): State => {
+const mapDispatchToProps = (dispatch, ownProps: Props): State => {
     return {
         onSignalSelect: (id) => dispatch(signalSelect(id)),
         onSignalContextMenu: (data) => dispatch(onSignalContextMenu(data)),

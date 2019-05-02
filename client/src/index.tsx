@@ -12,7 +12,7 @@ import Downloader from './components/helpers/Downloader';
 import MessageBox from './components/message-box/box';
 import Scheme from './components/scheme/index';
 import RouteBuilder from './components/route-builder';
-import SignalContextMenu from './components/scheme/parts/signals/ContextMenu/ContextMenu';
+import SignalContextMenu from './components/scheme/parts/Signals/ContextMenu/ContextMenu';
 
 class Main extends React.Component<{}, void> {
 

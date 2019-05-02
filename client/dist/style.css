@@ -1,0 +1,143 @@
+body {
+    background: black;
+    color: #ccc;
+}
+
+svg {
+    background: black;
+}
+
+.busy {
+    animation: blink-animation .5s infinite;
+}
+
+.signal polygon {
+    stroke: black;
+    stroke-width: 2;
+}
+
+.selected {
+    animation: signal-blink 1.1s infinite;
+}
+
+.signal.state-not-allowed polygon,
+.signal.state-not-allowed text {
+    fill: red;
+}
+
+.signal.state-undefined polygon,
+.signal.state-undefined text {
+    fill: #80f;
+    animation: disconnected 0.5s infinite;
+}
+
+.signal.state-allowed polygon,
+.signal.state-allowed text {
+    fill: green;
+}
+
+.signal-light.blink {
+    animation: signal-blink 1.1s infinite;
+}
+
+.signal-light.off {
+    opacity: 0;
+}
+
+@keyframes signal-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes disconnected {
+    50% {
+        opacity: 0;
+    }
+}
+
+.point line {
+    stroke-width: 3;
+    stroke: #ccc;
+}
+
+.point text {
+    fill: #ccc;
+}
+
+.point.changing line,
+.point.changing text {
+    animation: signal-blink 1.0s infinite;
+}
+
+.point.undefined line {
+    stroke: #80f;
+    animation: disconnected .5s .3s infinite;
+}
+
+.point.undefined text {
+    fill: #80f;
+    animation: disconnected .5s .3s infinite;
+}
+
+.point.locked line {
+    stroke: #0f0;
+}
+
+.point.locked text {
+    fill: #0f0;
+}
+
+.sector polyline {
+    /* stroke-linecap: round;*/
+    stroke-width: 3;
+}
+
+.sector.free polyline {
+    stroke: #555;
+}
+
+.sector.used polyline {
+    stroke: #f00;
+}
+
+.sector.in-train-route polyline {
+    stroke: #0f0;
+}
+
+.sector.in-movement-route polyline {
+    stroke: #ccc;
+}
+
+.sector.lockout polyline {
+    stroke: #ff0;
+}
+
+.sector.undefined polyline {
+    animation: disconnected .5s .1s infinite;
+    stroke: #80f;
+}
+
+.signal-context-menu {
+    border: solid 1px white;
+    background-color: #333;
+    position: absolute;
+    width: 400px;
+}
+
+.signal-label {
+    text-align: center;
+    border-radius: .5rem;
+}
+
+.signal-label.vchodove {
+    color: white;
+    background: red;
+    border: solid 1px white;
+}
+
+.signal-label.oddielove {
+    color: black;
+    background: white;
+    border: solid 1px black;
+}

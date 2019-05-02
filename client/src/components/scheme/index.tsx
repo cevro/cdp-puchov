@@ -1,6 +1,7 @@
 import * as React from 'react';
-import Signals from './parts/signals/Signals';
-import Sectors from './parts/sectors/index';
+import Signals from './parts/Signals/Signals';
+import Sectors from './parts/Sectors/Sectors';
+import Points from './parts/Points/Points';
 
 export default class Scheme extends React.Component<{}, void> {
     render() {
@@ -41,6 +42,8 @@ export default class Scheme extends React.Component<{}, void> {
 
                 <Sectors/>
                 <Signals/>
+                <Points/>
+
             </svg>
         );
     }
