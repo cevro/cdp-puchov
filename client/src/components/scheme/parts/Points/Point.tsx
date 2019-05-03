@@ -61,7 +61,7 @@ class Point extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        state: null,
+        state: 0,
         locked: false,
         //   signalFrom: state.routeBuilder.signalFrom,
         //    signalTo: state.routeBuilder.signalTo,

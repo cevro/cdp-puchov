@@ -6,3 +6,4 @@ server/**/*.js*
 client/node_modules/
 server/dist/
 server/node_modules/
+client/dist/bundle.min.js.map
