@@ -7,32 +7,41 @@ import {
     createStore,
 } from 'redux';
 import { app } from './reducers/';
-
 import Downloader from './components/helpers/Downloader';
 import MessageBox from './components/message-box/box';
-import Scheme from './components/scheme/index';
+import Scheme from './components/Scheme/Index';
 import RouteBuilder from './components/route-builder';
-import SignalContextMenu from './components/scheme/parts/Signals/ContextMenu/ContextMenu';
+import SignalContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
+import Options from './components/Options/Options';
 
-class Main extends React.Component<{}, void> {
+class Main extends React.Component<{}, {}> {
 
-    render() {
+    public render() {
         const store = createStore(app, applyMiddleware(logger));
         return (
             <Provider store={store}>
-                <div className="container-fluid row">
+                <div className="container-fluid">
                     <Downloader/>
+                    <div className="row col-12 top-panel">
+                        <div className="col-1">
+                            <SignalContextMenu/>
+                        </div>
+                        <div className="col-2 offset-9">
+                            <Options/>
+                        </div>
+                    </div>
+
                     <div className="col-12">
                         <Scheme/>
                     </div>
-                    <div className="col-3">
-                        <RouteBuilder/>
-                    </div>
-                    <div className="col-4">
-                        <MessageBox/>
-                    </div>
-                    <div className="col-4">
-                        <SignalContextMenu/>
+
+                    <div className="row col-12">
+                        <div className="col-3">
+                            <RouteBuilder/>
+                        </div>
+                        <div className="col-4">
+                            <MessageBox/>
+                        </div>
                     </div>
 
 

@@ -1,8 +1,8 @@
 import {
     ACTION_CLEAR_SELECT,
     ACTION_REGISTER_ROUTES,
-    ACTION_SIGNAL_SELECT
-} from '../actions/route-builder';
+    ACTION_SIGNAL_SELECT,
+} from '../actions/routeBuilder';
 
 const signalSelect = (state, action) => {
     const {signalFrom} = state;
@@ -20,9 +20,13 @@ const registerRoutes = (state, action) => {
     return {...state, availableRoutes: action.routes};
 };
 
-const clearSelect = (state, action) => {
-    return {...state, signalFrom: null, signalTo: null};
-}
+const clearSelect = (state) => {
+    return {
+        ...state,
+        signalFrom: null,
+        signalTo: null,
+    };
+};
 
 export const routeBuilder = (state = {signalFrom: null, signalTo: null, availableRoutes: []}, action) => {
     const {type} = action;
@@ -32,7 +36,7 @@ export const routeBuilder = (state = {signalFrom: null, signalTo: null, availabl
         case ACTION_REGISTER_ROUTES:
             return registerRoutes(state, action);
         case ACTION_CLEAR_SELECT:
-            return clearSelect(state, action);
+            return clearSelect(state);
         default:
             return state;
     }

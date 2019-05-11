@@ -1,5 +1,3 @@
-import {ws} from '../webSocetClient';
-
 export const ACTION_MESSAGE_RETRIEVE = 'ACTION_MESSAGE_RETRIEVE';
 export const onMessageRetrieve = (data) => {
     return {
@@ -36,6 +34,6 @@ export const ACTION_MESSAGE_SEND = 'ACTION_MESSAGE_SEND';
 export const onSendMessage = (text: string) => {
     return {
         type: ACTION_MESSAGE_SEND,
-        text
+        text,
     };
 };

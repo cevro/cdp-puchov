@@ -1,0 +1,70 @@
+.signal {
+  &.state-not-allowed {
+    polygon, text {
+      fill: red;
+    }
+    &.signal-type-4 {
+      polygon, text {
+        fill: blue;
+      }
+    }
+  }
+
+  &.state-undefined {
+    polygon, text {
+      fill: #80f;
+      animation: disconnected 0.5s infinite;
+    }
+  }
+
+  &.state-allowed {
+    polygon, text {
+      fill: green;
+    }
+  }
+
+  &.signal-light {
+    &.blink {
+      animation: signal-blink 1.1s infinite;
+    }
+    &.off {
+      opacity: 0;
+    }
+  }
+}
+
+.signal-preview {
+  &.signal-type-4 {
+    .label {
+      text {
+        fill: white;
+      }
+      rect {
+        fill: blue;
+        stroke: white;
+      }
+    }
+  }
+  &.signal-type-1, &.signal-type-2, &.signal-type-3 {
+    .label {
+      text {
+        fill: white;
+      }
+      rect {
+        fill: red;
+        stroke: white;
+      }
+    }
+  }
+  .label {
+    text {
+      fill: white;
+      text-anchor: middle;
+      font-size: .5rem;
+    }
+    rect {
+      stroke: white;
+    }
+  }
+
+}

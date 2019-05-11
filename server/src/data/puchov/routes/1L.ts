@@ -1,4 +1,3 @@
-import SectorsGroup from '../../../inc/objects/sector/sector-group';
 import {
     signal_1L,
     signal_L1,

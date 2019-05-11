@@ -15,8 +15,7 @@ export default class SignalStrategy {
         } else {
             return this.getSignalStraight(endSignal, sufficientDistance);
         }
-    }
-
+    };
 
     private getSignalToSide(endSignal: Signal, sufficientDistance: boolean) {
         const toSignalId = endSignal.getState();
@@ -41,7 +40,6 @@ export default class SignalStrategy {
                 return 7;
             default:
                 return this.NAVEST_STOJ;
-
         }
     };
 

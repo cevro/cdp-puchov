@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-interface IProps {
+interface State {
     messages?: Array<any>;
 }
 
-class Box extends React.Component<IProps, {}> {
-    render() {
+class Box extends React.Component<State, {}> {
+    public render() {
         const {messages} = this.props;
         const msgs = messages.map((message, index) => {
             let {text, lvl} = message;
@@ -37,11 +37,11 @@ class Box extends React.Component<IProps, {}> {
         )
     }
 }
-const mapStateToProps = (state, onwProps) => {
+
+const mapStateToProps = (state): State => {
     return {
-        ...onwProps,
         messages: state.messages,
     };
 };
 
-export default connect(mapStateToProps)(Box);
+export default connect(mapStateToProps, null)(Box);

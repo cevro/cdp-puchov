@@ -1,24 +1,24 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {ws} from '../../webSocetClient';
+import { connect } from 'react-redux';
+import { ws } from '../../webSocetClient';
 import {
     onMessageRetrieve,
     onRouteRetrieve,
     onSectorRetrieve,
-    onSignalRetrieve
+    onSignalRetrieve,
 } from '../../actions/webSocets';
-import {registerRoutes} from '../../actions/route-builder';
+import { registerRoutes } from '../../actions/routeBuilder';
 
 interface State {
-    onMessage?: Function;
-    onRoute?: Function;
-    onSignal?: Function;
-    onSector?: Function;
-    onRegisterAvailableRoutes?: Function;
+    onMessage?: (data) => void;
+    onRoute?: (data) => void;
+    onSignal?: (data) => void;
+    onSector?: (data) => void;
+    onRegisterAvailableRoutes?: (data) => void;
 }
 
 class Downloader extends React.Component<State, {}> {
-    componentDidMount() {
+    public componentDidMount() {
         ws.onmessage = ({data}) => {
             const parsedData = JSON.parse(data);
             console.log(data);
@@ -28,7 +28,7 @@ class Downloader extends React.Component<State, {}> {
                     const {onMessage} = this.props;
                     onMessage(parsedData);
                     break;
-                case 'cesta':
+                case 'route':
                     const {onRoute} = this.props;
                     onRoute(parsedData);
                     break;
@@ -36,7 +36,7 @@ class Downloader extends React.Component<State, {}> {
                     const {onSignal} = this.props;
                     onSignal(parsedData);
                     break;
-                case 'obvod':
+                case 'ssector':
                     const {onSector} = this.props;
                     onSector(parsedData);
                     break;
@@ -50,14 +50,13 @@ class Downloader extends React.Component<State, {}> {
         };
     }
 
-    render() {
+    public render() {
         return null;
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps): State => {
+const mapDispatchToProps = (dispatch): State => {
     return {
-        ...ownProps,
         onMessage: (data) => dispatch(onMessageRetrieve(data)),
         onRoute: (data) => dispatch(onRouteRetrieve(data)),
         onSignal: (data) => dispatch(onSignalRetrieve(data)),

@@ -1,12 +1,15 @@
 import serialConnector from './inc/SerialConnector/SerialConnector';
 import webSocketServer from './webSocetServer';
+import RouteBuilder from './inc/Factories/RouteBuilder';
+import RoutesFactory from './inc/Factories/RoutesFactory';
+import SignalFactory from './inc/Factories/SignalFactory';
+import SignalStrategy from './inc/Factories/SignalStrategy';
 
 class Main {
-    public async run() {
+    private services: Array<Object> = [];
 
-        // stupid touch
-        //wsServer;
-        webSocketServer;
+    public async run() {
+        this.registerServices();
 
         // for (let id = 0; id < 1; id++) {
         let index = 0;
@@ -19,31 +22,6 @@ class Main {
                 state: index,
             }));
 
-            serialConnector.write('s:1:' + index);
-            webSocketServer.broadcast(JSON.stringify({
-                type: 'change',
-                entity: 'signal',
-                id: 1,
-                state: index,
-            }));
-
-            serialConnector.write('s:2:' + index);
-            webSocketServer.broadcast(JSON.stringify({
-                type: 'change',
-                entity: 'signal',
-                id: 2,
-                state: index,
-            }));
-
-            serialConnector.write('s:3:' + index);
-            webSocketServer.broadcast(JSON.stringify({
-                type: 'change',
-                entity: 'signal',
-                id: 3,
-                state: index,
-            }));
-
-
             index++;
             if (index > 16) {
                 index = 0;
@@ -51,6 +29,17 @@ class Main {
         }, 4000);
         // }
 
+    }
+
+    private registerServices() {
+        this.services = [
+            serialConnector,
+            webSocketServer,
+            new RouteBuilder(),
+            new RoutesFactory(),
+            new SignalFactory(),
+            new SignalStrategy(),
+        ];
     }
 }
 

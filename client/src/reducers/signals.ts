@@ -8,7 +8,7 @@ const signalRetrieve = (reducerState, action) => {
     const {id, state} = action.data;
     return {
         ...reducerState,
-        [+id]: +state,
+        [+id]: state,
     };
 };
 

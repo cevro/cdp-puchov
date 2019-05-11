@@ -1,8 +1,26 @@
 import TrainRoute from '../objects/TrainRoute';
 
 export default class RouteBuilder {
+    private locked: boolean = false;
 
-    public async build(trainRoute: TrainRoute) {
+    private buffer: TrainRoute[] = [];
+
+    private addToBuffer(trainRoute: TrainRoute) {
+        this.buffer.push(trainRoute);
+        this.build();
+    }
+
+    //private printBuffer();
+
+    private async build(): Promise<void> {
+        if (this.locked) {
+            return;
+        }
+        if (!this.buffer.length) {
+            return;
+        }
+        const trainRoute = this.buffer.shift();
+        this.locked = true;
         const sectors = trainRoute.getSectors();
         const pointPositions = trainRoute.getPointPositions();
         try {
@@ -19,9 +37,11 @@ export default class RouteBuilder {
         catch (e) {
             this.rollBack(trainRoute);
         }
-
+        this.locked = false;
+        this.build();
     }
 
     public rollBack(trainRoute: TrainRoute) {
     }
+
 }

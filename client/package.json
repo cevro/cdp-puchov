@@ -1,8 +1,9 @@
 {
-  "name": "kolajisko",
+  "name": "cdp-puchov",
   "version": "1.0.0",
   "description": "Kolajisko",
   "main": "index.ts",
+  "repository": "https://github.com/cevro/cdp-puchov",
   "scripts": {
     "start": "webpack-dev-server --display-error-details",
     "test": "test"
@@ -10,16 +11,20 @@
   "author": "Mišo",
   "license": "ISC",
   "dependencies": {
-    "react": "latest",
-    "@types/react": "latest",
-    "react-dom": "latest",
-    "@types/react-dom": "latest",
-    "react-redux": "latest",
-    "@types/react-redux": "latest",
-    "redux": "latest",
-    "@types/redux": "latest",
-    "typescript": "latest",
-    "awesome-typescript-loader": "latest",
-    "source-map-loader": "latest"
+    "react": "~16.8.6",
+    "@types/react": "~16.8.17",
+    "react-redux": "~7.0.3",
+    "@types/react-redux": "~7.0.8",
+    "redux": "~4.0.1",
+    "@types/redux": "~3.6.0",
+    "typescript": "~3.0.1",
+    "awesome-typescript-loader": "~5.2.1",
+    "source-map-loader": "~0.2.4"
+  },
+  "devDependencies": {
+    "webpack": "4.31.0",
+    "webpack-cli": "3.3.2",
+    "tslint-loader": "~3.5.4",
+    "ts-loader": "~6.0.0"
   }
 }
