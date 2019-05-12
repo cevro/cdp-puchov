@@ -6,7 +6,7 @@ import Sectors from './Parts/Sectors/Sectors';
 export default class Scheme extends React.Component<{}, {}> {
     public render() {
         return (
-            <svg viewBox="0 -90 2050 400" style={{width: '100%'}}>
+            <svg viewBox="-300 -90 2650 400" style={{width: '100%'}}>
                 <g className="bg-scheme">
                     <polyline points="0,0 2100,0"/>
                     <polyline points="0,30 2100,30"/>
@@ -21,8 +21,8 @@ export default class Scheme extends React.Component<{}, {}> {
                     <polyline points="400,-30 450,-60 1000,-60 1050,-30"/>
 
                     <polyline points="400,30 600,150 1450,150"/>
-                    <polyline points="500,90 1750,90 1880,220 1880,300"/>
-                    <polyline points="550,90 600,120 1750,120 1850,220 1850,300"/>
+                    <polyline points="500,90 1725,90 1850,210 1900,210"/>
+                    <polyline points="550,90 600,120 1725,120 1850,240 1900,240"/>
 
                     <polyline points="375,60 725,270 1100,270 1200,210"/>
                     <polyline points="575,180 1400,180"/>

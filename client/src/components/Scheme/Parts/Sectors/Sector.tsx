@@ -16,7 +16,7 @@ export default class Sector extends React.Component<Props, {}> {
         let {definition: {SVGData}} = this.props;
 
         return (
-            <g className={'sector ' + this.getStatusClassname(Math.floor(Math.random() * 6))}>
+            <g className={'sector ' + this.getStatusClassname(/*Math.floor(Math.random() * 6)*/ STATUS_FREE)}>
                 {SVGData.points.map((points, index) => {
                     return (<polyline key={index} points={points}/>)
                 })}

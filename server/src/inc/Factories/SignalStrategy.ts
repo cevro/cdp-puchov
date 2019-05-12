@@ -20,52 +20,52 @@ export default class SignalStrategy {
     private getSignalToSide(endSignal: Signal, sufficientDistance: boolean) {
         const toSignalId = endSignal.getState();
         switch (toSignalId) {
-            case this.NAVEST_STOJ:
+            case 0:
             case 8:
             case 9:
             case 10:
             case 12:
             case 15:
                 return 6;
-            case this.NAVEST_VOLNO:
-            case this.NAVEST_VYSTRAHA:
-            case this.NAVEST_OCAKAVAJ_40:
+            case 1:
+            case 2:
+            case 3:
             case 11:
-                return this.NAVEST_40_A_VOLNO;
-            case this.NAVEST_40_A_VOLNO:
+                return 4;
+            case 4:
             case 6:
             case 7:
             case 14:
             case 16:
                 return 7;
             default:
-                return this.NAVEST_STOJ;
+                return 0;
         }
     };
 
     private getSignalStraight(endSignal: Signal, sufficientDistance: boolean): number {
         const toSignalId = endSignal.getState();
         switch (toSignalId) {
-            case this.NAVEST_STOJ:
+            case 0:
             case 8:
             case 9:
             case 10:
             case 12:
             case 15:
-                return this.NAVEST_VYSTRAHA;
-            case this.NAVEST_VOLNO:
-            case this.NAVEST_VYSTRAHA:
-            case this.NAVEST_OCAKAVAJ_40:
+                return 2;
+            case 1:
+            case 2:
+            case 3:
             case 11:
-                return this.NAVEST_VOLNO;
-            case this.NAVEST_40_A_VOLNO:
-            case this.NAVEST_40_A_VYSTRAHA:
-            case this.NAVEST_40_A_OCAKAVAJ_40:
+                return 1;
+            case 4:
+            case 6:
+            case 7:
             case 14:
             case 16:
-                return this.NAVEST_OCAKAVAJ_40;
+                return 3;
             default:
-                return this.NAVEST_STOJ;
+                return 0;
         }
     };
 

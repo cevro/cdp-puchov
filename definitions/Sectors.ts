@@ -165,7 +165,37 @@ const rail4: SectorDefinition[] = [
                 '525,60 1475,60',
             ],
         },
-
+    },
+    {
+        name: '4BSK_0',
+        id: 4004,
+        SVGData: {
+            points: [
+                '1475,60 1600,60',
+                '1525,45 1575,75',
+            ],
+        },
+    },
+    {
+        name: '4BSK_1',
+        id: 4005,
+        SVGData: {
+            points: ['1600,60 1650,60'],
+        },
+    },
+    {
+        name: '4BSK_2',
+        id: 4006,
+        SVGData: {
+            points: ['1650,60 1725,60', '1675,75 1700,60'],
+        },
+    },
+    {
+        name: '4BSK_3',
+        id: 4007,
+        SVGData: {
+            points: ['1725,60 1850,60', '1750,60 1775,75', '1775,60 1800,45'],
+        },
     },
 ];
 const rail6: SectorDefinition[] = [
@@ -179,6 +209,27 @@ const rail6: SectorDefinition[] = [
         id: 6002,
         SVGData: {points: ['625,90 1475,90']},
     },
+    {
+        name: '1SK_0',
+        id: 6003,
+        SVGData: {points: ['1475,90 1550,90']},
+    },
+    {
+        name: '1SK_1',
+        id: 6004,
+        SVGData: {
+            points: [
+                '1550,90 1700,90',
+                '1635,99 1675,75 ',
+                '1575,75 1615,99',
+            ],
+        },
+    },
+    {
+        name: '1SK',
+        id: 6005,
+        SVGData: {points: ['1700,90 1725,90 1850,210 1900,210']},
+    },
 ];
 const rail8: SectorDefinition[] = [
     {
@@ -187,13 +238,19 @@ const rail8: SectorDefinition[] = [
         SVGData: {points: ['625,120 1425,120']},
     },
     {
-        name: '1SK_0',
+        name: '2SK_0',
         id: 8002,
-        SVGData: {points: ['1425,120 1525,120', '1475,135 1500,120']},
+        SVGData: {
+            points: [
+                '1425,120 1525,120',
+                '1425,165 1500,120',
+                '1375,150 1450,150',
+            ],
+        },
     },
     {
-        name: '1SK_0',
-        id: 8002,
+        name: '2SK_1',
+        id: 8003,
         SVGData: {
             points: [
                 '1525,120 1700,120',
@@ -201,6 +258,11 @@ const rail8: SectorDefinition[] = [
                 '1615,99 1675,135',
             ],
         },
+    },
+    {
+        name: '2SK',
+        id: 8004,
+        SVGData: {points: ['1700,120 1725,120 1850,240 1900,240']},
     },
 ];
 const rail10: SectorDefinition[] = [
@@ -226,6 +288,16 @@ const rail12: SectorDefinition[] = [
         id: 12002,
         SVGData: {points: ['650,180 1325,180']},
     },
+    {
+        name: '12SK_1',
+        id: 8002,
+        SVGData: {
+            points: [
+                '1425,165 1350,210 1325,210',
+                '1325,180 1400,180',
+            ],
+        },
+    },
 ];
 const rail14: SectorDefinition[] = [
     {
@@ -243,6 +315,11 @@ const rail14: SectorDefinition[] = [
         id: 14004,
         SVGData: {points: ['1225,210 1325,210']},
     },
+    {
+        name: '14C',
+        id: 14005,
+        SVGData: {points: ['1125,210 1225,210', '1200,210 1175,225']},
+    },
 ];
 const rail16: SectorDefinition[] = [
     {
@@ -250,15 +327,126 @@ const rail16: SectorDefinition[] = [
         id: 16002,
         SVGData: {points: ['750,240 1075,240']},
     },
+    {
+        name: '16C',
+        id: 14005,
+        SVGData: {points: ['1075,240 1250,240', '1175,225 1100,270 1075,270']},
+    },
 ];
 const rail18: SectorDefinition[] = [
     {
         name: '18LK',
         id: 16002,
-        SVGData: {points: ['600,195 725,270 775,270', '625,210 650,210']},
+        SVGData: {points: ['600,195 725,270 750,270', '625,210 650,210']},
+    },
+];
+const railLT: SectorDefinition[] = [
+    {
+        name: '1LT-I',
+        id: 102,
+        SVGData: {points: ['-100,0 0,0']},
+    },
+    {
+        name: '1LT-II',
+        id: 102,
+        SVGData: {points: ['-200,0 -100,0']},
+    },
+    {
+        name: '1LT-III',
+        id: 102,
+        SVGData: {points: ['-250,0 -200,0']},
+    },
+    {
+        name: '2LT-I',
+        id: 102,
+        SVGData: {points: ['-100,30 0,30']},
+    },
+    {
+        name: '2LT-II',
+        id: 102,
+        SVGData: {points: ['-200,30 -100,30']},
+    },
+    {
+        name: '2LT-III',
+        id: 102,
+        SVGData: {points: ['-250,30 -200,30']},
     },
 ];
 
+const railST: SectorDefinition[] = [
+    {
+        name: '1STI',
+        id: 102,
+        SVGData: {points: ['1900,210 2000,210']},
+    },
+    {
+        name: '1STII',
+        id: 102,
+        SVGData: {points: ['2000,210 2100,210']},
+    },
+    {
+        name: '1STIII',
+        id: 102,
+        SVGData: {points: ['2100,210 2150,210']},
+    },
+    {
+        name: '2STI',
+        id: 102,
+        SVGData: {points: ['1900,240 2000,240']},
+    },
+    {
+        name: '2STII',
+        id: 102,
+        SVGData: {points: ['2000,240 2100,240']},
+    },
+    {
+        name: '2STIII',
+        id: 102,
+        SVGData: {points: ['2100,240 2150,240']},
+    },
+];
+const railK: SectorDefinition[] = [
+    {
+        name: '1K',
+        id: 102,
+        SVGData: {points: ['2000,0 2075,0']},
+    },
+    {
+        name: '3K',
+        id: 102,
+        SVGData: {points: ['2075,0 2200,0']},
+    },
+    {
+        name: '5L',
+        id: 102,
+        SVGData: {points: ['2200,0 2250,0']},
+    },
+    {
+        name: '',
+        id: 102,
+        SVGData: {points: ['2250,0 2300,0']},
+    },
+    {
+        name: '4K',
+        id: 102,
+        SVGData: {points: ['2000,30 2125,30']},
+    },
+    {
+        name: '6K',
+        id: 102,
+        SVGData: {points: ['2125,30 2200,30']},
+    },
+    {
+        name: '8K',
+        id: 102,
+        SVGData: {points: ['2200,30 2250,30']},
+    },
+    {
+        name: '',
+        id: 102,
+        SVGData: {points: ['2250,30 2300,30']},
+    },
+];
 export const sectors: SectorDefinition[] = [
     ...rail5,
     ...rail3,
@@ -272,9 +460,7 @@ export const sectors: SectorDefinition[] = [
     ...rail14,
     ...rail16,
     ...rail18,
+    ...railLT,
+    ...railST,
+    ...railK,
 ];
-
-
-/*   '425,45 600,150 625,150',
-                     '500,90 625,90',
-                     '550,90 600,120 625,120',*/

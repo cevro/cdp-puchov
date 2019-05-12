@@ -61,7 +61,7 @@ class Point extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        state: 0,
+        state: 1,
         locked: false,
         displayLabel: state.displayOptions.points,
         //    state: getSignal(state.signals, ownProps.definition.id),

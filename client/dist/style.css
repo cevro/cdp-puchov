@@ -109,18 +109,6 @@ svg {
     border-radius: .5rem;
 }
 
-.signal-label.vchodove {
-    color: white;
-    background: red;
-    border: solid 1px white;
-}
-
-.signal-label.oddielove {
-    color: black;
-    background: white;
-    border: solid 1px black;
-}
-
 .top-panel {
     height: 400px;
 }

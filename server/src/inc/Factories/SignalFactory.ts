@@ -1,5 +1,5 @@
 import Signal from '../objects/Signal';
-import { Signals } from '../../definitions/Signals';
+import { signals } from '../../definitions/Signals';
 
 export default class SignalFactory {
 
@@ -9,11 +9,9 @@ export default class SignalFactory {
 
     private readonly signals: Signal[];
 
-
     constructor() {
-        this.signals = Signals.map((value => {
+        this.signals = signals.map((value => {
             return new Signal(value.id);
         }));
     }
 }
-

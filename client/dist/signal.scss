@@ -22,8 +22,11 @@
       fill: green;
     }
   }
+}
 
-  &.signal-light {
+.signal-preview {
+
+  .signal-light {
     &.blink {
       animation: signal-blink 1.1s infinite;
     }
@@ -31,9 +34,7 @@
       opacity: 0;
     }
   }
-}
 
-.signal-preview {
   &.signal-type-4 {
     .label {
       text {
