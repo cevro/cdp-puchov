@@ -1,7 +1,55 @@
-export const SIGNAL_ENTRY = 1;
-export const SIGNAL_EXIT = 2;
-export const SIGNAL_PATH = 3;
-export const SIGNAL_SHIFT = 4;
+export const SignalTypes = new class {
+    public readonly TYPE_ENTRY = 1;
+    public readonly TYPE_EXIT = 2;
+    public readonly TYPE_PATH = 3;
+    public readonly TYPE_SHUNT = 4;
+    public readonly TYPE_AUTOBLOCK = 5;
+
+    public getAllTypes(): number[] {
+        return [this.TYPE_ENTRY, this.TYPE_EXIT, this.TYPE_PATH, this.TYPE_SHUNT, this.TYPE_AUTOBLOCK];
+    }
+
+    public getLabel(type: number): string {
+        switch (type) {
+            case this.TYPE_ENTRY:
+                return 'entry';
+            case this.TYPE_EXIT:
+                return 'exit';
+            case this.TYPE_PATH:
+                return 'path';
+            case this.TYPE_SHUNT:
+                return 'shunt';
+            case this.TYPE_AUTOBLOCK:
+                return 'autoblock';
+            default:
+                throw new Error();
+        }
+    }
+};
+/**
+ * @deprecated
+ */
+export const SIGNAL_ENTRY = SignalTypes.TYPE_ENTRY;
+/**
+ * @deprecated
+ */
+export const SIGNAL_EXIT = SignalTypes.TYPE_EXIT;
+/**
+ * @deprecated
+ */
+export const SIGNAL_PATH = SignalTypes.TYPE_PATH;
+/**
+ * @deprecated
+ */
+export const SIGNAL_SHUNT = SignalTypes.TYPE_SHUNT;
+/**
+ * @deprecated
+ */
+export const SIGNAL_SHIFT = SIGNAL_SHUNT;
+/**
+ * @deprecated
+ */
+export const SIGNAL_AUTOBLOCK = SignalTypes.TYPE_AUTOBLOCK;
 
 export type signalLight = 'HZ' | 'Z' | 'C' | 'B' | 'X' | 'DZ' | 'M';
 
@@ -9,6 +57,7 @@ export interface SignalDefinition {
     name: string;
     id: number;
     type: number;
+    construction?: 'T' | 'K';
     SVGData: {
         rotate: number;
         x: number;
@@ -21,21 +70,23 @@ const entrySignals: SignalDefinition[] = [
     {
         name: '1L',
         id: 1,
-        type: SIGNAL_ENTRY,
+        construction: 'K',
+        type: SignalTypes.TYPE_ENTRY,
         SVGData: {rotate: 0, x: 0, y: 0},
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
     {
         name: '2L',
         id: 2,
-        type: SIGNAL_ENTRY,
+        construction: 'K',
+        type: SignalTypes.TYPE_ENTRY,
         SVGData: {rotate: 0, x: 0, y: 30},
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
     {
         name: '1S',
         id: 20,
-        type: SIGNAL_ENTRY,
+        type: SignalTypes.TYPE_ENTRY,
         SVGData: {rotate: 180, x: 1900, y: 210},
         lights: ['HZ', 'Z', 'C', 'B', 'X', 'DZ'],
     },
@@ -43,7 +94,7 @@ const entrySignals: SignalDefinition[] = [
     {
         name: '2S',
         id: 21,
-        type: SIGNAL_ENTRY,
+        type: SignalTypes.TYPE_ENTRY,
         SVGData: {rotate: 180, x: 1900, y: 240},
         lights: ['HZ', 'Z', 'C', 'B', 'X', 'DZ'],
     },
@@ -51,7 +102,7 @@ const entrySignals: SignalDefinition[] = [
     {
         name: '1BS',
         id: 22,
-        type: SIGNAL_ENTRY,
+        type: SignalTypes.TYPE_ENTRY,
         SVGData: {rotate: 180, x: 2000, y: 0},
         lights: ['HZ', 'Z', 'C', 'B', 'X', 'DZ'],
     },
@@ -59,7 +110,7 @@ const entrySignals: SignalDefinition[] = [
     {
         name: '2BS',
         id: 23,
-        type: SIGNAL_ENTRY,
+        type: SignalTypes.TYPE_ENTRY,
         SVGData: {rotate: 180, x: 2000, y: 30},
         lights: ['HZ', 'Z', 'C', 'B', 'X', 'DZ'],
     },
@@ -258,207 +309,306 @@ const pathSignalsS: SignalDefinition[] = [
         lights: ['HZ', 'C', 'B', 'X', 'DZ'],
     },
 ];
-
-export const signals: SignalDefinition[] = [
-    ...entrySignals,
-    ...exitSignalsL,
-    ...exitSignalsS,
-    ...pathSignalsL,
-    ...pathSignalsS,
+const shiftSignals: SignalDefinition[] = [
     {
         name: 'Se1',
         id: 2001,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 25, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se2',
         id: 2002,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 25, y: 30},
         lights: ['M', 'B'],
     },
     {
         name: 'Se3',
         id: 2003,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 100, y: 60},
         lights: ['M', 'B'],
     },
     {
         name: 'Se4',
         id: 2004,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 125, y: 30},
         lights: ['M', 'B'],
     },
     {
         name: 'Se5',
         id: 2005,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 125, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se6',
         id: 2006,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 275, y: 60},
         lights: ['M', 'B'],
     },
     {
         name: 'Se7',
         id: 2007,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 325, y: 30},
         lights: ['M', 'B'],
     },
     {
         name: 'Se8',
         id: 2008,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 325, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se9',
         id: 2009,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 350, y: 60},
         lights: ['M', 'B'],
     },
     {
         name: 'Se11',
         id: 2011,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 750, y: 270},
         lights: ['M', 'B'],
     },
     {
         name: 'Se19',
         id: 2019,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1075, y: 270},
         lights: ['M', 'B'],
     },
     {
         name: 'Se20',
         id: 2020,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 975, y: -60},
         lights: ['M', 'B'],
     },
     {
         name: 'Se102',
         id: 2102,
-        type: SIGNAL_SHIFT,
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1250, y: 240},
         lights: ['M', 'B'],
     },
     {
         name: 'Se21',
         id: 2021,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1550, y: 30},
         lights: ['M', 'B'],
     },
     {
         name: 'Se22',
         id: 2022,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1525, y: 120},
         lights: ['M', 'B'],
     },
     {
         name: 'Se23',
         id: 2023,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1600, y: 60},
         lights: ['M', 'B'],
     },
     {
         name: 'Se24',
         id: 2024,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1650, y: 60},
         lights: ['M', 'B'],
     },
     {
         name: 'Se25',
         id: 2025,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1650, y: 30},
         lights: ['M', 'B'],
     },
     {
         name: 'Se26',
         id: 2026,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1700, y: 90},
         lights: ['M', 'B'],
     },
     {
         name: 'Se27',
         id: 2027,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1700, y: 120},
         lights: ['M', 'B'],
     },
     {
         name: 'Se29',
         id: 2029,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1700, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se34',
         id: 2034,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1850, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se35',
         id: 2035,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1925, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se36',
         id: 2036,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 180, x: 1925, y: 30},
         lights: ['M', 'B'],
     },
     {
         name: 'Se37',
         id: 2037,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1875, y: 210},
         lights: ['M', 'B'],
     },
     {
         name: 'Se38',
         id: 2038,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1875, y: 240},
         lights: ['M', 'B'],
     },
     {
         name: 'Se39',
         id: 2039,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1975, y: 0},
         lights: ['M', 'B'],
     },
     {
         name: 'Se40',
         id: 2040,
-        type: SIGNAL_SHIFT,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
+        SVGData: {rotate: 0, x: 1975, y: 30},
+        lights: ['M', 'B'],
+    },
+    {
+        name: 'Se40',
+        id: 2040,
+        construction: 'T',
+        type: SIGNAL_SHUNT,
         SVGData: {rotate: 0, x: 1975, y: 30},
         lights: ['M', 'B'],
     },
 ];
+
+const signalAutoblokLM: SignalDefinition[] = [
+    {
+        name: '1-15',
+        id: 11015,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 0, x: 2000, y: 210},
+        lights: ['HZ', 'Z', 'C'],
+    },
+    {
+        name: '1-22',
+        id: 11022,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 180, x: 2100, y: 210},
+        lights: ['HZ', 'Z', 'C'],
+    },
+    {
+        name: '2-15',
+        id: 12015,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 0, x: 2000, y: 240},
+        lights: ['HZ', 'Z', 'C'],
+    },
+    {
+        name: '2-22',
+        id: 12022,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 180, x: 2100, y: 240},
+        lights: ['HZ', 'Z', 'C'],
+    },
+];
+const signalAutoblokPB: SignalDefinition[] = [
+    {
+        name: '1-1600',
+        id: 511600,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 180, x: -100, y: 0},
+        lights: ['HZ', 'Z', 'C'],
+    },
+    {
+        name: '1-1603',
+        id: 511603,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 0, x: -200, y: 0},
+        lights: ['HZ', 'Z', 'C'],
+    },
+    {
+        name: '2-1600',
+        id: 521600,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 180, x: -100, y: 30},
+        lights: ['HZ', 'Z', 'C'],
+    },
+    {
+        name: '2-1603',
+        id: 521603,
+        type: SignalTypes.TYPE_AUTOBLOCK,
+        SVGData: {rotate: 0, x: -200, y: 30},
+        lights: ['HZ', 'Z', 'C'],
+    },
+];
+export const signals: SignalDefinition[] = [
+    ...entrySignals,
+    ...exitSignalsL,
+    ...exitSignalsS,
+    ...pathSignalsL,
+    ...pathSignalsS,
+    ...shiftSignals,
+    ...signalAutoblokLM,
+    ...signalAutoblokPB,
+];
+
+export const getSignalById = (id: number): SignalDefinition => {
+    return signals.filter((signal) => {
+        return signal.id == id;
+    })[0];
+};

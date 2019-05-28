@@ -1,11 +1,9 @@
 import { combineReducers } from 'redux';
 import { messages } from './messages';
 import {
-    signals,
-    SignalsState,
-} from './signals';
-import { routes } from './routes';
-import { sectors } from './sectors';
+    ObjectState,
+    objectState,
+} from './objectState';
 import { routeBuilder } from './route-builder';
 import { signalsContextMenu } from './signal-context-menu';
 import {
@@ -15,17 +13,14 @@ import {
 
 export const app = combineReducers({
     messages,
-    signals,
-    routes,
-    sectors,
+    // routes,
+    objectState,
     routeBuilder,
     signalsContextMenu,
     displayOptions,
 });
 
 export interface Store {
-    signals: SignalsState,
-    displayOptions: displayOptionsState,
-
-    [key: string]: any;
+    displayOptions: displayOptionsState;
+    objectState: ObjectState;
 }

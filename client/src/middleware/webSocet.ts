@@ -1,11 +1,17 @@
 import { onSendMessage } from '../actions/webSocets';
+import { ws } from '../webSocetClient';
 
-const url = 'ws://' + window.location.hostname + ':8081/';
-
-export const ws = new WebSocket(url, 'echo-protocol');
-
-export async function sendMessage(dispatch: Function, data) {
+export function sendMessage(dispatch: Function, data) {
     const text = JSON.stringify(data);
     ws.send(text);
     return dispatch(onSendMessage(text));
+}
+
+export interface PointsStateUpdate extends StateUpdate {
+    locked: boolean;
+}
+
+export interface StateUpdate {
+    id: number;
+    state: number;
 }

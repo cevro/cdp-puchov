@@ -143,23 +143,32 @@ const rail4: SectorDefinition[] = [
     },
     {
         name: '4LK_1',
-        id: 2009,
+        id: 4002,
         SVGData: {points: ['275,60 350,60', '300,45 325,60']},
     },
     {
         name: '4LK_2',
-        id: 4002,
+        id: 4003,
         SVGData: {
             points: [
-                '350,60 525,60',
-                '425,45 475,75',
+                '350,60 425,60',
                 '375,60 400,75',
             ],
         },
     },
     {
+        name: '4LK_3',
+        id: 4004,
+        SVGData: {
+            points: [
+                '425,60 525,60',
+                '425,45 475,75',
+            ],
+        },
+    },
+    {
         name: '4SK',
-        id: 4003,
+        id: 4010,
         SVGData: {
             points: [
                 '525,60 1475,60',
@@ -168,7 +177,7 @@ const rail4: SectorDefinition[] = [
     },
     {
         name: '4BSK_0',
-        id: 4004,
+        id: 4020,
         SVGData: {
             points: [
                 '1475,60 1600,60',
@@ -178,21 +187,21 @@ const rail4: SectorDefinition[] = [
     },
     {
         name: '4BSK_1',
-        id: 4005,
+        id: 4021,
         SVGData: {
             points: ['1600,60 1650,60'],
         },
     },
     {
         name: '4BSK_2',
-        id: 4006,
+        id: 4022,
         SVGData: {
             points: ['1650,60 1725,60', '1675,75 1700,60'],
         },
     },
     {
         name: '4BSK_3',
-        id: 4007,
+        id: 4023,
         SVGData: {
             points: ['1725,60 1850,60', '1750,60 1775,75', '1775,60 1800,45'],
         },
@@ -372,7 +381,6 @@ const railLT: SectorDefinition[] = [
         SVGData: {points: ['-250,30 -200,30']},
     },
 ];
-
 const railST: SectorDefinition[] = [
     {
         name: '1STI',
@@ -447,6 +455,7 @@ const railK: SectorDefinition[] = [
         SVGData: {points: ['2250,30 2300,30']},
     },
 ];
+
 export const sectors: SectorDefinition[] = [
     ...rail5,
     ...rail3,
@@ -464,3 +473,9 @@ export const sectors: SectorDefinition[] = [
     ...railST,
     ...railK,
 ];
+
+export const getSectorById = (id: number): SectorDefinition => {
+    return sectors.filter((sector) => {
+        return sector.id == id;
+    })[0];
+};

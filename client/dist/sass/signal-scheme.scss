@@ -1,0 +1,57 @@
+@import "mixins/disconnect";
+
+@mixin signal-state($color) {
+  polygon, text {
+    fill: $color;
+  }
+  polyline {
+    stroke: $color;
+  }
+}
+
+@mixin signal-icon($not-allowed-color,$allowed-color,$lockout-color,$shunt-color,$off-color) {
+  polyline {
+    stroke-width: 2;
+  }
+  &.state-not-allowed {
+    @include signal-state($not-allowed-color);
+  }
+  &.state-shift {
+    @include signal-state($shunt-color);
+  }
+  &.state-off {
+    @include signal-state($off-color);
+  }
+
+  &.state-undefined {
+    @include signal-state($disconnect-color);
+    polyline, polygon, text {
+      @include disconnect;
+    }
+  }
+
+  &.state-allowed {
+    @include signal-state($allowed-color);
+  }
+  &.state-lockout {
+    @include signal-state($lockout-color);
+  }
+}
+
+.signal {
+  &.signal-type-1 {
+    @include signal-icon(#555, green, yellow, yellow, yellow)
+  }
+  &.signal-type-2 {
+    @include signal-icon(#555, green, yellow, white, yellow)
+  }
+  &.signal-type-3 {
+    @include signal-icon(#555, green, yellow, white, yellow)
+  }
+  &.signal-type-4 {
+    @include signal-icon(#555, yellow, yellow, white, yellow)
+  }
+  &.signal-type-5 {
+    @include signal-icon(#555, green, yellow, yellow, #222)
+  }
+}

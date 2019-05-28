@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Store } from '../../../../reducers';
-import { PointDefinition } from '../../../definitions/Points';
+import {
+    PointDefinition,
+    pointPosition,
+} from '../../../definitions/Points';
+import { getPointState } from '../../../../middleware/signal';
 
 interface Props {
     definition: PointDefinition;
 }
 
 interface State {
-    state?: -1 | 0 | 1;
+    state?: pointPosition;
     locked?: boolean;
     onPointClick?: (id: number) => void;
     displayLabel?: boolean;
@@ -61,10 +65,8 @@ class Point extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        state: 1,
-        locked: false,
+        ...getPointState(state, ownProps.definition.id),
         displayLabel: state.displayOptions.points,
-        //    state: getSignal(state.signals, ownProps.definition.id),
     };
 };
 

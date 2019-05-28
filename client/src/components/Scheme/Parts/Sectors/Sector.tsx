@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { SectorDefinition } from '../../../definitions/Sectors';
+import { Store } from '../../../../reducers';
+import { connect } from 'react-redux';
+import { getSectorState } from '../../../../middleware/signal';
 
 const STATUS_FREE = 1;
 const STATUS_BUSY = 0;
@@ -11,12 +14,16 @@ interface Props {
     definition: SectorDefinition;
 }
 
-export default class Sector extends React.Component<Props, {}> {
+interface State {
+    state?: number;
+}
+
+class Sector extends React.Component<Props & State, {}> {
     public render() {
-        let {definition: {SVGData}} = this.props;
+        let {definition: {SVGData}, state} = this.props;
 
         return (
-            <g className={'sector ' + this.getStatusClassname(/*Math.floor(Math.random() * 6)*/ STATUS_FREE)}>
+            <g className={'sector ' + this.getStatusClassname(state)}>
                 {SVGData.points.map((points, index) => {
                     return (<polyline key={index} points={points}/>)
                 })}
@@ -41,5 +48,18 @@ export default class Sector extends React.Component<Props, {}> {
         }
     }
 }
+
+const mapStateToProps = (state: Store, ownProps: Props): State => {
+    return {
+        state: getSectorState(state, ownProps.definition.id),
+    };
+};
+
+const mapDispatchToProps = (dispatch): State => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sector);
+
 
 

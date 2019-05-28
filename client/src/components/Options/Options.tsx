@@ -9,12 +9,7 @@ import {
     togglePointText,
     toggleSignalText,
 } from '../../actions/displayOptions';
-import {
-    SIGNAL_ENTRY,
-    SIGNAL_EXIT,
-    SIGNAL_PATH,
-    SIGNAL_SHIFT,
-} from '../definitions/Signals';
+import { SignalTypes } from '../definitions/Signals';
 import { displayOptionsState } from '../../reducers/displayOptions';
 
 interface State {
@@ -29,14 +24,16 @@ class Options extends React.Component<State, {}> {
         const {onToggleSignal, displayState, onTogglePoints} = this.props;
         return (<div className="row">
             <div className="col-6">
-                {[SIGNAL_ENTRY, SIGNAL_EXIT, SIGNAL_PATH, SIGNAL_SHIFT].map((type: number) => {
+                <h6>Toggle label on signals</h6>
+                {SignalTypes.getAllTypes().map((type: number) => {
                     return <div className="row">
                         <button className="btn btn-link" onClick={() => {
                             onToggleSignal(type);
                         }}>
                     <span
                         className={displayState.signals[type] ? 'text-success fa fa-check-square-o' : 'text-danger fa fa-square-o'}/>
-                            <span className={'ml-3 badge signal-badge-' + type}>toggle label on {type}</span>
+                            <span
+                                className={'ml-3 badge signal-badge-' + type}>{SignalTypes.getLabel(type)}</span>
                         </button>
                     </div>
                 })

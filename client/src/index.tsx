@@ -8,11 +8,12 @@ import {
 } from 'redux';
 import { app } from './reducers/';
 import Downloader from './components/helpers/Downloader';
-import MessageBox from './components/message-box/box';
-import Scheme from './components/Scheme/Index';
+import MessageBox from './components/MessageBox/MessageBox';
 import RouteBuilder from './components/route-builder';
 import SignalContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
 import Options from './components/Options/Options';
+import Scheme from './components/Scheme/Index';
+import RouteBuilderMessageBox from './components/MessageBox/RouteBuilderMessageBox';
 
 class Main extends React.Component<{}, {}> {
 
@@ -21,12 +22,13 @@ class Main extends React.Component<{}, {}> {
         return (
             <Provider store={store}>
                 <div className="container-fluid">
-                    <Downloader/>
+
                     <div className="row col-12 top-panel">
                         <div className="col-1">
                             <SignalContextMenu/>
                         </div>
-                        <div className="col-2 offset-9">
+
+                        <div className="offset-9 col-2">
                             <Options/>
                         </div>
                     </div>
@@ -39,7 +41,13 @@ class Main extends React.Component<{}, {}> {
                         <div className="col-3">
                             <RouteBuilder/>
                         </div>
-                        <div className="col-4">
+                        <div className="col-3">
+                            <Downloader/>
+                        </div>
+                        <div className="col-3">
+                            <RouteBuilderMessageBox/>
+                        </div>
+                        <div className=" col-3">
                             <MessageBox/>
                         </div>
                     </div>

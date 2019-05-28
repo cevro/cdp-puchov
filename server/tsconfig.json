@@ -8,8 +8,8 @@
     "rootDir": "./src/",
     "lib": [
       "dom",
-      "ES2015.promise",
-      "ES6"
+      "es2015.promise",
+      "es6"
     ]
   },
   "include": [

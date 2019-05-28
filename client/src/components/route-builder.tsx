@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { sendMessage } from '../middleware/webSocet';
 import { clearSelect } from '../actions/routeBuilder';
-import RouteDestroyer from './RouteDestroyer';
 import {
     Action,
     Dispatch,
@@ -45,7 +44,6 @@ class RouteBuilder extends React.Component<State, {}> {
             <p>
                 <button onClick={() => onClearSelect()} className="btn btn-warning">Clear</button>
             </p>
-            <RouteDestroyer/>
         </div>);
     }
 }

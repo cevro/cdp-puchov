@@ -1,35 +1,60 @@
-import {
-    signal_1L,
-    signal_L1,
-} from '../signals/L';
-
-import {
-    sector_1LK_0,
-    sector_1LK_1,
-    sector_1LK_2,
-    sector_1LK_3,
-    sector_1SK,
-} from '../sectors/1SK';
-import {
-    sector_2LK_1,
-    sector_2LK_2,
-} from '../sectors/2SK';
 import TrainRoute from '../../../inc/objects/TrainRoute';
+import PointPosition from '../../../inc/objects/PointPosition';
 
-export const route_1L_L1 = new TrainRoute('1L-L1', [
-    sector_1SK,
-    sector_1LK_0,
-    sector_1LK_1,
-    sector_1LK_2,
-    sector_1LK_3
-], [], signal_1L, signal_L1, null);
+export const route_1L_L1 = new TrainRoute(
+    '1L-L1',
+    [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+    ],
+    [
+        new PointPosition(2, 1),
+        new PointPosition(4, 1),
 
-export const route_1L_L1_a1 = new TrainRoute('1L-L1-a1', [
-    sector_1SK,
-    sector_1LK_0,
-    sector_1LK_1,
-    sector_1LK_2,
-    sector_1LK_3,
-    sector_2LK_1,
-    sector_2LK_2,
-], [], signal_1L, signal_L1, 40);
+        new PointPosition(7, 1),
+        new PointPosition(5, 1),
+
+        new PointPosition(9, 1),
+    ],
+    1,
+    3,
+    1005,
+    null,
+);
+
+export const route_2L_L4 = new TrainRoute(
+    '2L-L4',
+    [
+        2001,
+        2002,
+        2003,
+        2004,
+        4004,
+        4010,
+    ],
+    [
+        new PointPosition(3, 1),
+        new PointPosition(1, 1),
+
+        new PointPosition(4, 1),
+        new PointPosition(2, -1),
+
+        new PointPosition(5, 1),
+        new PointPosition(7, 1),
+
+        new PointPosition(6, 1),
+        new PointPosition(8, 1),
+
+        new PointPosition(11, -1),
+        new PointPosition(1014, 1),
+        new PointPosition(2014, -1),
+    ],
+    2,
+    6,
+    4010,
+    40,
+);
+

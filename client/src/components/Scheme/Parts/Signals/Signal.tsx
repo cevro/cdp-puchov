@@ -2,9 +2,16 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { signalSelect } from '../../../../actions/routeBuilder';
 import { onSignalContextMenu } from '../../../../actions/signalContextMenu';
-import { SignalDefinition } from '../../../definitions/Signals';
+import {
+    SignalDefinition,
+    SignalTypes,
+} from '../../../definitions/Signals';
 import { Store } from '../../../../reducers';
 import { getSignal } from '../../../../middleware/signal';
+import {
+    Action,
+    Dispatch,
+} from 'redux';
 
 interface Props {
     definition: SignalDefinition;
@@ -12,11 +19,8 @@ interface Props {
 
 interface State {
     state?: number;
-    busy?: boolean;
     onSignalSelect?: (id: number) => void;
     onSignalContextMenu?: (id: number) => void;
-    signalFrom?: string;
-    signalTo?: string;
     displayLabel?: boolean;
 }
 
@@ -24,10 +28,7 @@ class Signal extends React.Component<Props & State, {}> {
     public render() {
         const {
             state,
-            busy,
             onSignalSelect,
-            signalFrom,
-            signalTo,
             onSignalContextMenu,
             displayLabel,
             definition: {
@@ -53,41 +54,65 @@ class Signal extends React.Component<Props & State, {}> {
                 {displayLabel && (<g transform={'translate(0,-10)'}>
                     <text>{name}</text>
                 </g>)}
-                <polygon
-                    className={(busy ? 'busy' : 'free') + ' ' + ((signalFrom === name || signalTo === name) ? 'selected' : '')}
-                    transform={'rotate(' + rotate + ')'}
-                    points="0,8 0,-8 8,0"
-                />
+                {this.getIconByType(type, rotate)}
             </g>
         );
     }
 
-    private getStateClassName(state: number | null): string {
-        if (state === 0) {
-            return 'state-not-allowed';
+    private getIconByType(type: number, rotate: number): JSX.Element {
+        switch (type) {
+            case SignalTypes.TYPE_SHUNT:
+                return <polyline
+                    points="0,7 7,0 0,-7"
+                    transform={'rotate(' + rotate + ')'}
+                />;
+            case SignalTypes.TYPE_AUTOBLOCK:
+                return <>
+                    <polyline
+                        points="0,7 7,0 0,-7"
+                        transform={'rotate(' + rotate + ')'}
+                    />
+                    <polyline
+                        points="-4,7 3,0 -4,-7"
+                        transform={'rotate(' + rotate + ')'}
+                    />
+                </>;
+            default:
+                return <polygon
+                    transform={'rotate(' + rotate + ')'}
+                    points="0,10 10,0 0,-10"
+                />;
         }
-        if (!state) {
+    }
+
+    private getStateClassName(state: number): string {
+        if (state === undefined) {
             return 'state-undefined';
         }
-        if (state === 13 || state === 5) {
-            return 'state-lockout';
+        switch (state) {
+            case 0:
+                return 'state-not-allowed';
+            case 13:
+                return 'state-off';
+            case 5:
+                return 'state-lockout';
+            case 9:
+            case 10:
+                return 'state-shift';
+            default:
+                return 'state-allowed';
         }
-        return 'state-allowed';
-
     }
 }
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
-
     return {
-        signalFrom: state.routeBuilder.signalFrom,
-        signalTo: state.routeBuilder.signalTo,
-        state: getSignal(state.signals, ownProps.definition.id),
+        state: getSignal(state, ownProps.definition.id),
         displayLabel: !!state.displayOptions.signals[ownProps.definition.type],
     };
 };
 
-const mapDispatchToProps = (dispatch): State => {
+const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
         onSignalSelect: (id: number) => dispatch(signalSelect(id)),
         onSignalContextMenu: (id: number) => dispatch(onSignalContextMenu(id)),

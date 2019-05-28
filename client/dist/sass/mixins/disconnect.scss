@@ -1,0 +1,11 @@
+$disconnect-color: #80f;
+
+@keyframes disconnected {
+  50% {
+    opacity: 0;
+  }
+}
+
+@mixin disconnect {
+  // animation: disconnected 0.5s infinite;
+}

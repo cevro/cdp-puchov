@@ -38,7 +38,7 @@ const mapStateToProps = (state): State => {
     return {
         id: state.signalsContextMenu.id,
         active: state.signalsContextMenu.active,
-        state: getSignal(state.signals, state.signalsContextMenu.id),
+        state: getSignal(state, state.signalsContextMenu.id),
     };
 };
 

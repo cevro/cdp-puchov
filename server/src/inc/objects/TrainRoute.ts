@@ -1,21 +1,43 @@
 import Signal from './Signal';
 import PointPosition from './PointPosition';
 import Sector from './Sector';
+import { getSectorById } from '../../definitions/Sectors';
+import { SignalFactory } from '../Factories/SignalFactory';
 
 export default class TrainRoute {
     public id;
+    public name: string;
 
-    private readonly sectors: Sector[];
-    private readonly pointPositions: PointPosition[];
-    private readonly startSignal: Signal;
-    private readonly endSector: Sector;
-    private readonly speed: number | null;
+    public readonly sectors: Sector[];
+    public readonly pointPositions: PointPosition[];
+    public startSignal: Signal;
+    public endSignal: Signal;
 
-    constructor(name: string, sectors: Sector[], pointPositions: PointPosition[], startSignal: Signal, endSector: Sector, speed: number | null) {
-        this.sectors = sectors;
+    public readonly endSector: Sector;
+
+    public readonly speed: number | null;
+
+    constructor(
+        name: string,
+        sectorIds: number[],
+        pointPositions: PointPosition[],
+        startSignalId: number,
+        endSignalId: number,
+        endSectorId: number,
+        speed: number | null,
+    ) {
+        this.sectors = sectorIds.map((id) => {
+            return new Sector(getSectorById(id));
+        });
+
+        this.name = name;
         this.pointPositions = pointPositions;
-        this.startSignal = startSignal;
-        this.endSector = endSector;
+
+        this.endSignal = SignalFactory.findById(endSignalId);
+
+        this.startSignal = SignalFactory.findById(startSignalId);
+
+        this.endSector = new Sector(getSectorById(endSectorId));
         this.speed = speed;
     }
 
@@ -29,4 +51,5 @@ export default class TrainRoute {
 
     public alock() {
     }
+
 }

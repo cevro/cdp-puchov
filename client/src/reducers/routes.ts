@@ -1,4 +1,4 @@
-import {ACTION_ROUTE_RETRIEVE} from '../actions/webSocets';
+/*import {ACTION_ROUTE_RETRIEVE} from '../actions/webSocets';
 
 const routeRetrieve = (state, action) => {
     const {name} = action.data;
@@ -13,4 +13,4 @@ export const routes = (state = {}, action) => {
         default:
             return state;
     }
-};
+};*/

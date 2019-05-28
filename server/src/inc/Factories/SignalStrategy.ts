@@ -1,6 +1,6 @@
 import Signal from '../objects/Signal';
 
-export default class SignalStrategy {
+export const SignalStrategy = new class {
     readonly NAVEST_40_A_OCAKAVAJ_40 = 7;
     readonly NAVEST_40_A_VOLNO = 4;
     readonly NAVEST_40_A_VYSTRAHA = 6;
@@ -68,8 +68,4 @@ export default class SignalStrategy {
                 return 0;
         }
     };
-
-}
-
-
-
+};
