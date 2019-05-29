@@ -1,6 +1,9 @@
 import { SignalDefinition } from '../../definitions/Signals';
 import { logger } from '../../webSocetServer';
-import { MESSAGE_ACTION_STATE_UPDATE } from '../../definitions/interfaces';
+import {
+    MESSAGE_ACTION_STATE_UPDATE,
+    SignalState,
+} from '../../definitions/interfaces';
 
 export default class Signal {
     public id;
@@ -35,7 +38,7 @@ export default class Signal {
         });
     }
 
-    public dumpData() {
+    public dumpData(): SignalState {
         return {
             state: this.state,
             id: this.id,

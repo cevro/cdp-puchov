@@ -1,12 +1,12 @@
 import Point from './Point';
-import { PointFactory } from '../Factories/PointFactory';
+import { pointFactory } from '../Factories/PointFactory';
 
 export default class PointPosition {
     private readonly position: 1 | -1;
     private readonly point: Point;
 
     constructor(pointId: number, position: 1 | -1) {
-        this.point = PointFactory.findById(pointId);
+        this.point = pointFactory.findById(pointId);
         this.position = position;
     };
 

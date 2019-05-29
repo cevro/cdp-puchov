@@ -14,6 +14,7 @@ import SignalContextMenu from './components/Scheme/Parts/Signals/ContextMenu/Con
 import Options from './components/Options/Options';
 import Scheme from './components/Scheme/Index';
 import RouteBuilderMessageBox from './components/MessageBox/RouteBuilderMessageBox';
+import SectorsPreview from './components/MessageBox/SectorsPreview';
 
 class Main extends React.Component<{}, {}> {
 
@@ -40,9 +41,10 @@ class Main extends React.Component<{}, {}> {
                     <div className="row col-12">
                         <div className="col-3">
                             <RouteBuilder/>
+                            <Downloader/>
                         </div>
                         <div className="col-3">
-                            <Downloader/>
+                            <SectorsPreview/>
                         </div>
                         <div className="col-3">
                             <RouteBuilderMessageBox/>

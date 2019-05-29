@@ -1,5 +1,8 @@
 import { Message } from '../components/definitions/interfaces';
-import { Action } from 'redux';
+import {
+    Action,
+    Dispatch,
+} from 'redux';
 
 export const ACTION_MESSAGE_RETRIEVE = 'ACTION_MESSAGE_RETRIEVE';
 
@@ -15,11 +18,35 @@ export const onMessageRetrieve = (data: Message): ActionMessageRetrieve => {
 };
 
 export const ACTION_MESSAGE_SEND = 'ACTION_MESSAGE_SEND';
-export const onSendMessage = (text: string) => {
+export const onSendMessage = (message: Message) => {
     return {
         type: ACTION_MESSAGE_SEND,
-        text,
+        message,
     };
+};
+
+export const ACTION_CONNECTION_CLOSE = 'ACTION_CONNECTION_CLOSE';
+export const connectionClose = (): Action<string> => {
+    return {
+        type: ACTION_CONNECTION_CLOSE,
+    };
+};
+
+export const changeSector = (dispatch: Dispatch<Action<string>>, id: number, state: number) => {
+    return dispatch(onSendMessage({
+        action: 'user-set',
+        entity: 'sector',
+        date: new Date(),
+        id,
+        data: {id, state},
+    }));
+};
+export const ACTION_SEND_SUCCESS = 'ACTION_SEND_SUCCESS';
+export const successSend = (id: string) => {
+    return {
+        type: ACTION_SEND_SUCCESS,
+        id,
+    }
 };
 
 

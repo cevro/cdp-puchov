@@ -7,18 +7,19 @@ import {
     SignalTypes,
 } from '../../../definitions/Signals';
 import { Store } from '../../../../reducers';
-import { getSignal } from '../../../../middleware/signal';
+import { getSignal } from '../../../../middleware/objectState';
 import {
     Action,
     Dispatch,
 } from 'redux';
+import { SignalState } from '../../../definitions/interfaces';
 
 interface Props {
     definition: SignalDefinition;
 }
 
 interface State {
-    state?: number;
+    stateObject?: SignalState;
     onSignalSelect?: (id: number) => void;
     onSignalContextMenu?: (id: number) => void;
     displayLabel?: boolean;
@@ -27,7 +28,7 @@ interface State {
 class Signal extends React.Component<Props & State, {}> {
     public render() {
         const {
-            state,
+            stateObject,
             onSignalSelect,
             onSignalContextMenu,
             displayLabel,
@@ -38,6 +39,7 @@ class Signal extends React.Component<Props & State, {}> {
                 SVGData: {x, y, rotate},
             },
         } = this.props;
+        const state = stateObject ? stateObject.state : undefined;
         return (
             <g
                 className={'signal signal-type-' + type + ' ' + this.getStateClassName(state)}
@@ -107,7 +109,7 @@ class Signal extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        state: getSignal(state, ownProps.definition.id),
+        stateObject: getSignal(state, ownProps.definition.id),
         displayLabel: !!state.displayOptions.signals[ownProps.definition.type],
     };
 };

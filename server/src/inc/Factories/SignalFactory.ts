@@ -1,9 +1,8 @@
 import Signal from '../objects/Signal';
 import { signals } from '../../definitions/Signals';
-import { MESSAGE_ACTION_DUMP } from '../../../../definitions/interfaces';
-import { connection } from 'websocket';
+import { SignalState } from '../../definitions/interfaces';
 
-export const SignalFactory = new class {
+export const signalFactory = new class {
 
     private readonly signals: Signal[];
 
@@ -24,16 +23,9 @@ export const SignalFactory = new class {
         throw new Error();
     }
 
-    public dump(connection: connection) {
-        const messages = this.signals.map((signal) => {
+    public dump(): SignalState[] {
+        return this.signals.map((signal) => {
             return signal.dumpData();
         });
-        connection.send(JSON.stringify({
-            action: MESSAGE_ACTION_DUMP,
-            entity: 'signal',
-            id: 0,
-            date: new Date(),
-            data: messages,
-        }));
     }
 };

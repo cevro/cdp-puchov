@@ -1,9 +1,11 @@
 import { points } from '../../definitions/Points';
 import Point from '../objects/Point';
-import { connection } from 'websocket';
-import { MESSAGE_ACTION_DUMP } from '../../../../definitions/interfaces';
+import {
+    Message,
+    PointState,
+} from '../../definitions/interfaces';
 
-export const PointFactory = new class {
+export const pointFactory = new class {
 
     private readonly points: Point[];
 
@@ -24,17 +26,10 @@ export const PointFactory = new class {
         throw new Error();
     }
 
-    public dump(connection: connection) {
-        const messages = this.points.map((point) => {
+    public dump(): PointState[] {
+        return this.points.map((point) => {
             return point.dumpData();
         });
-        connection.send(JSON.stringify({
-            action: MESSAGE_ACTION_DUMP,
-            entity: 'point',
-            id: 0,
-            date: new Date(),
-            data: messages,
-        }));
     }
 
 };

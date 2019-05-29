@@ -1,19 +1,16 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Store } from '../../../../reducers';
-import {
-    PointDefinition,
-    pointPosition,
-} from '../../../definitions/Points';
-import { getPointState } from '../../../../middleware/signal';
+import { PointDefinition } from '../../../definitions/Points';
+import { getPointState } from '../../../../middleware/objectState';
+import { PointState } from '../../../definitions/interfaces';
 
 interface Props {
     definition: PointDefinition;
 }
 
 interface State {
-    state?: pointPosition;
-    locked?: boolean;
+    stateObject?: PointState;
     onPointClick?: (id: number) => void;
     displayLabel?: boolean;
 }
@@ -21,15 +18,15 @@ interface State {
 class Point extends React.Component<Props & State, {}> {
     public render() {
         const {
-            state,
-            locked,
+            stateObject,
             displayLabel,
             definition: {
-                // id,
                 name,
                 SVGData: {x, y, rotate, home, dir},
             },
         } = this.props;
+        const state = stateObject ? stateObject.state : undefined;
+        const locked = stateObject ? stateObject.locked : undefined;
         return (
             <g className={'point ' + this.getStateClassName(state, locked)}
                transform={'translate(' + x + ',' + y + ')'}>
@@ -65,7 +62,7 @@ class Point extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        ...getPointState(state, ownProps.definition.id),
+        stateObject: getPointState(state, ownProps.definition.id),
         displayLabel: state.displayOptions.points,
     };
 };

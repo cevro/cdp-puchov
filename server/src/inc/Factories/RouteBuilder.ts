@@ -4,10 +4,11 @@ import { logger } from '../../webSocetServer';
 import {
     Message,
     MESSAGE_ACTION_DUMP,
-    MESSAGE_ACTION_STATE_UPDATE,
     TrainRouteBufferItem,
 } from '../../definitions/interfaces';
 import { connection } from 'websocket';
+import { NAVEST_STOJ } from '../../consts/signal/signals';
+import { STATUS_BUSY } from '../../consts/obvod/status';
 
 export const routeBuilder = new class {
     private readonly LOGGER_ENTITY = 'route-builder';
@@ -96,8 +97,12 @@ export const routeBuilder = new class {
         try {
             for (const id in pointPositions) {
                 const pointPosition = pointPositions[id];
-                pointPosition.check()
-
+                pointPosition.check();
+            }
+            const sectors = trainRoute.getSectors();
+            for (const id in sectors) {
+                const sector = sectors[id];
+                sector.check();
             }
         } catch (e) {
             logger.log({
@@ -107,6 +112,7 @@ export const routeBuilder = new class {
                 action: 'error',
                 data: e.message,
             });
+            this.locked = false;
             return;
         }
 
@@ -127,6 +133,44 @@ export const routeBuilder = new class {
     }
 
     public rollBack(trainRoute: TrainRoute) {
+    }
+
+
+    public dateRetrieve(message: Message) {
+        this.buffer.forEach((locker) => {
+            this.refreshRoute(locker);
+        });
+        this.tryBuild();
+    }
+
+    private refreshRoute(locker: TrainRouteLock) {
+        const sectors = locker.route.getSectors();
+        let isFree = true;
+        for (const id in sectors) {
+            const sector = sectors[id];
+            isFree = isFree && sector.isFree();
+        }
+        if (!isFree) {
+            locker.route.startSignal.state = NAVEST_STOJ;
+        }
+
+
+        let busyIndex = 0;
+        for (const index in sectors) {
+            const sector = sectors[index];
+            console.log(sector.state);
+            if (sector.state === STATUS_BUSY) {
+                busyIndex = +index;
+                break;
+            }
+        }
+        console.log('' + busyIndex + 'busyindex');
+        for (let i = 0; i < busyIndex; i++) {
+            if (sectors[i].locked == locker.getId()) {
+                sectors[i].locked = null;
+            }
+        }
+
     }
 
 };

@@ -1,18 +1,20 @@
 import * as React from 'react';
 import { signals } from '../../../../definitions/Signals';
 import Icon from './Icon';
-import { getSignal } from '../../../../../middleware/signal';
+import { getSignal } from '../../../../../middleware/objectState';
 import { connect } from 'react-redux';
+import { SignalState } from '../../../../definitions/interfaces';
 
 interface State {
     active?: boolean;
     id?: number;
-    state?: number;
+    stateObject?: SignalState;
 }
 
 class ContextMenu extends React.Component<State, {}> {
     public render() {
-        const {id, state} = this.props;
+        const {id, stateObject} = this.props;
+        const state = stateObject ? stateObject.state : undefined;
         const signal = signals.filter((signal) => {
             return signal.id === id;
         })[0];
@@ -38,7 +40,7 @@ const mapStateToProps = (state): State => {
     return {
         id: state.signalsContextMenu.id,
         active: state.signalsContextMenu.active,
-        state: getSignal(state, state.signalsContextMenu.id),
+        stateObject: getSignal(state, state.signalsContextMenu.id),
     };
 };
 

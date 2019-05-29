@@ -1,8 +1,8 @@
 import Signal from './Signal';
 import PointPosition from './PointPosition';
 import Sector from './Sector';
-import { getSectorById } from '../../definitions/Sectors';
-import { SignalFactory } from '../Factories/SignalFactory';
+import { signalFactory } from '../Factories/SignalFactory';
+import { sectorFactory } from '../Factories/SectorsFactory';
 
 export default class TrainRoute {
     public id;
@@ -27,17 +27,17 @@ export default class TrainRoute {
         speed: number | null,
     ) {
         this.sectors = sectorIds.map((id) => {
-            return new Sector(getSectorById(id));
+            return sectorFactory.findById(id);
         });
 
         this.name = name;
         this.pointPositions = pointPositions;
 
-        this.endSignal = SignalFactory.findById(endSignalId);
+        this.endSignal = signalFactory.findById(endSignalId);
 
-        this.startSignal = SignalFactory.findById(startSignalId);
+        this.startSignal = signalFactory.findById(startSignalId);
 
-        this.endSector = new Sector(getSectorById(endSectorId));
+        this.endSector = sectorFactory.findById(endSectorId);
         this.speed = speed;
     }
 

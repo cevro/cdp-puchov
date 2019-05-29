@@ -10,9 +10,14 @@ import {
     displayOptions,
     displayOptionsState,
 } from './displayOptions';
+import {
+    State as toSendBufferState,
+    toSendBuffer,
+} from './webSocketBuffer';
 
 export const app = combineReducers({
     messages,
+    toSendBuffer,
     // routes,
     objectState,
     routeBuilder,
@@ -23,4 +28,5 @@ export const app = combineReducers({
 export interface Store {
     displayOptions: displayOptionsState;
     objectState: ObjectState;
+    toSendBuffer: toSendBufferState;
 }

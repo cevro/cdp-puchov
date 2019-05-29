@@ -1,43 +1,4 @@
 import { signalLight } from '../../../definitions/Signals';
-import { Store } from '../reducers';
-import { pointPosition } from '../../../definitions/Points';
-
-export const getSignal = (store: Store, signalId: number): number => {
-    const {signals} = store.objectState;
-    let state = undefined;
-    for (const id in signals) {
-        if (signals.hasOwnProperty(id)) {
-            if (+id === signalId) {
-                state = signals[signalId];
-            }
-        }
-    }
-    return state;
-};
-export const getSectorState = (store: Store, sectorId: number): number => {
-    let state = undefined;
-    const {sectors} = store.objectState;
-    for (const id in sectors) {
-        if (sectors.hasOwnProperty(id)) {
-            if (+id === sectorId) {
-                state = sectors[id];
-            }
-        }
-    }
-    return state;
-};
-export const getPointState = (store: Store, sectorId: number): { state: pointPosition, locked: boolean } => {
-    let state = undefined;
-    const {points} = store.objectState;
-    for (const id in points) {
-        if (points.hasOwnProperty(id)) {
-            if (+id === sectorId) {
-                state = points[id];
-            }
-        }
-    }
-    return state;
-};
 
 export class SignalLightDisplay {
 

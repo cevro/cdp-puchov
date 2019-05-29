@@ -28,6 +28,7 @@ export const route_1L_L1 = new TrainRoute(
 export const route_2L_L4 = new TrainRoute(
     '2L-L4',
     [
+        1001,
         2001,
         2002,
         2003,
@@ -40,7 +41,7 @@ export const route_2L_L4 = new TrainRoute(
         new PointPosition(1, 1),
 
         new PointPosition(4, 1),
-        new PointPosition(2, -1),
+        new PointPosition(2, 1),
 
         new PointPosition(5, 1),
         new PointPosition(7, 1),

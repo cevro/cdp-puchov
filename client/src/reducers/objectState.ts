@@ -1,27 +1,27 @@
 import {
+    ACTION_CONNECTION_CLOSE,
     ACTION_MESSAGE_RETRIEVE,
     ActionMessageRetrieve,
 } from '../actions/webSocets';
-import { pointPosition } from '../components/definitions/Points';
 import {
+    DumpData,
     MESSAGE_ACTION_DUMP,
     MESSAGE_ACTION_STATE_UPDATE,
     PointState,
+    SectorState,
+    SignalState,
 } from '../components/definitions/interfaces';
 
 interface SignalsState {
-    [id: number]: number;
+    [id: number]: SignalState;
 }
 
-interface SectorsState {
-    [id: number]: number;
+export interface SectorsState {
+    [id: number]: SectorState;
 }
 
 interface PointsState {
-    [id: number]: {
-        state: pointPosition;
-        locked: boolean;
-    };
+    [id: number]: PointState;
 }
 
 export interface ObjectState {
@@ -46,12 +46,8 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
     }
     if (action.data.action === MESSAGE_ACTION_DUMP) {
         switch (action.data.entity) {
-            //    case 'sector':
-            //          return sectorDumpRetrieve(store, action);
-            case 'signal':
-                return signalDumpRetrieve(store, action);
-            case 'point':
-                return pointDumpRetrieve(store, action);
+            case '*':
+                return dumpRetrieve(store, action);
             case 'route-builder':
                 return trainRouteBufferDump(store, action);
             default:
@@ -61,63 +57,67 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
     return store;
 
 };
+const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData>): ObjectState => {
+    const {
+        data: {sectors, signals, points},
+    } = action.data;
 
-const signalRetrieve = (store: ObjectState, action: ActionMessageRetrieve<{ state: number }>): ObjectState => {
-    const {id, data} = action.data;
+    const sectorsData = {};
+    sectors.forEach((sector) => {
+        sectorsData[sector.id] = sector;
+    });
+
+    const signalsData: SignalsState = {};
+    signals.forEach((signal) => {
+        signalsData[signal.id] = signal;
+    });
+
+    const pointsData: PointsState = {};
+    points.forEach((point) => {
+        pointsData[point.id] = point;
+    });
+
+    return {
+        ...store,
+        sectors: sectorsData,
+        signals: signalsData,
+        points: pointsData,
+    };
+};
+
+const signalRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SignalState>): ObjectState => {
+    const {data, data: {id}} = action.data;
     return {
         ...store,
         signals: {
             ...store.signals,
-            [+id]: data.state,
+            [+id]: data,
         },
     };
 };
 
-const signalDumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<{ state: number, id: number }[]>): ObjectState => {
-    const {data} = action.data;
-    const newData: SignalsState = {};
-    data.forEach((signal) => {
-        newData[signal.id] = signal.state;
-    });
-    return {
-        ...store,
-        signals: newData,
-    };
-};
-
-const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<{ state: number }>): ObjectState => {
-    const {id, data: {state}} = action.data;
+const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SectorState>): ObjectState => {
+    const {data, data: {id}} = action.data;
     return {
         ...store,
         sectors: {
             ...store.sectors,
-            [+id]: state,
+            [+id]: data,
         },
     };
 };
 
 const pointRetrieve = (store: ObjectState, action: ActionMessageRetrieve<PointState>): ObjectState => {
-    const {id, data: {state, locked}} = action.data;
+    const {data, data: {id}} = action.data;
     return {
         ...store,
         points: {
             ...store.points,
-            [+id]: {state, locked},
+            [+id]: data,
         },
     };
 };
 
-const pointDumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<PointState[]>): ObjectState => {
-    const {data} = action.data;
-    const newData: PointsState = {};
-    data.forEach((point) => {
-        newData[point.id] = {state: point.state, locked: point.locked};
-    });
-    return {
-        ...store,
-        points: newData,
-    };
-};
 const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<any[]>): ObjectState => {
     const {data} = action.data;
     return {
@@ -138,7 +138,8 @@ export const objectState = (state: ObjectState = initState, action): ObjectState
     switch (type) {
         case ACTION_MESSAGE_RETRIEVE:
             return messageRetrieve(state, action);
-
+        case ACTION_CONNECTION_CLOSE:
+            return initState;
         default:
             return state;
     }
