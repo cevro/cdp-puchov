@@ -24,10 +24,6 @@ export default class Signal {
         this._state = 0;
     }
 
-    public getState(): number {
-        return 0;
-    }
-
     public sendState() {
         logger.log({
             action: MESSAGE_ACTION_STATE_UPDATE,

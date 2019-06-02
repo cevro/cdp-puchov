@@ -51,6 +51,12 @@ export default class Sector {
         this.sendState();
     }
 
+    public unlock(id: number) {
+        if (this.locked == id) {
+            this.locked = null;
+        }
+    }
+
 
     public check() {
         if (this.locked) {
@@ -63,9 +69,17 @@ export default class Sector {
 
     /**
      * return true if sector is in VC
+     * @deprecated
      */
-    public isFree(): boolean {
-        return this.state === STATUS_FREE;
+    public isFree(id: number): boolean {
+        return this.isFreeAndAllocated(id);
+    }
+
+    /**
+     * return true if sector is in VC
+     */
+    public isFreeAndAllocated(id: number): boolean {
+        return (this.state === STATUS_FREE) && (this.locked === id);
     }
 
     public dumpData(): SectorState {

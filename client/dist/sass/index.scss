@@ -1,5 +1,6 @@
 @import "./signal-scheme";
 @import "mixins/disconnect";
+@import "./sector";
 
 .signal-preview {
 
@@ -135,36 +136,6 @@ svg {
   fill: #0f0;
 }
 
-.sector polyline {
-  /* stroke-linecap: round;*/
-  stroke-width: 3;
-}
-
-.sector.free polyline {
-  stroke: #555;
-}
-
-.sector.used polyline {
-  stroke: #f00;
-}
-
-.sector.in-train-route polyline {
-  stroke: #0f0;
-}
-
-.sector.in-movement-route polyline {
-  stroke: #ccc;
-}
-
-.sector.lockout polyline {
-  stroke: #ff0;
-}
-
-.sector.undefined polyline {
-  @include disconnect;
-  stroke: $disconnect-color;
-}
-
 .signal-context-menu {
   border: solid 1px white;
   background-color: #333;
@@ -175,8 +146,8 @@ svg {
   border-radius: .5rem;
 }
 
-.top-panel {
-  height: 400px;
+.top-panel, .bottom-panel {
+  height: 450px;
 }
 
 .signal-badge-5 {
@@ -197,5 +168,29 @@ svg {
 .signal-badge-1 {
   color: red;
   background-color: white;
+}
+
+.list-group-item {
+  background-color: transparent;
+}
+
+.badge-undefined {
+  background-color: $disconnect-color;
+}
+
+.list-scroll {
+  overflow-y: scroll;
+  max-height: 380px;
+}
+
+.card.bg-black {
+  background-color: black;
+  .list-group-item {
+    border-color: #999;
+    padding: .25rem 1.25rem;
+  }
+  .card-header {
+    border-color: #999;
+  }
 }
 

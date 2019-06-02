@@ -8,22 +8,30 @@ export interface Message<T = any> {
     data: T;
 }
 
+export interface TrainRouteDump {
+    buffer: TrainRouteBufferItem[];
+    hasError: boolean;
+    locked: boolean;
+}
+
 export interface TrainRouteBufferItem {
-    id: number,
-    state: string,
-    name: string,
+    id: number;
+    state: string;
+    name: string;
+    reason: string;
+    buildOptions: BuildOptions;
 }
 
 export interface PointState {
     id: number;
     state: pointPosition;
-    locked: boolean;
+    locked: number[];
 }
 
 export interface SectorState {
     id: number;
     state: number;
-    locked: true;
+    locked: number[];
 }
 
 export interface SignalState {
@@ -31,10 +39,22 @@ export interface SignalState {
     state: number;
 }
 
+export interface BuildOptions {
+    PN: boolean;
+    40: boolean;
+    alert: boolean;
+}
+
 export interface DumpData {
     sectors: SectorState[];
     signals: SignalState[];
     points: PointState[];
+    routeBuilder: TrainRouteDump;
+}
+
+export interface RouteFinderRequest {
+    startSignalId: number;
+    endSectorId: number;
 }
 
 export const MESSAGE_ACTION_STATE_UPDATE = 'state-update';

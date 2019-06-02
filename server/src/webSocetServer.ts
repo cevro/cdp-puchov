@@ -11,6 +11,7 @@ import {
     DumpData,
     MESSAGE_ACTION_DUMP,
 } from './definitions/interfaces';
+import { routesFactory } from './inc/Factories/RoutesFactory';
 
 const http = require('http');
 
@@ -32,12 +33,11 @@ const initClient = (connection: connection) => {
             signals: signalFactory.dump(),
             sectors: sectorFactory.dump(),
             points: pointFactory.dump(),
+            routeBuilder: routeBuilder.dumpBuffer(),
         },
         id: 0,
     };
     connection.send(JSON.stringify(message));
-
-    routeBuilder.printBufferSingle(connection);
 };
 
 const wsServer = new server({
@@ -54,7 +54,7 @@ wsServer.on('request', (request) => {
             const data = JSON.parse(message.utf8Data);
             console.log(data);
             sectorFactory.dataReceive(data);
-
+            routesFactory.dateReceive(data);
             routeBuilder.dateRetrieve(data);
         }
     });

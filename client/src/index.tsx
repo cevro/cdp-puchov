@@ -7,14 +7,15 @@ import {
     createStore,
 } from 'redux';
 import { app } from './reducers/';
-import Downloader from './components/helpers/Downloader';
 import MessageBox from './components/MessageBox/MessageBox';
-import RouteBuilder from './components/route-builder';
 import SignalContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
 import Options from './components/Options/Options';
 import Scheme from './components/Scheme/Index';
 import RouteBuilderMessageBox from './components/MessageBox/RouteBuilderMessageBox';
 import SectorsPreview from './components/MessageBox/SectorsPreview';
+import PointsPreview from './components/MessageBox/PointsPreview';
+import Card from './components/helpers/Card';
+import Routes from './components/MessageBox/Routes';
 
 class Main extends React.Component<{}, {}> {
 
@@ -28,9 +29,16 @@ class Main extends React.Component<{}, {}> {
                         <div className="col-1">
                             <SignalContextMenu/>
                         </div>
+                        <div className="col-3">
+                            <Card name={'Messages'}>
+                                <MessageBox/>
+                            </Card>
+                        </div>
 
-                        <div className="offset-9 col-2">
-                            <Options/>
+                        <div className="offset-5 col-3">
+                            <Card name={'Options'}>
+                                <Options/>
+                            </Card>
                         </div>
                     </div>
 
@@ -38,25 +46,30 @@ class Main extends React.Component<{}, {}> {
                         <Scheme/>
                     </div>
 
-                    <div className="row col-12">
+                    <div className="row col-12 bottom-panel">
                         <div className="col-3">
-                            <RouteBuilder/>
-                            <Downloader/>
+                            <Card name={'Routes'}>
+                                <Routes/>
+                            </Card>
                         </div>
                         <div className="col-3">
-                            <SectorsPreview/>
+                            <Card name={'Built routes'}>
+                                <RouteBuilderMessageBox/>
+                            </Card>
                         </div>
                         <div className="col-3">
-                            <RouteBuilderMessageBox/>
+                            <Card name={'Sectors'}>
+                                <SectorsPreview/>
+                            </Card>
                         </div>
-                        <div className=" col-3">
-                            <MessageBox/>
+
+                        <div className="col-3">
+                            <Card name={'Points'}>
+                                <PointsPreview/>
+                            </Card>
                         </div>
                     </div>
-
-
                 </div>
-
             </Provider>
         );
     }

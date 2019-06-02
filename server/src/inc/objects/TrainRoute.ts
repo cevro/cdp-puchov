@@ -3,6 +3,9 @@ import PointPosition from './PointPosition';
 import Sector from './Sector';
 import { signalFactory } from '../Factories/SignalFactory';
 import { sectorFactory } from '../Factories/SectorsFactory';
+import { TrainRouteDefinition } from '../../data/puchov/routes/1L';
+import { SignalStrategy } from '../Factories/SignalStrategy';
+import { BuildOptions } from '../../definitions/interfaces';
 
 export default class TrainRoute {
     public id;
@@ -16,29 +19,24 @@ export default class TrainRoute {
     public readonly endSector: Sector;
 
     public readonly speed: number | null;
+    public sufficientDistance: boolean;
 
-    constructor(
-        name: string,
-        sectorIds: number[],
-        pointPositions: PointPosition[],
-        startSignalId: number,
-        endSignalId: number,
-        endSectorId: number,
-        speed: number | null,
-    ) {
-        this.sectors = sectorIds.map((id) => {
+    constructor(def: TrainRouteDefinition) {
+        this.id = def.id;
+        this.sectors = def.sectorIds.map((id) => {
             return sectorFactory.findById(id);
         });
 
-        this.name = name;
-        this.pointPositions = pointPositions;
+        this.name = def.name;
+        this.pointPositions = def.pointPositions;
 
-        this.endSignal = signalFactory.findById(endSignalId);
+        this.endSignal = def.endSignalId ? signalFactory.findById(def.endSignalId) : null;
 
-        this.startSignal = signalFactory.findById(startSignalId);
+        this.startSignal = signalFactory.findById(def.startSignalId);
 
-        this.endSector = sectorFactory.findById(endSectorId);
-        this.speed = speed;
+        this.endSector = sectorFactory.findById(def.endSectorId);
+        this.speed = def.speed;
+        this.sufficientDistance = def.sufficientDistance === undefined ? true : def.sufficientDistance;
     }
 
     public getSectors(): Sector[] {
@@ -50,6 +48,10 @@ export default class TrainRoute {
     }
 
     public alock() {
+    }
+
+    public recalculateSignal(buildOptions:BuildOptions): void {
+        this.startSignal.state = SignalStrategy.calculate(this.endSignal, this.speed, this.sufficientDistance,buildOptions);
     }
 
 }

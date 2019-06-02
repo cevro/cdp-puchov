@@ -26,9 +26,9 @@ class Point extends React.Component<Props & State, {}> {
             },
         } = this.props;
         const state = stateObject ? stateObject.state : undefined;
-        const locked = stateObject ? stateObject.locked : undefined;
+        const locked = stateObject ? stateObject.locked : [];
         return (
-            <g className={'point ' + this.getStateClassName(state, locked)}
+            <g className={'point ' + this.getStateClassName(state, !!locked.length)}
                transform={'translate(' + x + ',' + y + ')'}>
                 {displayLabel && <g transform={'translate(0,-10)'}>
                     <text>{name}</text>

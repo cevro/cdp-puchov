@@ -18,12 +18,13 @@ export const onMessageRetrieve = (data: Message): ActionMessageRetrieve => {
 };
 
 export const ACTION_MESSAGE_SEND = 'ACTION_MESSAGE_SEND';
-export const onSendMessage = (message: Message) => {
+
+export function onSendMessage<T = any>(message: Message<T>) {
     return {
         type: ACTION_MESSAGE_SEND,
         message,
     };
-};
+}
 
 export const ACTION_CONNECTION_CLOSE = 'ACTION_CONNECTION_CLOSE';
 export const connectionClose = (): Action<string> => {
@@ -41,6 +42,7 @@ export const changeSector = (dispatch: Dispatch<Action<string>>, id: number, sta
         data: {id, state},
     }));
 };
+
 export const ACTION_SEND_SUCCESS = 'ACTION_SEND_SUCCESS';
 export const successSend = (id: string) => {
     return {

@@ -19,33 +19,52 @@ class SectorsPreview extends React.Component<State, {}> {
         const {sectors: sectorsState} = this.props;
 
         return (
-            <div>
+            <div className="list-group list-scroll">
                 {sectors.map((sectorDef, index) => {
                     // sectorsState[id];
                     // sectorDef.id;
                     const state = sectorsState[sectorDef.id] ? sectorsState[sectorDef.id].state : undefined;
+                    const locked = sectorsState[sectorDef.id] ? sectorsState[sectorDef.id].locked : null;
 
-                    return <div className="row" key={index}>
-                        <span className="col-2">{sectorDef.id}</span>
-                        <span className="col-2">{sectorDef.name}</span>
-                        <span className="col-2">
+                    return <div className="list-group-item" key={index}>
+                        <div className="row">
+                            <span className="col-2">{sectorDef.id}</span>
+                            <span className="col-2">{sectorDef.name}</span>
+                            <span className="col-1">
                             <span className={this.getClassNameByState(state)}>
                                {state === undefined ? 'NA' : state}
                             </span>
                             </span>
-                        <div className="col-4">
-                            <select className="form-control" value={state} onChange={(event) => {
-                                this.props.onChangeSector(sectorDef.id, +event.target.value)
-                            }}>
-                                <option value={0}>0</option>
-                                <option value={1}>1</option>
-                            </select>
+                            <div className="col-3">
+                                {this.getButton(sectorDef.id, state)}
+                            </div>
+                            <div className="col-4">
+                                {locked}
+                            </div>
                         </div>
-
                     </div>
                 })}
             </div>
         )
+    }
+
+    private getButton(id: number, state: number): JSX.Element {
+        switch (state) {
+            case 0:
+                return <button className="btn btn-success btn-sm"
+                               onClick={() => {
+                                   this.props.onChangeSector(id, 1)
+                               }}
+                >Set free</button>;
+            case 1:
+                return <button className="btn btn-danger btn-sm"
+                               onClick={() => {
+                                   this.props.onChangeSector(id, 0)
+                               }}
+                >Set busy</button>;
+            default:
+                return <span/>;
+        }
     }
 
     private getClassNameByState(state: number) {

@@ -3,7 +3,12 @@ export interface SectorDefinition {
     id: number;
     SVGData: {
         points: string[],
+        label?: {
+            x: number;
+            y: number;
+        };
     }
+
 }
 
 const rail5: SectorDefinition[] = [];
@@ -15,18 +20,32 @@ const rail3: SectorDefinition[] = [
     },
     {
         name: '3',
-        id: 3002,
-        SVGData: {points: ['475,-30 975,-30']},
+        id: 3010,
+
+        SVGData: {
+            points: ['475,-30 975,-30'],
+            label: {
+                x: 725,
+                y: -30,
+            },
+        },
     },
     {
         name: '3C',
-        id: 3003,
+        id: 3021,
         SVGData: {points: ['975,-30 1075,-30', '975,-60 1000,-60 1050,-30']},
     },
     {
         name: '3a',
-        id: 3003,
-        SVGData: {points: ['1075,-30 1550,-30']},
+        id: 3110,
+
+        SVGData: {
+            points: ['1075,-30 1550,-30'],
+            label: {
+                x: 1250,
+                y: -30,
+            },
+        },
     },
 ];
 const rail1: SectorDefinition[] = [
@@ -51,14 +70,22 @@ const rail1: SectorDefinition[] = [
         SVGData: {points: ['325,0 500,0', '350,0 375,-15']},
     },
     {
-        name: '1SK',
+        name: '1',
         id: 1005,
-        SVGData: {points: ['500,0 1400,0']},
+        SVGData: {
+            points: ['500,0 1400,0'],
+            label: {
+                x: 950,
+                y: 0,
+            },
+        },
     },
     {
         name: '1BS_0',
         id: 1006,
-        SVGData: {points: ['1400,0 1550,0', '1425,0 1450,15']},
+        SVGData: {
+            points: ['1400,0 1550,0', '1425,0 1450,15'],
+        },
     },
     {
         name: '1BS_1',
@@ -107,9 +134,15 @@ const rail2: SectorDefinition[] = [
     },
 
     {
-        name: '2SK',
+        name: '2',
         id: 2005,
-        SVGData: {points: ['500,30 1400,30']},
+        SVGData: {
+            points: ['500,30 1400,30'],
+            label: {
+                x: 950,
+                y: 30,
+            },
+        },
     },
 
     {
@@ -167,12 +200,14 @@ const rail4: SectorDefinition[] = [
         },
     },
     {
-        name: '4SK',
+        name: '4',
         id: 4010,
         SVGData: {
-            points: [
-                '525,60 1475,60',
-            ],
+            points: ['525,60 1475,60'],
+            label: {
+                x: 950,
+                y: 60,
+            },
         },
     },
     {
@@ -216,7 +251,13 @@ const rail6: SectorDefinition[] = [
     {
         name: '6',
         id: 6002,
-        SVGData: {points: ['625,90 1475,90']},
+        SVGData: {
+            points: ['625,90 1475,90'],
+            label: {
+                x: 950,
+                y: 90,
+            },
+        },
     },
     {
         name: '1SK_0',
@@ -244,7 +285,13 @@ const rail8: SectorDefinition[] = [
     {
         name: '8',
         id: 8001,
-        SVGData: {points: ['625,120 1425,120']},
+        SVGData: {
+            points: ['625,120 1425,120'],
+            label: {
+                x: 950,
+                y: 120,
+            },
+        },
     },
     {
         name: '2SK_0',
@@ -283,7 +330,13 @@ const rail10: SectorDefinition[] = [
     {
         name: '10',
         id: 10002,
-        SVGData: {points: ['625,150 1375,150']},
+        SVGData: {
+            points: ['625,150 1375,150'],
+            label: {
+                x: 950,
+                y: 150,
+            },
+        },
     },
 ];
 const rail12: SectorDefinition[] = [
@@ -295,7 +348,13 @@ const rail12: SectorDefinition[] = [
     {
         name: '12',
         id: 12002,
-        SVGData: {points: ['650,180 1325,180']},
+        SVGData: {
+            points: ['650,180 1325,180'],
+            label: {
+                x: 950,
+                y: 180,
+            },
+        },
     },
     {
         name: '12SK_1',
@@ -316,13 +375,25 @@ const rail14: SectorDefinition[] = [
     },
     {
         name: '14',
-        id: 14002,
-        SVGData: {points: ['750,210 1125,210']},
+        id: 14010,
+        SVGData: {
+            points: ['750,210 1125,210'],
+            label: {
+                x: 900,
+                y: 210,
+            },
+        },
     },
     {
         name: '14a',
         id: 14004,
-        SVGData: {points: ['1225,210 1325,210']},
+        SVGData: {
+            points: ['1225,210 1325,210'],
+            label: {
+                x: 1275,
+                y: 210,
+            },
+        },
     },
     {
         name: '14C',
@@ -333,19 +404,25 @@ const rail14: SectorDefinition[] = [
 const rail16: SectorDefinition[] = [
     {
         name: '16',
-        id: 16002,
-        SVGData: {points: ['750,240 1075,240']},
+        id: 16010,
+        SVGData: {
+            points: ['750,240 1075,240'],
+            label: {
+                x: 900,
+                y: 240,
+            },
+        },
     },
     {
         name: '16C',
-        id: 14005,
+        id: 16001,
         SVGData: {points: ['1075,240 1250,240', '1175,225 1100,270 1075,270']},
     },
 ];
 const rail18: SectorDefinition[] = [
     {
         name: '18LK',
-        id: 16002,
+        id: 16010,
         SVGData: {points: ['600,195 725,270 750,270', '625,210 650,210']},
     },
 ];
@@ -399,17 +476,17 @@ const railST: SectorDefinition[] = [
     },
     {
         name: '2STI',
-        id: 102,
+        id: 21001,
         SVGData: {points: ['1900,240 2000,240']},
     },
     {
         name: '2STII',
-        id: 102,
+        id: 21002,
         SVGData: {points: ['2000,240 2100,240']},
     },
     {
         name: '2STIII',
-        id: 102,
+        id: 21003,
         SVGData: {points: ['2100,240 2150,240']},
     },
 ];

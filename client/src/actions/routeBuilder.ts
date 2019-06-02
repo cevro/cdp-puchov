@@ -1,25 +1,62 @@
+import {
+    Action,
+    Dispatch,
+} from 'redux';
+
+import { RouteFinderRequest } from '../components/definitions/interfaces';
+import { onSendMessage } from './webSocets';
+
 export const ACTION_SIGNAL_SELECT = 'ACTION_SIGNAL_SELECT';
 
-export const signalSelect = (id) => {
+export interface ActionRouteBuilderSelect extends Action<string> {
+    id: number;
+}
+
+export const signalSelect = (id: number): ActionRouteBuilderSelect => {
     return {
         type: ACTION_SIGNAL_SELECT,
         id,
     };
 };
 
-export const ACTION_REGISTER_ROUTES = 'ACTION_REGISTER_ROUTES';
-
-export const registerRoutes = (routes) => {
+export const ACTION_SECTOR_SELECT = 'ACTION_SECTOR_SELECT';
+export const sectorSelect = (id: number): ActionRouteBuilderSelect => {
     return {
-        type: ACTION_REGISTER_ROUTES,
-        routes,
+        type: ACTION_SECTOR_SELECT,
+        id,
     };
 };
 
+
 export const ACTION_CLEAR_SELECT = 'ACTION_CLEAR_SELECT';
-export const clearSelect = () => {
+export const clearSelect = (): Action<string> => {
     return {
         type: ACTION_CLEAR_SELECT,
     };
+};
+
+export const findRoute = (dispatch: Dispatch<Action<string>>, startSignalId: number, endSectorId: number) => {
+    return dispatch(onSendMessage<RouteFinderRequest>({
+        action: 'find',
+        entity: 'route-finder',
+        date: new Date(),
+        id: 0,
+        data: {
+            startSignalId,
+            endSectorId,
+        },
+    }));
+};
+export const buildRoute = (dispatch: Dispatch<Action<string>>, id: number, buildOptions: any) => {
+    return dispatch(onSendMessage({
+        action: 'build',
+        entity: 'route-builder',
+        date: new Date(),
+        id: 0,
+        data: {
+            id,
+            buildOptions,
+        },
+    }));
 };
 

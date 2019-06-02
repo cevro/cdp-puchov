@@ -5,22 +5,41 @@ import {
     Dispatch,
 } from 'redux';
 import { Store } from '../../reducers';
-import { TrainRouteBufferItem } from '../definitions/interfaces';
+import { TrainRouteDump } from '../definitions/interfaces';
 
 interface State {
-    trainRouteBuffer?: TrainRouteBufferItem[];
+    trainRoute?: TrainRouteDump;
 }
 
 class RouteBuilderMessageBox extends React.Component<State, {}> {
 
     public render() {
 
-        return (<div>
-            {this.props.trainRouteBuffer.map((bufferItem) => {
-                return <div>
-                    <small>{bufferItem.id}</small>
-                    <span className="mx-1">{bufferItem.name}</span>
-                    <span className={this.getClassNameByState(bufferItem.state)}>{bufferItem.state}</span>
+        return (<div className="list-group list-scroll">
+            <div className="list-group-item">
+                <span className={this.props.trainRoute.locked ? 'fa fa-lock' : 'fa fa-unlock-alt'}/>
+                {this.props.trainRoute.hasError && <>
+                    <span className="badge badge-danger">Error</span>
+                    <button className="btn btn-danger">Clear error</button>
+                </>
+                }
+            </div>
+
+            {this.props.trainRoute.buffer.map((bufferItem) => {
+                return <div className="list-group-item" key={bufferItem.id}>
+                    <div className="row">
+                        <small className="col-3">{bufferItem.id}</small>
+                        <span className="col-2">{bufferItem.name}</span>
+                        <div className="col-2">
+                            <span className={this.getClassNameByState(bufferItem.state)}>{bufferItem.state}</span>
+                        </div>
+                        <small className="col-3">{bufferItem.reason}</small>
+                        <small className="col-2">
+                            {bufferItem.buildOptions[40] ? '40' : null}
+                            {bufferItem.buildOptions.PN ? 'PN' : null}
+                            {bufferItem.buildOptions.alert ? 'alert' : null}
+                        </small>
+                    </div>
                 </div>
             })}
         </div>);
@@ -46,7 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
 
 const mapStateToProps = (store: Store): State => {
     return {
-        trainRouteBuffer: store.objectState.trainRouteBuffer,
+        trainRoute: store.objectState.trainRoute,
     };
 };
 

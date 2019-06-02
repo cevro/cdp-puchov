@@ -1,4 +1,5 @@
 import Signal from '../objects/Signal';
+import { BuildOptions } from '../../definitions/interfaces';
 
 export const SignalStrategy = new class {
     readonly NAVEST_40_A_OCAKAVAJ_40 = 7;
@@ -9,24 +10,31 @@ export const SignalStrategy = new class {
     readonly NAVEST_VOLNO = 1;
     readonly NAVEST_VYSTRAHA = 2;
 
-    public calculate(endSignal: Signal, speed: number | null, sufficientDistance: boolean = true): number {
-        if (speed !== null) {
-            return this.getSignalToSide(endSignal, sufficientDistance);
+    public calculate(endSignal: Signal, speed: number | null, sufficientDistance: boolean = true, buildOptions: BuildOptions): number {
+        let endSignalId = endSignal ? endSignal.state : 1;
+        if (buildOptions.PN) {
+            return 8;
+        }
+        if (buildOptions.alert) {
+            endSignalId = 0;
+        }
+        if (speed !== null || buildOptions['40']) {
+            return this.getSignalToSide(endSignalId, sufficientDistance);
         } else {
-            return this.getSignalStraight(endSignal, sufficientDistance);
+            return this.getSignalStraight(endSignalId, sufficientDistance);
         }
     };
 
-    private getSignalToSide(endSignal: Signal, sufficientDistance: boolean) {
-        const toSignalId = endSignal.getState();
-        switch (toSignalId) {
+    private getSignalToSide(endSignalId: number, sufficientDistance: boolean) {
+
+        switch (endSignalId) {
             case 0:
             case 8:
             case 9:
             case 10:
             case 12:
             case 15:
-                return 6;
+                return sufficientDistance ? 6 : 15;
             case 1:
             case 2:
             case 3:
@@ -41,11 +49,11 @@ export const SignalStrategy = new class {
             default:
                 return 0;
         }
+
     };
 
-    private getSignalStraight(endSignal: Signal, sufficientDistance: boolean): number {
-        const toSignalId = endSignal.getState();
-        switch (toSignalId) {
+    private getSignalStraight(endSignalId: number, sufficientDistance: boolean): number {
+        switch (endSignalId) {
             case 0:
             case 8:
             case 9:

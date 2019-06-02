@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Message } from '../definitions/interfaces';
+import Downloader from '../helpers/Downloader';
 
 interface State {
     messages?: Message[];
@@ -11,19 +12,25 @@ class MessageBox extends React.Component<State, {}> {
         const {messages} = this.props;
         const msgs = messages.map((message, index) => {
             let {entity, action, date, data, id} = message;
-
-            return (<div className="text text-white" key={index}>
-                [{(new Date(date)).toISOString()}]:
-                {action}-
-                {entity}-
-                {id}
+            const dateObject = new Date(date);
+            return (<div className="list-group-item" key={index}>
+                <div className="row">
+                    <small
+                        className="col-3">{dateObject.getHours()}:
+                        {dateObject.getMinutes()}:
+                        {dateObject.getSeconds()}.
+                        {dateObject.getMilliseconds()}
+                    </small>
+                    <span className="col-2">{action}</span>
+                    <span className="col-3">{entity}</span>
+                    <span className="col-2">{id}</span>
+                </div>
             </div>);
         });
-        return (
-            <div>
-                {msgs}
-            </div>
-        )
+        return (<div className="list-group list-scroll">
+            <Downloader/>
+            {msgs}
+        </div>)
     }
 }
 

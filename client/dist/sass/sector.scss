@@ -1,0 +1,41 @@
+@import "mixins/disconnect";
+
+@mixin sector($color) {
+  polyline {
+    stroke: $color;
+  }
+  text {
+    fill: $color;
+  }
+}
+
+.sector {
+  polyline {
+    /* stroke-linecap: round;*/
+    stroke-width: 3;
+  }
+
+  &.free {
+    @include sector(#555);
+  }
+
+  &.used {
+    @include sector(#f00);
+  }
+
+  &.in-train-route {
+    @include sector(#0f0);
+  }
+
+  &.in-movement-route {
+    @include sector(#ccc);
+  }
+
+  &.lockout {
+    @include sector(#ff0);
+  }
+
+  &.undefined {
+    @include sector($disconnect-color);
+  }
+}

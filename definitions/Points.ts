@@ -1,6 +1,7 @@
 export interface PointDefinition {
     name: string;
     id: number;
+    sector?: number;
     SVGData: {
         x: number;
         y: number;
@@ -12,27 +13,33 @@ export interface PointDefinition {
 
 export type pointPosition = -1 | 0 | 1;
 
+export type requestedPointPosition = -1 | 1;
+
 export const points: PointDefinition[] = [
     {
         name: '1',
         id: 1,
         SVGData: {x: 125, y: 60, rotate: 0, home: 1, dir: 'L'},
+        sector: 4001,
     },
     {
         name: '2',
         id: 2,
         SVGData: {x: 150, y: 0, rotate: 0, home: 1, dir: 'P'},
+        sector: 1002,
     },
     {
         name: '3',
         id: 3,
         SVGData: {x: 175, y: 30, rotate: 180, home: 1, dir: 'L'},
+        sector: 2002,
     },
 
     {
         name: '4',
         id: 4,
         SVGData: {x: 200, y: 30, rotate: 180, home: 1, dir: 'P'},
+        sector: 2002,
     },
     {
         name: '5',
@@ -48,6 +55,7 @@ export const points: PointDefinition[] = [
         name: '7',
         id: 7,
         SVGData: {x: 275, y: 0, rotate: 180, home: 1, dir: 'L'},
+        sector: 1003,
     },
     {
         name: '8',
@@ -58,6 +66,7 @@ export const points: PointDefinition[] = [
         name: '9',
         id: 9,
         SVGData: {x: 350, y: 0, rotate: 0, home: 1, dir: 'L'},
+        sector: 1004,
     },
     {
         name: '10',

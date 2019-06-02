@@ -22,7 +22,7 @@ class Options extends React.Component<State, {}> {
 
     public render() {
         const {onToggleSignal, displayState, onTogglePoints} = this.props;
-        return (<div className="row">
+        return (<div className="card-body row">
             <div className="col-6">
                 <h6>Toggle label on signals</h6>
                 {SignalTypes.getAllTypes().map((type: number) => {

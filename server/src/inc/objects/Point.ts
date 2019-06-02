@@ -16,10 +16,12 @@ export default class Point {
 
     public readonly id;
     private lockedBy: number[] = [];
+    public readonly sector;
 
     constructor(definition: PointDefinition) {
         this.id = definition.id;
         this._position = 0;
+        this.sector = definition.sector;
     }
 
     set position(value: 1 | 0 | -1) {
@@ -45,6 +47,16 @@ export default class Point {
             await this.changePosition(position);
         }
         this.addLocker(id);
+    }
+
+    public unlock(id: number) {
+        this.removeLocker(id);
+    }
+
+    public unlockBySector(id: number, sectorId: number) {
+        if (this.sector === sectorId) {
+            this.removeLocker(id);
+        }
     }
 
     private addLocker(id: number) {
@@ -74,7 +86,7 @@ export default class Point {
         return {
             id: this.id,
             state: this.position,
-            locked: !!this.lockedBy.length,
+            locked: this.lockedBy,
         };
     }
 

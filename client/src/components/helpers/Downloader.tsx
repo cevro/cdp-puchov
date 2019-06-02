@@ -39,7 +39,7 @@ class Downloader extends React.Component<State, {}> {
     }
 
     public render() {
-        return <div>
+        return <div className="list-group-item">
             {this.ws && this.getStateLabel(this.ws.readyState)}
         </div>;
     }
@@ -65,7 +65,6 @@ class Downloader extends React.Component<State, {}> {
         this.ws.onmessage = ({data}) => {
             const parsedData: Message = JSON.parse(data);
             this.props.onMessage(parsedData);
-            console.log(data);
         };
         this.ws.onclose = () => {
             this.props.onConnectionClose();

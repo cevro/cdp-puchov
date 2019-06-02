@@ -1,117 +1,79 @@
-import TrainRoute from '../objects/TrainRoute';
-import { SignalStrategy } from './SignalStrategy';
 import { logger } from '../../webSocetServer';
 import {
     Message,
     MESSAGE_ACTION_DUMP,
     TrainRouteBufferItem,
+    TrainRouteDump,
 } from '../../definitions/interfaces';
-import { connection } from 'websocket';
 import { NAVEST_STOJ } from '../../consts/signal/signals';
 import { STATUS_BUSY } from '../../consts/obvod/status';
+import TrainRouteLock from './TrainRouteLock';
 
 export const routeBuilder = new class {
     private readonly LOGGER_ENTITY = 'route-builder';
 
-    private locked: boolean = false;
+    private _locked: boolean = false;
 
     private buffer: TrainRouteLock[] = [];
 
-    public addToBuffer(trainRoute: TrainRoute): void {
-        const routeLock = new TrainRouteLock(trainRoute);
+    private hasError: boolean;
+
+    public addToBuffer(trainRouteId: number, buildOptions: any): void {
+        const routeLock = new TrainRouteLock(trainRouteId, buildOptions);
         this.buffer.push(routeLock);
         this.printBuffer();
         this.tryBuild();
     }
 
+    private get locked(): boolean {
+        return this._locked;
+    }
+
+    private set locked(value: boolean) {
+        this._locked = value;
+        this.printBuffer();
+    }
+
     public printBuffer(): void {
-        logger.log(this.dumpBuffer());
-    }
-
-    public printBufferSingle(connection: connection): void {
-        logger.logSingle(this.dumpBuffer(), connection);
-    }
-
-    private dumpBuffer(): Message {
-        return {
+        logger.log({
             id: 0,
             date: new Date(),
             action: MESSAGE_ACTION_DUMP,
             entity: this.LOGGER_ENTITY,
-            data: this.buffer.map((routeLock): TrainRouteBufferItem => {
-                return {
-                    id: routeLock.getId(),
-                    state: routeLock.state,
-                    name: routeLock.route.name,
-                };
+            data: this.dumpBuffer(),
+        });
+    }
+
+    public dumpBuffer(): TrainRouteDump {
+        return {
+            buffer: this.buffer.map((routeLock): TrainRouteBufferItem => {
+                return routeLock.dumpData();
             }),
-        };
+            hasError: this.hasError,
+            locked: this.locked,
+        }
     }
 
     private async build(routeLock: TrainRouteLock) {
-        const trainRoute = routeLock.route;
-        routeLock.state = routeLock.STATE_BUILDING;
-        this.printBuffer();
-
-        try {
-            const pointPositions = trainRoute.getPointPositions();
-            for (const id in pointPositions) {
-                const pointPosition = pointPositions[id];
-                await pointPosition.lock(routeLock.getId());
-            }
-
-            const sectors = trainRoute.getSectors();
-            for (const id in sectors) {
-                const sector = sectors[id];
-                sector.lock(routeLock.getId());
-            }
-            trainRoute.startSignal.state = SignalStrategy.calculate(trainRoute.endSignal, trainRoute.speed, true);
-            routeLock.state = routeLock.STATE_BUILT;
-            this.printBuffer();
+        if (this.hasError) {
+            return;
         }
-
-        catch (e) {
-            this.rollBack(trainRoute);
-        }
-
-
+        await routeLock.build(this);
     }
 
     private async tryBuild(): Promise<void> {
-        if (this.locked) {
+        if (this.hasError || this.locked) {
             return;
         }
-        if (!this.buffer.length) {
+
+        const routeLock = this.findFirstNotBuiltRoute();
+        if (!routeLock) {
             return;
         }
 
         this.locked = true;
 
-        const routeLock = this.findFirstNotBuiltRoute();
-
-        this.printBuffer();
-
-        const trainRoute = routeLock.route;
-
-        const pointPositions = trainRoute.getPointPositions();
-        try {
-            for (const id in pointPositions) {
-                const pointPosition = pointPositions[id];
-                pointPosition.check();
-            }
-            const sectors = trainRoute.getSectors();
-            for (const id in sectors) {
-                const sector = sectors[id];
-                sector.check();
-            }
-        } catch (e) {
-            logger.log({
-                id: 0,
-                date: new Date(),
-                entity: this.LOGGER_ENTITY,
-                action: 'error',
-                data: e.message,
-            });
+        if (!routeLock.check()) {
             this.locked = false;
             return;
         }
@@ -119,12 +81,14 @@ export const routeBuilder = new class {
         await this.build(routeLock);
 
         this.locked = false;
+
+        this.refreshRoutes();
         this.tryBuild();
     }
 
     private findFirstNotBuiltRoute(): TrainRouteLock {
         const routes = this.buffer.filter((lock) => {
-            return lock.state === lock.STATE_WAITING;
+            return lock.state === TrainRouteLock.STATE_WAITING;
         });
         if (routes.length) {
             return routes[0];
@@ -132,73 +96,103 @@ export const routeBuilder = new class {
         return null;
     }
 
-    public rollBack(trainRoute: TrainRoute) {
+    public refreshRoutes() {
+        for (let i = 0; i < this.buffer.length; i++) {
+            this.buffer.forEach((locker) => {
+                this.refreshRoute(locker);
+            });
+        }
     }
 
+    private handleRequest(message: Message) {
+        switch (message.action) {
+            case 'build':
+                return this.addToBuffer(message.data.id, message.data.buildOptions);
+        }
+    }
 
     public dateRetrieve(message: Message) {
-        this.buffer.forEach((locker) => {
-            this.refreshRoute(locker);
-        });
+        if (message.entity === 'route-builder') {
+            this.handleRequest(message);
+        }
+
+        this.refreshRoutes();
         this.tryBuild();
     }
 
     private refreshRoute(locker: TrainRouteLock) {
+        if (locker.state !== TrainRouteLock.STATE_BUILT) {
+            return;
+        }
+        const trainRoute = locker.route;
+        if (this.hasError) {
+            trainRoute.startSignal.state = NAVEST_STOJ;
+            return;
+        }
+
         const sectors = locker.route.getSectors();
+
         let isFree = true;
         for (const id in sectors) {
             const sector = sectors[id];
-            isFree = isFree && sector.isFree();
+            isFree = isFree && sector.isFreeAndAllocated(locker.getId());
         }
-        if (!isFree) {
+        if (isFree) {
+            trainRoute.recalculateSignal(locker.buildOptions);
+            return;
+        } else {
             locker.route.startSignal.state = NAVEST_STOJ;
-        }
 
+            let busyIndex = 0;
+            for (const index in sectors) {
+                const sector = sectors[index];
+                /* if (sector.isFreeAndAllocated(locker.getId())) {
+                     this.handleError('');
+                 }*/
+                if (sector.state === STATUS_BUSY) {
+                    // posledný sektor znamená zhodenie VC
+                    if (sector.id === trainRoute.endSector.id) {
+                        this.destroyRoute(locker);
+                    }
+                    busyIndex = +index;
+                    break;
+                }
 
-        let busyIndex = 0;
-        for (const index in sectors) {
-            const sector = sectors[index];
-            console.log(sector.state);
-            if (sector.state === STATUS_BUSY) {
-                busyIndex = +index;
-                break;
+            }
+            /*
+            for (let i = 0; i < busyIndex; i++) {
+                if (sectors[i].locked == locker.getId()) {
+                    console.log('Error');
+                    return;
+                }
+            }*/
+            const unalockIndex = busyIndex - 1;
+            if (sectors.hasOwnProperty(unalockIndex)) {
+                if (sectors[unalockIndex].locked == locker.getId()) {
+                    locker.route.pointPositions.forEach((pointPosition) => {
+                        pointPosition.unlockBySector(locker.getId(), sectors[unalockIndex].id);
+                    });
+                    sectors[unalockIndex].unlock(locker.getId());
+                }
             }
         }
-        console.log('' + busyIndex + 'busyindex');
-        for (let i = 0; i < busyIndex; i++) {
-            if (sectors[i].locked == locker.getId()) {
-                sectors[i].locked = null;
-            }
-        }
 
+    }
+
+    public handleError(message: string) {
+        this.hasError = true;
+        console.log('route builder hadle error');
+        this.refreshRoutes();
+    }
+
+    public destroyRoute(locker: TrainRouteLock) {
+        locker.destroyRoute();
+
+        this.buffer = this.buffer.filter((bufferLock) => {
+            return locker.getId() !== bufferLock.getId();
+        });
+        this.printBuffer();
     }
 
 };
 
-class TrainRouteLock {
-    public readonly route: TrainRoute;
-    private readonly id: number;
-    public state: string;
-
-    public readonly STATE_WAITING = 'waiting';
-    public readonly STATE_BUILDING = 'building';
-    public readonly STATE_BUILT = 'built';
-
-    constructor(route: TrainRoute) {
-        this.route = route;
-        this.id = (new Date()).getTime();
-        this.state = this.STATE_WAITING;
-
-        logger.log({
-            date: new Date(),
-            action: 'create',
-            entity: 'locker',
-            id: this.id,
-            data: null,
-        });
-    }
-
-    public getId(): number {
-        return this.id;
-    }
-}

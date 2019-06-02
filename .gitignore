@@ -10,3 +10,7 @@ client/dist/bundle.min.js.map
 !/server/tsconfig.json
 !/server/package.json
 /definitions/
+!/client/dist/sass/
+/client/dist/bundle.css
+/client/dist/bundle.css.map
+/client/dist/js/

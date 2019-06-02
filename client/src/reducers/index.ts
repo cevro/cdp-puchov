@@ -4,7 +4,10 @@ import {
     ObjectState,
     objectState,
 } from './objectState';
-import { routeBuilder } from './route-builder';
+import {
+    routeBuilder,
+    State as RouteBuilderState,
+} from './routeBuilder';
 import { signalsContextMenu } from './signal-context-menu';
 import {
     displayOptions,
@@ -29,4 +32,5 @@ export interface Store {
     displayOptions: displayOptionsState;
     objectState: ObjectState;
     toSendBuffer: toSendBufferState;
+    routeBuilder: RouteBuilderState;
 }

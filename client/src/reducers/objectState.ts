@@ -10,9 +10,10 @@ import {
     PointState,
     SectorState,
     SignalState,
+    TrainRouteDump,
 } from '../components/definitions/interfaces';
 
-interface SignalsState {
+export interface SignalsState {
     [id: number]: SignalState;
 }
 
@@ -20,7 +21,7 @@ export interface SectorsState {
     [id: number]: SectorState;
 }
 
-interface PointsState {
+export interface PointsState {
     [id: number]: PointState;
 }
 
@@ -28,7 +29,7 @@ export interface ObjectState {
     signals: SignalsState;
     sectors: SectorsState;
     points: PointsState;
-    trainRouteBuffer: any[];
+    trainRoute: TrainRouteDump;
 }
 
 const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
@@ -59,7 +60,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
 };
 const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData>): ObjectState => {
     const {
-        data: {sectors, signals, points},
+        data: {sectors, signals, points, routeBuilder},
     } = action.data;
 
     const sectorsData = {};
@@ -82,6 +83,7 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData
         sectors: sectorsData,
         signals: signalsData,
         points: pointsData,
+        trainRoute: routeBuilder,
     };
 };
 
@@ -118,19 +120,22 @@ const pointRetrieve = (store: ObjectState, action: ActionMessageRetrieve<PointSt
     };
 };
 
-const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<any[]>): ObjectState => {
+const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<TrainRouteDump>): ObjectState => {
     const {data} = action.data;
     return {
         ...store,
-        trainRouteBuffer: data,
+        trainRoute: data,
     };
 };
 
-const initState = {
+const initState: ObjectState = {
     signals: {},
     sectors: {},
     points: {},
-    trainRouteBuffer: [],
+    trainRoute: {
+        buffer: [],
+        hasError: false,
+    },
 };
 
 export const objectState = (state: ObjectState = initState, action): ObjectState => {
