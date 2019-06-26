@@ -20,9 +20,11 @@ interface Props {
 
 interface State {
     stateObject?: SignalState;
-    onSignalSelect?: (id: number) => void;
-    onSignalContextMenu?: (id: number) => void;
     displayLabel?: boolean;
+
+    onSignalSelect?(id: number): void;
+
+    onSignalContextMenu?(id: number, coordinates: { x: number, y: number }): void;
 }
 
 class Signal extends React.Component<Props & State, {}> {
@@ -49,7 +51,7 @@ class Signal extends React.Component<Props & State, {}> {
                 }}
                 onContextMenu={(event) => {
                     event.preventDefault();
-                    onSignalContextMenu(id);
+                    onSignalContextMenu(id, {x: event.pageX, y: event.pageY});
                     return false;
                 }}
             >
@@ -117,7 +119,7 @@ const mapStateToProps = (state: Store, ownProps: Props): State => {
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
         onSignalSelect: (id: number) => dispatch(signalSelect(id)),
-        onSignalContextMenu: (id: number) => dispatch(onSignalContextMenu(id)),
+        onSignalContextMenu: (id: number, coordinates: { x: number, y: number }) => dispatch(onSignalContextMenu(id, coordinates)),
     };
 };
 

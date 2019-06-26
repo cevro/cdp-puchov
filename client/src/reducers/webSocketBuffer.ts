@@ -37,7 +37,7 @@ const removeFromBuffer = (state: State, action): State => {
     };
 };
 
-export const toSendBuffer = (state: State = {index: 0, messages: {}}, action): State => {
+export const webSocket = (state: State = {index: 0, messages: {}}, action): State => {
     const {type} = action;
     switch (type) {
         case ACTION_MESSAGE_SEND:

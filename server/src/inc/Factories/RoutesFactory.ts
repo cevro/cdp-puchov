@@ -3,8 +3,9 @@ import { routes } from '../../data/puchov/routes/1L';
 import { Message } from '../../../../definitions/interfaces';
 import { RouteFinderRequest } from '../../definitions/interfaces';
 import { logger } from '../../webSocetServer';
+import { DataRecierver } from './DateReceiver';
 
-export const routesFactory = new class {
+class RoutesFactory implements DataRecierver {
     private readonly routes: TrainRoute[];
 
     constructor() {
@@ -28,20 +29,27 @@ export const routesFactory = new class {
         return null;
     }
 
-    public dateReceive(message: Message) {
-        if (message.entity === 'route-finder') {
-            switch (message.action) {
-                case 'find':
-                    const data: RouteFinderRequest = message.data;
-                    const routes = this.findRoute(data.startSignalId, data.endSectorId);
-                    logger.log({
-                        date: new Date(),
-                        id: 0,
-                        entity: 'route-finder',
-                        action: 'found',
-                        data: {routes},
-                    });
-            }
+    private handelFindRoute(message: Message<{ startSignalId: number, endSectorId: number }>): void {
+        const data: RouteFinderRequest = message.data;
+        const routes = this.findRoute(data.startSignalId, data.endSectorId);
+        logger.log({
+            date: new Date(),
+            id: 0,
+            entity: 'route-finder',
+            action: 'found',
+            data: {routes},
+        });
+    }
+
+    public dataReceive(message: Message): void {
+        if (message.entity !== 'route-finder') {
+            return;
+        }
+        switch (message.action) {
+            case 'find':
+                return this.handelFindRoute(message);
         }
     }
-};
+}
+
+export const routesFactory = new RoutesFactory();

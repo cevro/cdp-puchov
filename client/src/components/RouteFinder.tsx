@@ -12,7 +12,8 @@ import { findRoute } from '../actions/routeBuilder';
 interface State {
     startSignal?: number;
     endSector?: number;
-    onFindRoute?: (signalId: number, sectorId: number) => void;
+
+    onFindRoute?(signalId: number, sectorId: number): void;
 }
 
 class RouteFinder extends React.Component<State, {}> {

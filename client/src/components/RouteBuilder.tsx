@@ -9,10 +9,11 @@ import { buildRoute } from '../actions/routeBuilder';
 import { BuildOptions } from './definitions/interfaces';
 
 interface State {
-    onBuildRoute?: (id: number, buildOptions: any) => void;
     availableRoutes?: any[];
     startSignal?: number;
     endSector?: number;
+
+    onBuildRoute?(id: number, buildOptions: any): void;
 }
 
 class RouteBuilder extends React.Component<State, BuildOptions> {

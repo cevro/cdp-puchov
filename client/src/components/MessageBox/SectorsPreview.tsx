@@ -11,7 +11,7 @@ import { changeSector } from '../../actions/webSocets';
 
 interface State {
     sectors?: SectorsState;
-    onChangeSector?: (id: number, state: number) => void;
+    onChangeSector?(id: number, state: number): void;
 }
 
 class SectorsPreview extends React.Component<State, {}> {

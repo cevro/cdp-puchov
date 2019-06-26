@@ -5,7 +5,6 @@ import {
     MESSAGE_ACTION_STATE_UPDATE,
     TrainRouteBufferItem,
 } from '../../definitions/interfaces';
-import RouteBuilder from '../../../../client/src/components/RouteBuilder';
 
 export default class TrainRouteLock {
     public readonly route: TrainRoute;
@@ -86,7 +85,7 @@ export default class TrainRouteLock {
         return true;
     }
 
-    public async build(routeBuilder: RouteBuilder) {
+    public async build(routeBuilder: any) {
 
         const trainRoute = this.route;
         this.state = TrainRouteLock.STATE_BUILDING;

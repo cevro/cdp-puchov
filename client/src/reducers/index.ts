@@ -8,29 +8,33 @@ import {
     routeBuilder,
     State as RouteBuilderState,
 } from './routeBuilder';
-import { signalsContextMenu } from './signal-context-menu';
+import {
+    signalContextMenu,
+    State as SignalContextState,
+} from './signalContextMenu';
 import {
     displayOptions,
     displayOptionsState,
 } from './displayOptions';
 import {
-    State as toSendBufferState,
-    toSendBuffer,
+    State as WebSocketState,
+    webSocket,
 } from './webSocketBuffer';
 
 export const app = combineReducers({
     messages,
-    toSendBuffer,
-    // routes,
+    webSocket,
     objectState,
     routeBuilder,
-    signalsContextMenu,
+    signalContextMenu,
     displayOptions,
 });
 
 export interface Store {
     displayOptions: displayOptionsState;
     objectState: ObjectState;
-    toSendBuffer: toSendBufferState;
+    webSocket: WebSocketState;
+    signalContextMenu: SignalContextState
     routeBuilder: RouteBuilderState;
+    messages: any[];
 }

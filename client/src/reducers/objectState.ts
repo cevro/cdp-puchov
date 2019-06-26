@@ -29,7 +29,7 @@ export interface ObjectState {
     signals: SignalsState;
     sectors: SectorsState;
     points: PointsState;
-    trainRoute: TrainRouteDump;
+    routeBuilder: TrainRouteDump;
 }
 
 const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
@@ -83,7 +83,7 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData
         sectors: sectorsData,
         signals: signalsData,
         points: pointsData,
-        trainRoute: routeBuilder,
+        routeBuilder: routeBuilder,
     };
 };
 
@@ -124,7 +124,7 @@ const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<
     const {data} = action.data;
     return {
         ...store,
-        trainRoute: data,
+        routeBuilder: data,
     };
 };
 
@@ -132,9 +132,10 @@ const initState: ObjectState = {
     signals: {},
     sectors: {},
     points: {},
-    trainRoute: {
+    routeBuilder: {
         buffer: [],
         hasError: false,
+        locked: false,
     },
 };
 

@@ -13,9 +13,11 @@ import { SignalTypes } from '../definitions/Signals';
 import { displayOptionsState } from '../../reducers/displayOptions';
 
 interface State {
-    onToggleSignal?: (type: number) => void;
-    onTogglePoints?: () => void;
     displayState?: displayOptionsState;
+
+    onToggleSignal?(type: number): void;
+
+    onTogglePoints?(): void;
 }
 
 class Options extends React.Component<State, {}> {

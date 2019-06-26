@@ -1,4 +1,7 @@
-import { pointPosition } from './Points';
+import {
+    pointPosition,
+    requestedPointPosition,
+} from './Points';
 
 export interface Message<T = any> {
     entity: string;
@@ -24,8 +27,10 @@ export interface TrainRouteBufferItem {
 
 export interface PointState {
     id: number;
-    state: pointPosition;
+    position: pointPosition;
+    requestedPosition: requestedPointPosition;
     locked: number[];
+    changing: boolean;
 }
 
 export interface SectorState {

@@ -48,6 +48,7 @@ export const findRoute = (dispatch: Dispatch<Action<string>>, startSignalId: num
     }));
 };
 export const buildRoute = (dispatch: Dispatch<Action<string>>, id: number, buildOptions: any) => {
+    dispatch(clearSelect());
     return dispatch(onSendMessage({
         action: 'build',
         entity: 'route-builder',

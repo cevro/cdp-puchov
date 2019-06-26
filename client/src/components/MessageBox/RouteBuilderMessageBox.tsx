@@ -65,7 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
 
 const mapStateToProps = (store: Store): State => {
     return {
-        trainRoute: store.objectState.trainRoute,
+        trainRoute: store.objectState.routeBuilder,
     };
 };
 

@@ -9,13 +9,15 @@ import {
 import { Store } from '../../reducers';
 
 interface State {
-    onMessage?: (data: Message) => void;
-    onRegisterAvailableRoutes?: (data) => void;
-    onConnectionClose?: () => void;
     messagesToSend?: {
         [key: number]: Message;
     };
-    onSuccessSend?: (id: string) => void;
+
+    onMessage?(data: Message): void;
+
+    onConnectionClose?(): void;
+
+    onSuccessSend?(id: string): void;
 }
 
 class Downloader extends React.Component<State, {}> {
@@ -26,11 +28,12 @@ class Downloader extends React.Component<State, {}> {
     }
 
     public componentDidUpdate() {
-        for (const index in this.props.messagesToSend) {
+        const {messagesToSend, onSuccessSend} = this.props;
+        for (const index in messagesToSend) {
             if (this.props.messagesToSend.hasOwnProperty(index)) {
                 try {
                     this.ws.send(JSON.stringify(this.props.messagesToSend[index]));
-                    this.props.onSuccessSend(index);
+                    onSuccessSend(index);
                 } catch (e) {
                     console.log(e);
                 }
@@ -96,7 +99,7 @@ const mapDispatchToProps = (dispatch): State => {
 };
 const mapStateToProps = (store: Store): State => {
     return {
-        messagesToSend: store.toSendBuffer.messages,
+        messagesToSend: store.webSocket.messages,
     };
 };
 

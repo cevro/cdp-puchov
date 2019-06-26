@@ -1,65 +1,79 @@
 #include "Arduino.h"
 
-class Navestidlo {
-  private:
+class Signal {
+private:
+    int id;
     int scomPin;
     uint8_t mask;
-    int data = 5;
+    int state = 5;
     int lockTime;
     uint8_t status = 1;
 
-  public:
+    Signal(int scomPin, id) : scomPin(scomPin), id(id) {};
+
+public:
 
     void setNavest(int id) {
-      this->data = id ;
-      this->mask = 0x00000001;
+        //  Serial.print('C');
+        // Serial.println(id);
+        this->state = id;
+        this->mask = 0x00000001;
     }
 
-  public:
+    void setState(int id) {
+        this->state = id;
+        this->mask = 0x00000001;
+    }
+
+public:
     void clock() {
-      if (this->lockTime < 300) {
-        this->lockTime += 10;
-        return;
-      }
+        //Serial.println(this->data);
+        if (this->lockTime < 300) {
+            this->lockTime += 10;
+            return;
+        }
+        switch (this->status) {
+            case 1:
+                digitalWrite(this->scomPin, LOW);
+                this->status = 2;
+                break;
+            case 2:
+                digitalWrite(this->scomPin, HIGH);
+                this->status = 3;
+                this->mask = 0x00000001;
+                break;
+            case 3:
 
-      switch (this->status) {
-        case 1:
-          digitalWrite(this->scomPin, LOW);
-          this->status = 2;
-          break;
-        case 2:
-          digitalWrite(this->scomPin, HIGH);
-          this->status = 3;
-          this->mask = 0x00000001;
-          break;
-        case 3:
-          digitalWrite(this->scomPin, (this->data & this->mask) ? HIGH : LOW);
-          this->mask <<= 1;
-          if (!this->mask) {
-            this->status = 4;
-          }
-          break;
-        case 4:
-          digitalWrite(this->scomPin, HIGH);
-          this->lockTime = 0;
+                digitalWrite(this->scomPin, (this->state & this->mask) ? HIGH : LOW);
+                this->mask <<= 1;
+                if (!this->mask) {
+                    this->status = 4;
+                }
+                break;
+            case 4:
+                digitalWrite(this->scomPin, HIGH);
+                this->lockTime = 0;
 
-          this->status = 1;
-          break;
-      }
+                this->status = 1;
+                break;
+        }
     }
 
-  public:
+public:
 
     int getNavest() {
-      //Serial.println(this->data);
-      return this->data;
+        return this->state;
     }
 
-  public:
+    int getState() {
+        return this->state;
+    }
+
+public:
 
     void setPin(int pin) {
-      this->scomPin = pin;
-      pinMode(pin, OUTPUT);
-      digitalWrite(this->scomPin, HIGH);
+        this->scomPin = pin;
+        pinMode(pin, OUTPUT);
+        digitalWrite(this->scomPin, HIGH);
     }
-} ;
+};

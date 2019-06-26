@@ -11,6 +11,7 @@ import {
     DumpData,
     MESSAGE_ACTION_DUMP,
 } from './definitions/interfaces';
+import { DataRecierver } from './inc/Factories/DateReceiver';
 import { routesFactory } from './inc/Factories/RoutesFactory';
 
 const http = require('http');
@@ -40,38 +41,40 @@ const initClient = (connection: connection) => {
     connection.send(JSON.stringify(message));
 };
 
-const wsServer = new server({
-    httpServer: httpServer,
-    autoAcceptConnections: false,
-});
-wsServer.on('request', (request) => {
-
-    const connection = request.accept('echo-protocol', request.origin);
-    initClient(connection);
-
-    connection.on('message', (message) => {
-        if (message.type === 'utf8') {
-            const data = JSON.parse(message.utf8Data);
-            console.log(data);
-            sectorFactory.dataReceive(data);
-            routesFactory.dateReceive(data);
-            routeBuilder.dateRetrieve(data);
-        }
-    });
-    connection.on('close', (reasonCode, description) => {
-    });
-});
-
-export default wsServer;
-
 export const logger = new class {
-    public log(message: Message) {
-        wsServer.broadcast(JSON.stringify(message));
-        // console.log('[' + message.date.toISOString() + ']: ' + JSON.stringify(message));
+    private wsServer: server;
+    private dataReceivers: DataRecierver[] = [
+        routesFactory,
+        routeBuilder,
+        pointFactory,
+        sectorFactory,
+    ];
+
+    public run() {
+        this.wsServer = new server({
+            httpServer: httpServer,
+            autoAcceptConnections: false,
+        });
+        this.wsServer.on('request', (request) => {
+
+            const connection = request.accept('echo-protocol', request.origin);
+            initClient(connection);
+
+            connection.on('message', (message) => {
+                if (message.type === 'utf8') {
+                    const data = JSON.parse(message.utf8Data);
+                    this.dataReceivers.forEach((dataReceiver) => {
+                        dataReceiver.dataReceive(data);
+                    });
+                }
+            });
+            connection.on('close', (reasonCode, description) => {
+            });
+        });
     }
 
-    public logSingle(message: Message, connection: connection) {
-        connection.send(JSON.stringify(message));
-        //  console.log('[' + message.date.toISOString() + ']: ' + JSON.stringify(message));
+    public log(message: Message) {
+        this.wsServer.broadcast(JSON.stringify(message));
+        // console.log('[' + message.date.toISOString() + ']: ' + JSON.stringify(message));
     }
 };

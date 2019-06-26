@@ -11,9 +11,10 @@ export interface PointDefinition {
     };
 }
 
-export type pointPosition = -1 | 0 | 1;
 
 export type requestedPointPosition = -1 | 1;
+
+export type pointPosition = requestedPointPosition | 0;
 
 export const points: PointDefinition[] = [
     {
@@ -281,7 +282,7 @@ export const points: PointDefinition[] = [
 
 export const getPointById = (id: number): PointDefinition => {
     return points.filter((point) => {
-        return point.id == id;
+        return point.id === id;
     })[0];
 };
 

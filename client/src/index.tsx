@@ -8,7 +8,6 @@ import {
 } from 'redux';
 import { app } from './reducers/';
 import MessageBox from './components/MessageBox/MessageBox';
-import SignalContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
 import Options from './components/Options/Options';
 import Scheme from './components/Scheme/Index';
 import RouteBuilderMessageBox from './components/MessageBox/RouteBuilderMessageBox';
@@ -16,6 +15,8 @@ import SectorsPreview from './components/MessageBox/SectorsPreview';
 import PointsPreview from './components/MessageBox/PointsPreview';
 import Card from './components/helpers/Card';
 import Routes from './components/MessageBox/Routes';
+import SignalsPreview from './components/MessageBox/SignalsPreview';
+import ContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
 
 class Main extends React.Component<{}, {}> {
 
@@ -26,27 +27,11 @@ class Main extends React.Component<{}, {}> {
                 <div className="container-fluid">
 
                     <div className="row col-12 top-panel">
-                        <div className="col-1">
-                            <SignalContextMenu/>
-                        </div>
                         <div className="col-3">
                             <Card name={'Messages'}>
                                 <MessageBox/>
                             </Card>
                         </div>
-
-                        <div className="offset-5 col-3">
-                            <Card name={'Options'}>
-                                <Options/>
-                            </Card>
-                        </div>
-                    </div>
-
-                    <div className="col-12">
-                        <Scheme/>
-                    </div>
-
-                    <div className="row col-12 bottom-panel">
                         <div className="col-3">
                             <Card name={'Routes'}>
                                 <Routes/>
@@ -57,19 +42,36 @@ class Main extends React.Component<{}, {}> {
                                 <RouteBuilderMessageBox/>
                             </Card>
                         </div>
+                    </div>
+
+                    <div className="col-12">
+                        <Scheme/>
+                    </div>
+                    <div className="row col-12 bottom-panel">
+                        <div className="col-3">
+                            <Card name={'Signals'}>
+                                <SignalsPreview/>
+                            </Card>
+                        </div>
                         <div className="col-3">
                             <Card name={'Sectors'}>
                                 <SectorsPreview/>
                             </Card>
                         </div>
-
                         <div className="col-3">
                             <Card name={'Points'}>
                                 <PointsPreview/>
                             </Card>
                         </div>
+                        <div className="col-3">
+                            <Card name={'Options'}>
+                                <Options/>
+                            </Card>
+                        </div>
                     </div>
                 </div>
+
+                <ContextMenu/>
             </Provider>
         );
     }

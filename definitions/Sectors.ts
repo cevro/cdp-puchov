@@ -553,6 +553,6 @@ export const sectors: SectorDefinition[] = [
 
 export const getSectorById = (id: number): SectorDefinition => {
     return sectors.filter((sector) => {
-        return sector.id == id;
+        return sector.id === id;
     })[0];
 };

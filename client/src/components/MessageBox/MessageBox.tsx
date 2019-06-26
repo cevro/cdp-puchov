@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Message } from '../definitions/interfaces';
 import Downloader from '../helpers/Downloader';
+import { Store } from '../../reducers';
 
 interface State {
     messages?: Message[];
@@ -34,7 +35,7 @@ class MessageBox extends React.Component<State, {}> {
     }
 }
 
-const mapStateToProps = (state): State => {
+const mapStateToProps = (state: Store): State => {
     return {
         messages: state.messages,
     };

@@ -11,8 +11,9 @@ interface Props {
 
 interface State {
     stateObject?: PointState;
-    onPointClick?: (id: number) => void;
     displayLabel?: boolean;
+
+    onPointClick?(id: number): void;
 }
 
 class Point extends React.Component<Props & State, {}> {
@@ -25,10 +26,10 @@ class Point extends React.Component<Props & State, {}> {
                 SVGData: {x, y, rotate, home, dir},
             },
         } = this.props;
-        const state = stateObject ? stateObject.state : undefined;
+        const state = stateObject ? stateObject.position : undefined;
         const locked = stateObject ? stateObject.locked : [];
         return (
-            <g className={'point ' + this.getStateClassName(state, !!locked.length)}
+            <g className={'point ' + this.getStateClassName(state, !!locked.length, stateObject ? stateObject.changing : false)}
                transform={'translate(' + x + ',' + y + ')'}>
                 {displayLabel && <g transform={'translate(0,-10)'}>
                     <text>{name}</text>
@@ -45,8 +46,8 @@ class Point extends React.Component<Props & State, {}> {
         );
     }
 
-    private getStateClassName(state: number | null, lock: boolean): string {
-        if (state === 0) {
+    private getStateClassName(state: number | null, lock: boolean, changing: boolean): string {
+        if (changing) {
             return 'changing';
         }
         if (!state) {

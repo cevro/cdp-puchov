@@ -1,5 +1,6 @@
 import { logger } from '../../webSocetServer';
 import {
+    BuildOptions,
     Message,
     MESSAGE_ACTION_DUMP,
     TrainRouteBufferItem,
@@ -8,8 +9,9 @@ import {
 import { NAVEST_STOJ } from '../../consts/signal/signals';
 import { STATUS_BUSY } from '../../consts/obvod/status';
 import TrainRouteLock from './TrainRouteLock';
+import { DataRecierver } from './DateReceiver';
 
-export const routeBuilder = new class {
+class RouteBuilder implements DataRecierver {
     private readonly LOGGER_ENTITY = 'route-builder';
 
     private _locked: boolean = false;
@@ -104,17 +106,18 @@ export const routeBuilder = new class {
         }
     }
 
-    private handleRequest(message: Message) {
+    private handleRequest(message: Message<{ id: number, buildOptions: BuildOptions }>) {
         switch (message.action) {
             case 'build':
                 return this.addToBuffer(message.data.id, message.data.buildOptions);
         }
     }
 
-    public dateRetrieve(message: Message) {
-        if (message.entity === 'route-builder') {
-            this.handleRequest(message);
+    public dataReceive(message: Message): void {
+        if (message.entity !== 'route-builder') {
+            return;
         }
+        this.handleRequest(message);
 
         this.refreshRoutes();
         this.tryBuild();
@@ -194,5 +197,6 @@ export const routeBuilder = new class {
         this.printBuffer();
     }
 
-};
+}
 
+export const routeBuilder = new RouteBuilder();

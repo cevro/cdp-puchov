@@ -11,6 +11,9 @@ export default class Signal {
     private _state: number;
 
     set state(value: number) {
+        if (value === this._state) {
+            return;
+        }
         this._state = value;
         this.sendState();
     }

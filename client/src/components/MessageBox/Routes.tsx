@@ -11,7 +11,8 @@ import { Store } from '../../reducers';
 
 interface State {
     availableRoutes?: any[];
-    onClearSelect?: () => void;
+
+    onClearSelect?(): void;
 }
 
 class Routes extends React.Component<State, {}> {
@@ -21,11 +22,11 @@ class Routes extends React.Component<State, {}> {
 
     public render() {
 
-        const {availableRoutes} = this.props;
+        const {availableRoutes, onClearSelect} = this.props;
         return <>
             {availableRoutes.length ? <RouteBuilder/> : <RouteFinder/>}
             <button onClick={() => {
-                this.props.onClearSelect()
+                onClearSelect()
             }} className="btn btn-warning">Clear
             </button>
         </>
@@ -35,8 +36,7 @@ class Routes extends React.Component<State, {}> {
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
         onClearSelect: () => dispatch(clearSelect()),
-    }
-        ;
+    };
 };
 
 const mapStateToProps = (store: Store): State => {

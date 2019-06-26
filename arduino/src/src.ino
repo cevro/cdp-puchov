@@ -30,7 +30,7 @@
     }
 };
 */
-Navestidlo* N[4];
+Navestidlo N[6];
 
 //KolajObvod* O[2] = {new KolajObvod(), new KolajObvod()};
 
@@ -44,10 +44,10 @@ void setup() {
  // O[0]->setPin(A0);
  // O[2]->setPin(A1);
 
-  N[0]->setPin(11);
-  N[1]->setPin(10);
-  N[2]->setPin(9);
-  N[3]->setPin(8);
+  N[0].setPin(11);
+  N[1].setPin(10);
+  N[2].setPin(9);
+  N[3].setPin(8);
 
 }
 char tmp[10];
@@ -58,7 +58,7 @@ void loop() {
 
     memset(tmp, 0, sizeof(tmp));
 
-    Serial.readBytes(tmp, 10);
+    Serial.readBytesUntil(';',tmp, 10);
     Serial.println(tmp);
     char* data = strtok(tmp, ":")    ;
     char* results[3] ;
@@ -80,7 +80,8 @@ void loop() {
           Serial.println(N[addr]->getNavest());
         } else {*/
           int status = String(results[2]).toInt();
-          N[addr]->setNavest(status);
+          N[addr].setNavest(status);
+          Serial.println(N[addr].getNavest());
        // }
   //      break;
     /*  case'o':
@@ -128,11 +129,11 @@ void loop() {
     }
   }
 */
-  for (int i = 0; i < 4; i++) {
-    N[i]->clock();
-    //Serial.print(i);
-    //Serial.print(":");
-    //Serial.println(N[i]->getNavest());
+  for (int i = 0; i < 6; i++) {
+    N[i].clock();
+    Serial.print(i);
+    Serial.print(":");
+   Serial.println(N[i].getNavest());
   }
  // O[0]->clock();
 

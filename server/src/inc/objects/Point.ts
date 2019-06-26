@@ -2,6 +2,7 @@ import { logger } from '../../webSocetServer';
 import {
     PointDefinition,
     pointPosition,
+    requestedPointPosition,
 } from '../../definitions/Points';
 import { PointLockedError } from '../Exceptions/Errors';
 import {
@@ -12,7 +13,8 @@ import {
 export default class Point {
     public TYPE_NAME = 'point';
 
-    private _position: 1 | 0 | -1 = 0;
+    private _position: pointPosition;
+    private _requestedPosition: requestedPointPosition;
 
     public readonly id;
     private lockedBy: number[] = [];
@@ -22,9 +24,10 @@ export default class Point {
         this.id = definition.id;
         this._position = 0;
         this.sector = definition.sector;
+        this._requestedPosition = null;
     }
 
-    set position(value: 1 | 0 | -1) {
+    set position(value: pointPosition) {
         this._position = value;
         this.sendState();
     }
@@ -33,7 +36,20 @@ export default class Point {
         return this._position;
     }
 
-    public check(position: pointPosition): void {
+    set requestedPosition(value: requestedPointPosition) {
+        this._requestedPosition = value;
+        this.sendState();
+    }
+
+    get requestedPosition(): requestedPointPosition {
+        return this._requestedPosition;
+    }
+
+    get changing(): boolean {
+        return this._requestedPosition !== this._position;
+    }
+
+    public check(position: requestedPointPosition): void {
         if (this.position == position) {
             return;
         }
@@ -42,7 +58,7 @@ export default class Point {
         }
     }
 
-    public async lock(id: number, position: 1 | -1) {
+    public async lock(id: number, position: requestedPointPosition) {
         if (this.position !== position) {
             await this.changePosition(position);
         }
@@ -71,13 +87,14 @@ export default class Point {
         this.sendState();
     }
 
-    public async changePosition(position: 1 | -1) {
+    public async changePosition(position: requestedPointPosition) {
 
         if (this.lockedBy.length > 0) {
             throw new Error();
         }
+        this.requestedPosition = position;
         await new Promise((resolve) => {
-            setTimeout(() => resolve(), 500);
+            setTimeout(() => resolve(), 5000);
         });
         this.position = position;
     }
@@ -85,12 +102,14 @@ export default class Point {
     public dumpData(): PointState {
         return {
             id: this.id,
-            state: this.position,
+            position: this.position,
+            requestedPosition: this.requestedPosition,
             locked: this.lockedBy,
+            changing: this.changing,
         };
     }
 
-    public sendState() {
+    public sendState(): void {
         logger.log({
             action: MESSAGE_ACTION_STATE_UPDATE,
             entity: this.TYPE_NAME,

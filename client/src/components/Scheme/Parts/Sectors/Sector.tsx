@@ -15,15 +15,16 @@ interface Props {
 
 interface State {
     stateObject?: SectorState;
-    onSectorClick?: (id: number) => void;
+
+    onSectorClick?(id: number): void;
 }
 
 class Sector extends React.Component<Props & State, {}> {
     public render() {
-        let {definition: {SVGData, id, name}, stateObject} = this.props;
+        let {definition: {SVGData, id, name}, stateObject, onSectorClick} = this.props;
         return (
             <g className={'sector ' + this.getStatusClassname(stateObject)} onClick={() => {
-                this.props.onSectorClick(id);
+                onSectorClick(id);
             }}>
                 {SVGData.points.map((points, index) => {
                     return (<polyline key={index} points={points}/>)

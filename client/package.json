@@ -5,8 +5,8 @@
   "main": "index.ts",
   "repository": "https://github.com/cevro/cdp-puchov",
   "scripts": {
-    "start": "webpack-dev-server --display-error-details",
-    "test": "test"
+    "prod": "webpack --watch --color --mode=\"production\"",
+    "dev": "webpack --watch --color --mode=\"development\""
   },
   "author": "Mišo",
   "license": "ISC",

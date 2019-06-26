@@ -1,8 +1,9 @@
 import { sectors } from '../../definitions/Sectors';
 import Sector from '../objects/Sector';
 import { Message } from '../../../../definitions/interfaces';
+import { DataRecierver } from './DateReceiver';
 
-export const sectorFactory = new class {
+class SectorsFactory implements DataRecierver {
 
     private readonly sectors: Sector[];
 
@@ -29,7 +30,7 @@ export const sectorFactory = new class {
         });
     }
 
-    public dataReceive(message: Message) {
+    public dataReceive(message: Message): void {
         if (message.entity !== 'sector') {
             return;
         }
@@ -37,4 +38,6 @@ export const sectorFactory = new class {
         const sector = this.findById(data.id);
         sector.state = data.state;
     }
-};
+}
+
+export const sectorFactory = new SectorsFactory();

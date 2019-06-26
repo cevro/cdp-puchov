@@ -1,13 +1,11 @@
 //import serialConnector from './inc/SerialConnector/SerialConnector';
-import wsServer from './webSocetServer';
+import { logger } from './webSocetServer';
 
 class Main {
 
     public async run() {
-        wsServer;
+        logger.run();
         console.log('run');
-        setTimeout(() => {
-        }, 5000);
     }
 }
 
