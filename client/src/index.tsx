@@ -25,7 +25,6 @@ class Main extends React.Component<{}, {}> {
         return (
             <Provider store={store}>
                 <div className="container-fluid">
-
                     <div className="row col-12 top-panel">
                         <div className="col-3">
                             <Card name={'Messages'}>

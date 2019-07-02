@@ -50,8 +50,8 @@ export default class TrainRoute {
     public alock() {
     }
 
-    public recalculateSignal(buildOptions:BuildOptions): void {
-        this.startSignal.state = SignalStrategy.calculate(this.endSignal, this.speed, this.sufficientDistance,buildOptions);
+    public recalculateSignal(buildOptions: BuildOptions): void {
+        this.startSignal.changeState(SignalStrategy.calculate(this.endSignal, this.speed, this.sufficientDistance, buildOptions));
     }
 
 }

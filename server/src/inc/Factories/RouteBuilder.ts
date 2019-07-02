@@ -9,9 +9,12 @@ import {
 import { NAVEST_STOJ } from '../../consts/signal/signals';
 import { STATUS_BUSY } from '../../consts/obvod/status';
 import TrainRouteLock from './TrainRouteLock';
-import { DataRecierver } from './DateReceiver';
+import {
+    LocoNetMessage,
+    MessageReciever,
+} from './DateReceiver';
 
-class RouteBuilder implements DataRecierver {
+class RouteBuilder implements MessageReciever {
     private readonly LOGGER_ENTITY = 'route-builder';
 
     private _locked: boolean = false;
@@ -113,7 +116,10 @@ class RouteBuilder implements DataRecierver {
         }
     }
 
-    public dataReceive(message: Message): void {
+    public handleLocoNetReceive(data: LocoNetMessage) {
+    }
+
+    public handleMessageReceive(message: Message): void {
         if (message.entity !== 'route-builder') {
             return;
         }
@@ -129,7 +135,7 @@ class RouteBuilder implements DataRecierver {
         }
         const trainRoute = locker.route;
         if (this.hasError) {
-            trainRoute.startSignal.state = NAVEST_STOJ;
+            trainRoute.startSignal.changeState(NAVEST_STOJ);
             return;
         }
 
@@ -144,7 +150,7 @@ class RouteBuilder implements DataRecierver {
             trainRoute.recalculateSignal(locker.buildOptions);
             return;
         } else {
-            locker.route.startSignal.state = NAVEST_STOJ;
+            locker.route.startSignal.changeState(NAVEST_STOJ);
 
             let busyIndex = 0;
             for (const index in sectors) {

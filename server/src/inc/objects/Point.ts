@@ -9,8 +9,9 @@ import {
     MESSAGE_ACTION_STATE_UPDATE,
     PointState,
 } from '../../definitions/interfaces';
+import { DataDumper } from '../Factories/DateReceiver';
 
-export default class Point {
+export default class Point implements DataDumper<PointState> {
     public TYPE_NAME = 'point';
 
     private _position: pointPosition;

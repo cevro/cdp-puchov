@@ -40,8 +40,9 @@ export interface SectorState {
 }
 
 export interface SignalState {
-    id: number;
-    state: number;
+    locoNetId: number;
+    displayState: number;
+    requestedState: number;
 }
 
 export interface BuildOptions {

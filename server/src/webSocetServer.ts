@@ -11,8 +11,9 @@ import {
     DumpData,
     MESSAGE_ACTION_DUMP,
 } from './definitions/interfaces';
-import { DataRecierver } from './inc/Factories/DateReceiver';
+import { MessageReciever } from './inc/Factories/DateReceiver';
 import { routesFactory } from './inc/Factories/RoutesFactory';
+import { autoBlockSectorFactory } from './inc/Factories/AutoBlockSectorFactory';
 
 const http = require('http');
 
@@ -43,11 +44,12 @@ const initClient = (connection: connection) => {
 
 export const logger = new class {
     private wsServer: server;
-    private dataReceivers: DataRecierver[] = [
+    private dataReceivers: MessageReciever[] = [
         routesFactory,
         routeBuilder,
         pointFactory,
         sectorFactory,
+        autoBlockSectorFactory,
     ];
 
     public run() {
@@ -64,7 +66,7 @@ export const logger = new class {
                 if (message.type === 'utf8') {
                     const data = JSON.parse(message.utf8Data);
                     this.dataReceivers.forEach((dataReceiver) => {
-                        dataReceiver.dataReceive(data);
+                        dataReceiver.handleMessageReceive(data);
                     });
                 }
             });

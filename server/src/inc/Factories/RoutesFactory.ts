@@ -3,9 +3,9 @@ import { routes } from '../../data/puchov/routes/1L';
 import { Message } from '../../../../definitions/interfaces';
 import { RouteFinderRequest } from '../../definitions/interfaces';
 import { logger } from '../../webSocetServer';
-import { DataRecierver } from './DateReceiver';
+import { MessageReciever } from './DateReceiver';
 
-class RoutesFactory implements DataRecierver {
+class RoutesFactory implements MessageReciever {
     private readonly routes: TrainRoute[];
 
     constructor() {
@@ -41,7 +41,7 @@ class RoutesFactory implements DataRecierver {
         });
     }
 
-    public dataReceive(message: Message): void {
+    public handleMessageReceive(message: Message): void {
         if (message.entity !== 'route-finder') {
             return;
         }

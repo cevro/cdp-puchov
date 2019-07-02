@@ -1,19 +1,25 @@
-//
-// Created by miso on 27.6.2019.
-//
+#include "StateObject.h"
 
 #ifndef KOLAJISKO_AUTOBLOCKSECTOR_H
 #define KOLAJISKO_AUTOBLOCKSECTOR_H
 
-class AutoBlockSector {
+class AutoBlockSector : ObjectDump {
 public:
     static const int STATE_OCCUPIED = 1;
     static const int STATE_FREE = 0;
+    // ERRORS
+    static const enum{
+     ERROR_FULL_BLOCK_CONDITION = 1;
+    }errors;
+    static const int ERROR_FULL_BLOCK_CONDITION = 1;
+private:
+    int id;
 public:
     bool active;
-    int id;
+
     int state; // 0 FREE 1 obsadeny
     unsigned int length;
+    int error;
     int entrySignalId;
     int exitSignalId;
     int sectorIds[10];
@@ -35,11 +41,29 @@ public:
         }
     }
 
-    void sendState() {
-        Serial.print("b:");
+public:
+    void handleCmd(char cmd, int value) {
+        switch (cmd) {
+            case 'e':
+                this->error = value;
+        }
+    }
+
+public:
+    int getId() {
+        return this->id;
+    }
+
+public:
+    void dump() {
+
         Serial.print(this->id);
-        Serial.print(":");
+        Serial.print(":s:");
         Serial.println(this->state);
+
+        Serial.print(this->id);
+        Serial.print(":e:");
+        Serial.println(this->error);
     }
 
 };

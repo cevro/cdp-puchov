@@ -1,62 +1,75 @@
 import * as SerialPort from 'serialport';
+import {
+    LocoNetMessage,
+    LocoNetReciever,
+    MessageReciever,
+} from '../Factories/DateReceiver';
+import { Message } from '../../definitions/interfaces';
 
-export interface SerialMessage {
-    entity: 'signal' | 'sector' | 'point';
-    id: number;
-    state: number;
-}
 
-export type Listener = (msg: SerialMessage) => void;
-
-class SerialConnector {
-    private listeners: Listener[] = [];
+class SerialConnector implements MessageReciever {
+    private listeners: LocoNetReciever[] = [];
 
     private connector: SerialPort;
+    private params: SerialPort.OpenOptions;
+    private port: string = '/dev/ttyUSB1';
 
-    constructor(PORT: string) {
-        this.connector = new SerialPort(PORT, {
-            baudRate: 115200,
-            // defaults for Arduino serial communication
-            dataBits: 8,
-            parity: 'none',
-            stopBits: 1,
-        });
-        this.dateReceive();
-    };
+    private tryConnect() {
+        try {
+            this.connector = new SerialPort(this.port, {
+                baudRate: 115200,
+                // defaults for Arduino serial communication
+                dataBits: 8,
+                parity: 'none',
+                stopBits: 1,
+            }, (err) => {
+            });
+            this.dateReceive();
+        }
+    }
 
-    public write(msg): void {
+    handleMessageReceive(message: Message<{ port: string, params: SerialPort.OpenOptions }>) {
+        if (message.entity == 'loconet-connector') {
+            switch (message.action) {
+                case 'connect':
+                    this.params = message.data.params;
+                    this.port = message.data.port;
+                    this.tryConnect();
+                    break;
+                case 'reconnect':
+                    this.tryConnect();
+            }
+
+        }
+    }
+
+    public send(data: LocoNetMessage): void {
+        const msg = data.locoNetId + ':' + data.type + ':' + data.value;
         this.connector.write(msg);
     }
 
     private dateReceive(): void {
         this.connector.on('data', (data) => {
-            this.listeners.forEach((listener) => listener(this.parseMessage(data.toString())));
+            this.listeners.forEach((listener) => {
+                listener.handleLocoNetReceive(this.parseMessage(data.toString()))
+            });
             console.log(data.toString());
         });
     }
 
-    public registerListener(listener: Listener) {
+    public registerListener(listener: LocoNetReciever) {
         this.listeners.push(listener);
     }
 
-    private parseMessage(msg: string): SerialMessage {
+    private parseMessage(msg: string): LocoNetMessage {
         const parts = msg.split(':');
-        let entity = null;
-        switch (parts[0]) {
-            case 's':
-                entity = 'signal';
-                break;
-            case 'o':
-                entity = 'sector';
-                break;
-        }
         return {
-            entity,
-            id: +parts[1],
-            state: +parts[2],
+            locoNetId: +parts[0],
+            type: parts[1],
+            value: +parts[2],
         };
     }
 }
 
-export default new SerialConnector('/dev/ttyUSB1');
+export const locoNetConnector = new SerialConnector();
 

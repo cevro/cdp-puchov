@@ -1,9 +1,12 @@
 import { sectors } from '../../definitions/Sectors';
 import Sector from '../objects/Sector';
 import { Message } from '../../../../definitions/interfaces';
-import { DataRecierver } from './DateReceiver';
+import {
+    LocoNetMessage,
+    MessageReciever,
+} from './DateReceiver';
 
-class SectorsFactory implements DataRecierver {
+class SectorsFactory implements MessageReciever {
 
     private readonly sectors: Sector[];
 
@@ -30,7 +33,10 @@ class SectorsFactory implements DataRecierver {
         });
     }
 
-    public dataReceive(message: Message): void {
+    public handleLocoNetReceive(data: LocoNetMessage) {
+    }
+
+    public handleMessageReceive(message: Message): void {
         if (message.entity !== 'sector') {
             return;
         }

@@ -1,8 +1,16 @@
 import Signal from '../objects/Signal';
 import { signals } from '../../definitions/Signals';
-import { SignalState } from '../../definitions/interfaces';
+import {
+    Message,
+    SignalState,
+} from '../../definitions/interfaces';
+import {
+    LocoNetMessage,
+    LocoNetReciever,
+    MessageReciever,
+} from './DateReceiver';
 
-export const signalFactory = new class {
+class SignalFactory implements LocoNetReciever, MessageReciever {
 
     private readonly signals: Signal[];
 
@@ -28,4 +36,16 @@ export const signalFactory = new class {
             return signal.dumpData();
         });
     }
-};
+
+    public handleMessageReceive(message: Message) {
+
+    }
+
+    public handleLocoNetReceive(data: LocoNetMessage) {
+        this.signals.forEach((signal) => {
+            signal.handleLocoNetReceive(data);
+        });
+    }
+}
+
+export const signalFactory = new SignalFactory();

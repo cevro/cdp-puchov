@@ -5,8 +5,9 @@ import {
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
 } from '../../definitions/interfaces';
+import { DataDumper } from '../Factories/DateReceiver';
 
-export default class Sector {
+export default class Sector implements DataDumper<SectorState> {
     public readonly id;
     private _locked: number;
     private _state: number;

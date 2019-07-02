@@ -1,12 +1,14 @@
+#include "StateObject.h"
+
 #ifndef ARDUINO_SECTORREF_H
 #define ARDUINO_SECTORREF_H
 
 
-class SectorRef {
+class SectorRef : ObjectDump {
 public:
     static const int STATE_OCCUPIED = 1;
     static const int STATE_FREE = 0;
-public:
+private:
     int id;
 private:
     int state;
@@ -19,7 +21,7 @@ public:
 public:
     void setState(int receivedState) {
         this->state = receivedState;
-        this->sendState();
+        this->dump();
     }
 
 public:
@@ -28,7 +30,20 @@ public:
     }
 
 public:
-    void sendState() {
+    int getId() {
+        return this->id;
+    }
+
+public:
+    void handleCmd(char cmd, int value) {
+        switch (cmd) {
+            case 's':
+                this->setState(value);
+        }
+    }
+
+public:
+    void dump() {
         Serial.print("o:");
         Serial.print(this->id);
         Serial.print(":");

@@ -1,63 +1,9 @@
-#ifndef ARDUINO_SIGNALREF_H
-#define ARDUINO_SIGNALREF_H
+//
+// Created by miso on 1.7.2019.
+//
 
-
-class SignalRef {
-public:
-    static const int SIGNAL_STOJ = 0;
-    static const int SIGNAL_VOLNO = 1;
-    static const int SIGNAL_VYSTRAHA = 2;
-
-public:
-    int id;
-    int state;
-
-    SignalRef(int signalId) {
-        this->id = signalId;
-        this->state = 1;
-    }
-
-public:
-    void setState(int receivedState) {
-        this->state = receivedState;
-        this->sendState();
-    }
-
-public:
-    void sendState() {
-        Serial.print("s:");
-        Serial.print(this->id);
-        Serial.print(":");
-        Serial.println(this->state);
-    }
-
-public:
-    static int signalStrategy(int endSignalId) {
-        switch (endSignalId) {
-            case 0:
-            case 8:
-            case 9:
-            case 10:
-            case 12:
-            case 15:
-                return 2;
-            case 1:
-            case 2:
-            case 3:
-            case 11:
-                return 1;
-            case 4:
-            case 6:
-            case 7:
-            case 14:
-            case 16:
-                return 3;
-            default:
-                return 0;
-        }
-
-    }
-};
+#ifndef ARDUINO_SIGNAL_H
+#define ARDUINO_SIGNAL_H
 
 class Signal {
 public:
@@ -66,10 +12,11 @@ public:
     uint8_t mask;
     int state;
     int lockTime;
+private:
     uint8_t status;
 public:
     Signal(int scomPin, int id) : id(id) {
-        this->state = 2;
+        this->state = 5;
         this->status = 1;
         this->setPin(scomPin);
     };
@@ -79,6 +26,20 @@ public:
     void setState(int id) {
         this->state = id;
         this->mask = 0x00000001;
+    }
+
+public:
+    void handleCmd(char cmd, int value) {
+        switch (cmd) {
+            case 's':
+                this->setState(value);
+        }
+        return;
+    }
+
+public:
+    int getId() {
+        return this->id;
     }
 
 public:
@@ -128,13 +89,12 @@ public:
         digitalWrite(this->scomPin, HIGH);
     }
 
-    void sendState() {
-        Serial.print("s:");
+    void dump() {
         Serial.print(this->id);
-        Serial.print(":");
+        Serial.print(":s:");
         Serial.println(this->state);
+
     }
 };
 
-
-#endif //ARDUINO_SIGNALREF_H
+#endif //ARDUINO_SIGNAL_H

@@ -4,9 +4,13 @@ import {
     Message,
     PointState,
 } from '../../definitions/interfaces';
-import { DataRecierver } from './DateReceiver';
+import {
+    LocoNetMessage,
+    LocoNetReciever,
+    MessageReciever,
+} from './DateReceiver';
 
-class PointsFactory implements DataRecierver {
+class PointsFactory implements LocoNetReciever, MessageReciever {
 
     private readonly points: Point[];
 
@@ -33,7 +37,10 @@ class PointsFactory implements DataRecierver {
         });
     }
 
-    public dataReceive(message: Message): void {
+    public handleLocoNetReceive(data: LocoNetMessage) {
+    }
+
+    public handleMessageReceive(message: Message): void {
         if (message.entity !== 'point') {
             return;
         }
