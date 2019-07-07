@@ -9,7 +9,7 @@ class RoutesFactory implements MessageReciever {
     private readonly routes: TrainRoute[];
 
     constructor() {
-        this.routes = routes.map((def) => {
+        this.routes = /*routes*/[].map((def) => {
             return new TrainRoute(def);
         });
     }

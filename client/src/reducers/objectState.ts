@@ -4,6 +4,8 @@ import {
     ActionMessageRetrieve,
 } from '../actions/webSocets';
 import {
+    AutoBlockSectorState,
+    BanalizedABState,
     DumpData,
     MESSAGE_ACTION_DUMP,
     MESSAGE_ACTION_STATE_UPDATE,
@@ -25,11 +27,21 @@ export interface PointsState {
     [id: number]: PointState;
 }
 
+export interface AutoBlockSectorsState {
+    [locoNetId: number]: AutoBlockSectorState;
+}
+
+export interface BanalizedABsState {
+    [locoNetId: number]: BanalizedABState;
+}
+
 export interface ObjectState {
     signals: SignalsState;
     sectors: SectorsState;
     points: PointsState;
     routeBuilder: TrainRouteDump;
+    ABSectors: AutoBlockSectorsState;
+    banalizedAB: BanalizedABsState
 }
 
 const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
@@ -41,6 +53,10 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
                 return signalRetrieve(store, action);
             case 'point':
                 return pointRetrieve(store, action);
+            case 'auto-block-sector':
+                return ABSectorRetrieve(store, action);
+            case 'banalized-auto-block':
+                return banalizedABRetrieve(store, action);
             default:
                 return store;
         }
@@ -60,7 +76,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
 };
 const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData>): ObjectState => {
     const {
-        data: {sectors, signals, points, routeBuilder},
+        data: {sectors, signals, points, routeBuilder, autoBlockSectors, banalizedAutoBlocks},
     } = action.data;
 
     const sectorsData = {};
@@ -70,12 +86,22 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData
 
     const signalsData: SignalsState = {};
     signals.forEach((signal) => {
-        signalsData[signal.id] = signal;
+        signalsData[signal.locoNetId] = signal;
     });
 
     const pointsData: PointsState = {};
     points.forEach((point) => {
         pointsData[point.id] = point;
+    });
+
+    const ABSectorsData: AutoBlockSectorsState = {};
+    autoBlockSectors.forEach((sector) => {
+        ABSectorsData[sector.locoNetId] = sector;
+    });
+
+    const banalizedABsData: BanalizedABsState = {};
+    banalizedAutoBlocks.forEach((AB) => {
+        banalizedABsData[AB.locoNetId] = AB;
     });
 
     return {
@@ -84,16 +110,40 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData
         signals: signalsData,
         points: pointsData,
         routeBuilder: routeBuilder,
+        ABSectors: ABSectorsData,
+        banalizedAB: banalizedABsData,
+    };
+};
+
+const ABSectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<AutoBlockSectorState>): ObjectState => {
+    const {data, data: {locoNetId}} = action.data;
+    return {
+        ...store,
+        ABSectors: {
+            ...store.ABSectors,
+            [+locoNetId]: data,
+        },
+    };
+};
+
+const banalizedABRetrieve = (store: ObjectState, action: ActionMessageRetrieve<BanalizedABState>): ObjectState => {
+    const {data, data: {locoNetId}} = action.data;
+    return {
+        ...store,
+        banalizedAB: {
+            ...store.banalizedAB,
+            [+locoNetId]: data,
+        },
     };
 };
 
 const signalRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SignalState>): ObjectState => {
-    const {data, data: {id}} = action.data;
+    const {data, data: {locoNetId}} = action.data;
     return {
         ...store,
         signals: {
             ...store.signals,
-            [+id]: data,
+            [+locoNetId]: data,
         },
     };
 };
@@ -132,11 +182,13 @@ const initState: ObjectState = {
     signals: {},
     sectors: {},
     points: {},
+    ABSectors: {},
     routeBuilder: {
         buffer: [],
         hasError: false,
         locked: false,
     },
+    banalizedAB: {},
 };
 
 export const objectState = (state: ObjectState = initState, action): ObjectState => {

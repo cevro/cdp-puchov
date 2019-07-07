@@ -10,8 +10,8 @@
   "author": "Mišo",
   "license": "ISC",
   "dependencies": {
-    "serialport": "latest",
-    "@types/serialport": "latest",
+    "serialport": "~7.1.5",
+    "@types/serialport": "~7.0.4",
     "http": "latest",
     "sleep": "latest",
     "@types/sleep": "latest",

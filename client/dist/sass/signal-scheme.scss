@@ -52,6 +52,6 @@
     @include signal-icon(#555, yellow, yellow, white, yellow)
   }
   &.signal-type-5 {
-    @include signal-icon(#555, green, yellow, yellow, #222)
+    @include signal-icon(red, green, yellow, yellow, #222)
   }
 }

@@ -1,7 +1,3 @@
-//
-// Created by miso on 1.7.2019.
-//
-
 #ifndef ARDUINO_STATEOBJECT_H
 #define ARDUINO_STATEOBJECT_H
 

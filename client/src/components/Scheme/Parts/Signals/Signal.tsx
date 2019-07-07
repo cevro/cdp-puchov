@@ -2,10 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { signalSelect } from '../../../../actions/routeBuilder';
 import { onSignalContextMenu } from '../../../../actions/signalContextMenu';
-import {
-    SignalDefinition,
-    SignalTypes,
-} from '../../../definitions/Signals';
+import { SignalTypes } from '../../../definitions/Signals';
 import { Store } from '../../../../reducers';
 import { getSignal } from '../../../../middleware/objectState';
 import {
@@ -13,9 +10,10 @@ import {
     Dispatch,
 } from 'redux';
 import { SignalState } from '../../../definitions/interfaces';
+import { SignalFrontEndDefinition } from '../../../../definition/all';
 
 interface Props {
-    definition: SignalDefinition;
+    definition: SignalFrontEndDefinition;
 }
 
 interface State {
@@ -35,23 +33,23 @@ class Signal extends React.Component<Props & State, {}> {
             onSignalContextMenu,
             displayLabel,
             definition: {
-                id,
+                locoNetId,
                 name,
                 type,
                 SVGData: {x, y, rotate},
             },
         } = this.props;
-        const state = stateObject ? stateObject.state : undefined;
+        const state = stateObject ? stateObject.displayState : undefined;
         return (
             <g
                 className={'signal signal-type-' + type + ' ' + this.getStateClassName(state)}
                 transform={'translate(' + x + ',' + y + ')'}
                 onClick={() => {
-                    onSignalSelect(id);
+                    onSignalSelect(locoNetId);
                 }}
                 onContextMenu={(event) => {
                     event.preventDefault();
-                    onSignalContextMenu(id, {x: event.pageX, y: event.pageY});
+                    onSignalContextMenu(locoNetId, {x: event.pageX, y: event.pageY});
                     return false;
                 }}
             >
@@ -90,7 +88,7 @@ class Signal extends React.Component<Props & State, {}> {
     }
 
     private getStateClassName(state: number): string {
-        if (state === undefined) {
+        if (state === undefined || state === -1) {
             return 'state-undefined';
         }
         switch (state) {
@@ -111,7 +109,7 @@ class Signal extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        stateObject: getSignal(state, ownProps.definition.id),
+        stateObject: getSignal(state, ownProps.definition.locoNetId),
         displayLabel: !!state.displayOptions.signals[ownProps.definition.type],
     };
 };

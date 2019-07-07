@@ -1,5 +1,7 @@
 import { Store } from '../reducers';
 import {
+    AutoBlockSectorState,
+    BanalizedABState,
     PointState,
     SectorState,
     SignalState,
@@ -36,6 +38,32 @@ export const getPointState = (store: Store, sectorId: number): PointState => {
         if (points.hasOwnProperty(id)) {
             if (+id === sectorId) {
                 state = points[id];
+            }
+        }
+    }
+    return state;
+};
+
+export const getABSectorState = (store: Store, sectorId: number): AutoBlockSectorState => {
+    let state = undefined;
+    const {ABSectors} = store.objectState;
+    for (const id in ABSectors) {
+        if (ABSectors.hasOwnProperty(id)) {
+            if (+id === sectorId) {
+                state = ABSectors[id];
+            }
+        }
+    }
+    return state;
+};
+
+export const getBanalizedABState = (store: Store, ABId: number): BanalizedABState => {
+    let state = undefined;
+    const {banalizedAB} = store.objectState;
+    for (const id in banalizedAB) {
+        if (banalizedAB.hasOwnProperty(id)) {
+            if (+id === ABId) {
+                state = banalizedAB[id];
             }
         }
     }

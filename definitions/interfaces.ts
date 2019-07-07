@@ -36,13 +36,27 @@ export interface PointState {
 export interface SectorState {
     id: number;
     state: number;
-    locked: number[];
+    locked: number;
 }
 
 export interface SignalState {
     locoNetId: number;
     displayState: number;
     requestedState: number;
+}
+
+export interface AutoBlockSectorState {
+    state: number;
+    locoNetId: number,
+    errorCode: number,
+    errorMessage: string,
+    active: number,
+    fullBlockConditionActive: number;
+}
+
+export interface BanalizedABState {
+    dir: -1 | 0 | 1;
+    locoNetId: number;
 }
 
 export interface BuildOptions {
@@ -56,6 +70,8 @@ export interface DumpData {
     signals: SignalState[];
     points: PointState[];
     routeBuilder: TrainRouteDump;
+    autoBlockSectors: AutoBlockSectorState[];
+    banalizedAutoBlocks: BanalizedABState[];
 }
 
 export interface RouteFinderRequest {

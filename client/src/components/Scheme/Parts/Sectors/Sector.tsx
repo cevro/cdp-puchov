@@ -5,6 +5,10 @@ import { connect } from 'react-redux';
 import { getSectorState } from '../../../../middleware/objectState';
 import { SectorState } from '../../../definitions/interfaces';
 import { sectorSelect } from '../../../../actions/routeBuilder';
+import {
+    SECTOR_STATE_FREE,
+    SECTOR_STATE_OCCUPIED,
+} from '../../../MessageBox/SectorsPreview';
 
 const STATUS_FREE = 1;
 const STATUS_BUSY = 0;
@@ -23,7 +27,7 @@ class Sector extends React.Component<Props & State, {}> {
     public render() {
         let {definition: {SVGData, id, name}, stateObject, onSectorClick} = this.props;
         return (
-            <g className={'sector ' + this.getStatusClassname(stateObject)} onClick={() => {
+            <g className={'sector ' + this.getStatusClassName(stateObject)} onClick={() => {
                 onSectorClick(id);
             }}>
                 {SVGData.points.map((points, index) => {
@@ -39,18 +43,18 @@ class Sector extends React.Component<Props & State, {}> {
         );
     }
 
-    private getStatusClassname(stateObject: SectorState) {
+    private getStatusClassName(stateObject: SectorState) {
         if (!stateObject) {
             return 'undefined';
         }
 
         switch (stateObject.state) {
-            case STATUS_FREE :
+            case SECTOR_STATE_FREE :
                 if (stateObject.locked) {
                     return 'in-train-route';
                 }
                 return 'free';
-            case STATUS_BUSY :
+            case SECTOR_STATE_OCCUPIED :
                 return 'used';
             default:
                 return 'undefined';

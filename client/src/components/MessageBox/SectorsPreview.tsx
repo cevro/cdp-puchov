@@ -6,17 +6,27 @@ import {
     Dispatch,
 } from 'redux';
 import { SectorsState } from '../../reducers/objectState';
-import { sectors } from '../definitions/Sectors';
+import { SectorDefinition } from '../definitions/Sectors';
 import { changeSector } from '../../actions/webSocets';
 
+interface Props {
+    sectors: SectorDefinition[];
+}
+
 interface State {
-    sectors?: SectorsState;
+    sectorsState?: SectorsState;
+
     onChangeSector?(id: number, state: number): void;
 }
 
-class SectorsPreview extends React.Component<State, {}> {
+export const SECTOR_STATE_OCCUPIED = 2;
+export const SECTOR_STATE_FREE = 1;
+export const SECTOR_STATE_UNDEFINED = -1;
+
+class SectorsPreview extends React.Component<State & Props, {}> {
+
     public render() {
-        const {sectors: sectorsState} = this.props;
+        const {sectors, sectorsState} = this.props;
 
         return (
             <div className="list-group list-scroll">
@@ -48,23 +58,24 @@ class SectorsPreview extends React.Component<State, {}> {
         )
     }
 
-    private getButton(id: number, state: number): JSX.Element {
-        switch (state) {
-            case 0:
-                return <button className="btn btn-success btn-sm"
-                               onClick={() => {
-                                   this.props.onChangeSector(id, 1)
-                               }}
-                >Set free</button>;
-            case 1:
-                return <button className="btn btn-danger btn-sm"
-                               onClick={() => {
-                                   this.props.onChangeSector(id, 0)
-                               }}
-                >Set busy</button>;
-            default:
-                return <span/>;
+    private getButton(id: number, state: number): JSX.Element[] {
+        const buttons = [];
+        if (state === SECTOR_STATE_UNDEFINED || state === SECTOR_STATE_OCCUPIED) {
+            buttons.push(<button key={0} className="btn btn-success btn-sm"
+                                 onClick={() => {
+                                     this.props.onChangeSector(id, SECTOR_STATE_FREE)
+                                 }}
+            >Set free</button>);
         }
+        if (state === SECTOR_STATE_UNDEFINED || state === SECTOR_STATE_FREE) {
+            buttons.push(<button key={1} className="btn btn-danger btn-sm"
+                                 onClick={() => {
+                                     this.props.onChangeSector(id, SECTOR_STATE_OCCUPIED)
+                                 }}
+            >Set busy</button>)
+        }
+
+        return buttons;
     }
 
     private getClassNameByState(state: number) {
@@ -72,9 +83,9 @@ class SectorsPreview extends React.Component<State, {}> {
             return 'badge badge-undefined';
         }
         switch (state) {
-            case 0:
+            case SECTOR_STATE_OCCUPIED:
                 return 'badge badge-danger';
-            case 1:
+            case SECTOR_STATE_FREE:
                 return 'badge badge-secondary';
 
             default:
@@ -85,7 +96,7 @@ class SectorsPreview extends React.Component<State, {}> {
 
 const mapStateToProps = (state: Store): State => {
     return {
-        sectors: state.objectState.sectors,
+        sectorsState: state.objectState.sectors,
     };
 };
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {

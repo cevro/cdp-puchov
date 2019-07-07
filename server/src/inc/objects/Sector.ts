@@ -1,25 +1,39 @@
-import { SectorDefinition } from '../../definitions/Sectors';
 import { logger } from '../../webSocetServer';
 import { STATUS_FREE } from '../../consts/obvod/status';
 import {
+    Message,
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
 } from '../../definitions/interfaces';
-import { DataDumper } from '../Factories/DateReceiver';
+import {
+    DataDumper,
+    LocoNetMessage,
+    LocoNetReciever,
+    MessageReciever,
+} from '../Factories/DateReceiver';
+import { locoNetConnector } from '../SerialConnector/SerialConnector';
+import { SectorBackEndDefinition } from '../../data/sectors';
 
-export default class Sector implements DataDumper<SectorState> {
-    public readonly id;
+export default class Sector implements DataDumper<SectorState>, LocoNetReciever, MessageReciever {
+    public readonly locoNetId;
     private _locked: number;
     private _state: number;
 
-    constructor(definition: SectorDefinition) {
-        this.id = definition.id;
+    constructor(definition: SectorBackEndDefinition) {
+        this.locoNetId = definition.locoNetId;
         this._locked = null;
         this._state = STATUS_FREE;
 
     }
 
+    get id(): number {
+        return this.locoNetId;
+    }
+
     set state(value: number) {
+        if (this._state === value) {
+            return;
+        }
         this._state = value;
         this.sendState();
     }
@@ -86,9 +100,29 @@ export default class Sector implements DataDumper<SectorState> {
     public dumpData(): SectorState {
         return {
             state: this.state,
-            id: this.id,
+            id: this.locoNetId,
             locked: this.locked,
         };
+    }
+
+    public handleLocoNetReceive(data: LocoNetMessage) {
+        switch (data.type) {
+            case 's':
+                this.state = data.value;
+        }
+    }
+
+    public handleMessageReceive(message: Message) {
+        switch (message.action) {
+            case 'set-state':
+                locoNetConnector.send({
+                    locoNetId: this.locoNetId,
+                    type: 's',
+                    value: message.data.state,
+                });
+            // this.state = message.data.state;
+
+        }
     }
 }
 

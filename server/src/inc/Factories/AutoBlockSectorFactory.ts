@@ -3,7 +3,10 @@ import {
     LocoNetReciever,
     MessageReciever,
 } from './DateReceiver';
-import { Message } from '../../../../definitions/interfaces';
+import {
+    AutoBlockSectorState,
+    Message,
+} from '../../../../definitions/interfaces';
 import AutoBlockSector from '../objects/AutoBlockSector';
 import { autoBlockSectors } from '../../definitions/AutoBlockSectors';
 
@@ -16,9 +19,17 @@ class AutoBlockSectorFactory implements MessageReciever, LocoNetReciever {
         });
     }
 
+    public dump(): AutoBlockSectorState[] {
+        return this.ABSectors.map((sector) => {
+            return sector.dumpData();
+        });
+    }
+
     public handleLocoNetReceive(data: LocoNetMessage) {
         this.ABSectors.forEach((ABSector) => {
-            ABSector.handleLocoNetReceive(data)
+            if (ABSector.locoNetId == data.locoNetId) {
+                ABSector.handleLocoNetReceive(data);
+            }
         });
     }
 
@@ -27,7 +38,9 @@ class AutoBlockSectorFactory implements MessageReciever, LocoNetReciever {
             return;
         }
         this.ABSectors.forEach((ABSector) => {
-            ABSector.handleMessageReceive(message)
+            if (ABSector.locoNetId == message.id) {
+                ABSector.handleMessageReceive(message);
+            }
         });
     }
 }

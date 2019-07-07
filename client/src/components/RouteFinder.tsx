@@ -24,7 +24,7 @@ class RouteFinder extends React.Component<State, {}> {
         let signal = null;
         if (startSignal !== undefined) {
             signal = signals.filter((def) => {
-                return def.id === startSignal;
+                return def.locoNetId === startSignal;
             })[0];
         }
         let sector = null;

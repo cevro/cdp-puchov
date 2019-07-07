@@ -1,13 +1,11 @@
 #include "StateObject.h"
+#include "ISector.h"
 
 #ifndef ARDUINO_SECTORREF_H
 #define ARDUINO_SECTORREF_H
 
 
-class SectorRef : ObjectDump {
-public:
-    static const int STATE_OCCUPIED = 1;
-    static const int STATE_FREE = 0;
+class SectorRef : protected ObjectDump, public ISector {
 private:
     int id;
 private:
@@ -15,7 +13,7 @@ private:
 public:
     SectorRef(int id) {
         this->id = id;
-        this->state = 0;
+        this->state = this->STATE_UNDEFINED;
     }
 
 public:
@@ -43,10 +41,12 @@ public:
     }
 
 public:
+    /**
+     * @deprecated
+     */
     void dump() {
-        Serial.print("o:");
         Serial.print(this->id);
-        Serial.print(":");
+        Serial.print(":s:");
         Serial.println(this->state);
     }
 };

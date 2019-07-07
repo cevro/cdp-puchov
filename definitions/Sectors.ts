@@ -493,7 +493,7 @@ const railST: SectorDefinition[] = [
 const railK: SectorDefinition[] = [
     {
         name: '1K',
-        id: 102,
+        id: 101,
         SVGData: {points: ['2000,0 2075,0']},
     },
     {
@@ -503,22 +503,22 @@ const railK: SectorDefinition[] = [
     },
     {
         name: '5L',
-        id: 102,
+        id: 103,
         SVGData: {points: ['2200,0 2250,0']},
     },
     {
         name: '',
-        id: 102,
+        id: 104,
         SVGData: {points: ['2250,0 2300,0']},
     },
     {
         name: '4K',
-        id: 102,
+        id: 105,
         SVGData: {points: ['2000,30 2125,30']},
     },
     {
         name: '6K',
-        id: 102,
+        id: 106,
         SVGData: {points: ['2125,30 2200,30']},
     },
     {

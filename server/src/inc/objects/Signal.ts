@@ -1,6 +1,7 @@
-import { SignalDefinition } from '../../definitions/Signals';
+import { SignalBackEndDefinition } from '../../definitions/Signals';
 import { logger } from '../../webSocetServer';
 import {
+    Message,
     MESSAGE_ACTION_STATE_UPDATE,
     SignalState,
 } from '../../definitions/interfaces';
@@ -8,10 +9,11 @@ import {
     DataDumper,
     LocoNetMessage,
     LocoNetReciever,
+    MessageReciever,
 } from '../Factories/DateReceiver';
 import { locoNetConnector } from '../SerialConnector/SerialConnector';
 
-export default class Signal implements LocoNetReciever, DataDumper<SignalState> {
+export default class Signal implements LocoNetReciever, DataDumper<SignalState>, MessageReciever {
     public locoNetId;
 
     private _displayState: number;
@@ -49,8 +51,10 @@ export default class Signal implements LocoNetReciever, DataDumper<SignalState> 
         return this._displayState;
     }
 
-    constructor(definition: SignalDefinition) {
-        this.locoNetId = definition.id;
+    constructor(definition: SignalBackEndDefinition) {
+        this.locoNetId = definition.locoNetId;
+        this._displayState = -1;
+        this._requestedState = -1;
     }
 
     get id(): number {
@@ -86,6 +90,15 @@ export default class Signal implements LocoNetReciever, DataDumper<SignalState> 
         return
     }
 
-    public handleMessageReceive() {
+    public handleMessageReceive(message: Message) {
+        switch (message.action) {
+            case 'set-state':
+                locoNetConnector.send({
+                    locoNetId: this.locoNetId,
+                    type: 's',
+                    value: message.data.state,
+                });
+
+        }
     }
 }

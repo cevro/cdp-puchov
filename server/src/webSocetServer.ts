@@ -14,6 +14,7 @@ import {
 import { MessageReciever } from './inc/Factories/DateReceiver';
 import { routesFactory } from './inc/Factories/RoutesFactory';
 import { autoBlockSectorFactory } from './inc/Factories/AutoBlockSectorFactory';
+import { banalizedAutoBlockFactory } from './inc/Factories/BanalizedAutoBlockFactory';
 
 const http = require('http');
 
@@ -36,6 +37,8 @@ const initClient = (connection: connection) => {
             sectors: sectorFactory.dump(),
             points: pointFactory.dump(),
             routeBuilder: routeBuilder.dumpBuffer(),
+            autoBlockSectors: autoBlockSectorFactory.dump(),
+            banalizedAutoBlocks: banalizedAutoBlockFactory.dump(),
         },
         id: 0,
     };
@@ -50,6 +53,8 @@ export const logger = new class {
         pointFactory,
         sectorFactory,
         autoBlockSectorFactory,
+        banalizedAutoBlockFactory,
+        signalFactory,
     ];
 
     public run() {
@@ -75,7 +80,7 @@ export const logger = new class {
         });
     }
 
-    public log(message: Message) {
+    public log<T = any>(message: Message<T>) {
         this.wsServer.broadcast(JSON.stringify(message));
         // console.log('[' + message.date.toISOString() + ']: ' + JSON.stringify(message));
     }

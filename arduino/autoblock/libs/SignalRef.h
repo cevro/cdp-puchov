@@ -1,7 +1,6 @@
 #ifndef ARDUINO_SIGNALREF_H
 #define ARDUINO_SIGNALREF_H
 
-
 class SignalRef {
 public:
     static const int SIGNAL_STOJ = 0;
@@ -60,7 +59,6 @@ public:
             default:
                 return 0;
         }
-
     }
 };
 

@@ -6,56 +6,59 @@ import {
     Dispatch,
 } from 'redux';
 import { SignalsState } from '../../reducers/objectState';
-import { signals } from '../definitions/Signals';
+import { SignalFrontEndDefinition } from '../../definition/all';
+import { changeSignal } from '../../actions/webSocets';
 
 interface State {
-    signals?: SignalsState;
-    // onChangeSector?: (id: number, state: number) => void;
+    signalsState?: SignalsState;
+
+    onChangeSignal?(id: number, state: number): void;
 }
 
-class SignalsPreview extends React.Component<State, {}> {
+interface Props {
+    signals: SignalFrontEndDefinition[];
+
+}
+
+class SignalsPreview extends React.Component<State & Props, {}> {
     public render() {
-        const {signals: signalsState} = this.props;
-        /* <span className={this.getClassNameByState(state)}>
-                                     {state === undefined ? 'NA' : state}
-                                  </span>*/
-        /* <div className="col-3">
-                                    {this.getButton(sectorDef.id, state)}
-                                </div>*/
-        /*<div className="col-4">
-            {locked}
-        </div>*/
+        const {signals, signalsState} = this.props;
         return (
             <div className="list-group list-scroll">
                 {signals.map((signalDef, index) => {
-                    // sectorsState[id];
-                    // sectorDef.id;
-                    const state = signalsState[signalDef.id] ? signalsState[signalDef.id].state : undefined;
-
+                    const displayState = signalsState[signalDef.locoNetId] ? signalsState[signalDef.locoNetId].displayState : undefined;
+                    const requestedState = signalsState[signalDef.locoNetId] ? signalsState[signalDef.locoNetId].requestedState : undefined;
                     return <div className="list-group-item" key={index}>
                         <div className="row">
-                            <span className="col-2">{signalDef.id}</span>
+                            <span className="col-2">{signalDef.locoNetId}</span>
                             <span className="col-2">{signalDef.name}</span>
-                            <span className="col-2">{state}</span>
-                            <span className="col-1"/>
-
+                            <span className="col-1">{displayState}</span>
+                            <span className="col-1">{requestedState}</span>
+                            <span className="col-6">
+                                <select className={'form-control'} value={displayState} onChange={(e) => {
+                                    this.props.onChangeSignal(signalDef.locoNetId, +e.target.value);
+                                }}>
+                                    {[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((value) => {
+                                        return <option key={value} value={value}>{value}</option>
+                                    })}
+                                    </select>
+                            </span>
                         </div>
                     </div>
                 })}
             </div>
         );
-        /*                */
     }
 }
 
 const mapStateToProps = (state: Store): State => {
     return {
-        signals: state.objectState.signals,
+        signalsState: state.objectState.signals,
     };
 };
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
-        // onChangeSector: (id, state) => changeSector(dispatch, id, state),
+        onChangeSignal: (id, state) => changeSignal(dispatch, id, state),
     };
 };
 

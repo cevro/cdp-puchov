@@ -1,5 +1,4 @@
 import Signal from '../objects/Signal';
-import { signals } from '../../definitions/Signals';
 import {
     Message,
     SignalState,
@@ -9,6 +8,7 @@ import {
     LocoNetReciever,
     MessageReciever,
 } from './DateReceiver';
+import { signals } from '../../data/signals';
 
 class SignalFactory implements LocoNetReciever, MessageReciever {
 
@@ -18,6 +18,7 @@ class SignalFactory implements LocoNetReciever, MessageReciever {
         this.signals = signals.map((value => {
             return new Signal(value);
         }));
+        // console.log(this.signals);
     }
 
     public findById(id: number): Signal {
@@ -38,12 +39,22 @@ class SignalFactory implements LocoNetReciever, MessageReciever {
     }
 
     public handleMessageReceive(message: Message) {
-
+        //console.log('msq');
+        if (message.entity !== 'signal') {
+            return;
+        }
+        this.signals.forEach((signals) => {
+            if (signals.id == message.id) {
+                signals.handleMessageReceive(message);
+            }
+        });
     }
 
     public handleLocoNetReceive(data: LocoNetMessage) {
         this.signals.forEach((signal) => {
-            signal.handleLocoNetReceive(data);
+            if (signal.locoNetId == data.locoNetId) {
+                signal.handleLocoNetReceive(data);
+            }
         });
     }
 }

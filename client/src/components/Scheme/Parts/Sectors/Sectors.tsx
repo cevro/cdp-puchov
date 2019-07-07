@@ -1,10 +1,15 @@
 import * as React from 'react';
 import Sector from './Sector';
-import { sectors } from '../../../definitions/Sectors';
+import { SectorDefinition } from '../../../definitions/Sectors';
 
-export default class Sectors extends React.Component<{}, {}> {
+interface Props {
+    sectors: SectorDefinition[];
+}
+
+export default class Sectors extends React.Component<Props, {}> {
 
     public render() {
+        const {sectors} = this.props;
         return (<g>
             {sectors.map((sector, id) => {
                 return <g key={id}>

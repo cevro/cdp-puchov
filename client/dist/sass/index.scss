@@ -1,6 +1,7 @@
 @import "./signal-scheme";
 @import "mixins/disconnect";
 @import "./sector";
+@import "AB-sector";
 
 .signal-preview {
 
@@ -191,6 +192,30 @@ svg {
   }
   .card-header {
     border-color: #999;
+  }
+}
+
+.banalized-AB {
+  g.dir-display {
+    polyline {
+      stroke-width: 2px;
+      fill: none;
+    }
+    &.undefined {
+      polyline {
+        stroke: $disconnect-color;
+      }
+    }
+    &.active {
+      polyline {
+        stroke: green;
+      }
+    }
+    &.inactive {
+      polyline {
+        stroke: #222;
+      }
+    }
   }
 }
 

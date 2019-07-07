@@ -1,13 +1,17 @@
 import * as React from 'react';
 import Point from './Point';
-import { points } from '../../../definitions/Points';
+import { PointDefinition } from '../../../definitions/Points';
 
-export default class Points extends React.Component<{}, {}> {
+interface Props {
+    points: PointDefinition[];
+}
+
+export default class Points extends React.Component<Props, {}> {
 
     public render() {
 
         return (<g>
-            {points.map((signal, signalId) => {
+            {this.props.points.map((signal, signalId) => {
                 return <g key={signalId}>
                     <Point definition={signal}/>
                 </g>;

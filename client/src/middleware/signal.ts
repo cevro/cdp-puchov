@@ -22,7 +22,7 @@ export class SignalLightDisplay {
 
     public static getColorCallBack(type: signalLight, state: number): string {
         const className = 'signal-light ';
-        if (state === undefined) {
+        if (state === undefined || state === -1) {
             return className + 'undefined';
         }
         switch (type) {

@@ -1,35 +1,4 @@
 #include "navestidlo.h"
-/*class KolajObvod {
-  private:
-    int pin;
-    int values[5];
-    int index;
-    boolean status;
-  public:
-    void setPin(int p) {
-      this->pin = p;
-    }
-    void clock() {
-      this->values[this->index] = analogRead(this->pin);
-      this->index++;
-      this->index = this->index % 5;
-
-      int sum = 0;
-      for (int i = 0; i < 5; i++) {
-        sum += values[i];
-      }
-      if (sum / 5.0 < 10) {
-        this->status = true;
-      } else {
-        this->status = false;
-      }
-    }
-  public:
-    bool getStatus() {
-      return this->status;
-    }
-};
-*/
 Navestidlo N[6];
 
 //KolajObvod* O[2] = {new KolajObvod(), new KolajObvod()};

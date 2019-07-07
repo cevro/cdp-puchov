@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { signals } from '../../../../definitions/Signals';
 import Icon from './Icon';
 import { getSignal } from '../../../../../middleware/objectState';
 import { connect } from 'react-redux';
@@ -10,6 +9,11 @@ import {
     Dispatch,
 } from 'redux';
 import { closeContextMenu } from '../../../../../actions/signalContextMenu';
+import { SignalFrontEndDefinition } from '../../../../../definition/all';
+
+interface Props {
+    signals: SignalFrontEndDefinition[];
+}
 
 interface State {
     active?: boolean;
@@ -23,12 +27,12 @@ interface State {
     onCloseContext?(): void;
 }
 
-class ContextMenu extends React.Component<State, {}> {
+class ContextMenu extends React.Component<State & Props, {}> {
     public render() {
         const {id, stateObject, coordinates, active, onCloseContext} = this.props;
-        const state = stateObject ? stateObject.state : undefined;
-        const signal = signals.filter((signal) => {
-            return signal.id === id;
+        const state = stateObject ? stateObject.displayState : undefined;
+        const signal = this.props.signals.filter((signal) => {
+            return signal.locoNetId === id;
         })[0];
 
         if (!active) {

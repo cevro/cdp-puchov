@@ -1,22 +1,16 @@
-//
-// Created by miso on 1.7.2019.
-//
-
 #ifndef ARDUINO_ONESIDEAUTOBLOCK_H
 #define ARDUINO_ONESIDEAUTOBLOCK_H
 
 class OneSideAutoBlock {
-public:
+private:
     int id;
+public:
     bool active;
-    int sectors[10];
+    int sectors[20];
 
-    OneSideAutoBlock(int id, int sectors[]) : id(id) {
-
-        for (int i = 0; i < 10; i++) {
-            if (sectors[i]) {
-                this->sectors[i] = sectors[i];
-            }
+    OneSideAutoBlock(int id, int l, int sectors[]) : id(id) {
+        for (int i = 0; i < l; i++) {
+            this->sectors[i] = sectors[i];
         }
     }
 

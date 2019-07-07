@@ -54,8 +54,19 @@ export const successSend = (id: string): ActionSendSuccess => {
 export const changeSector =
     (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
         return dispatch(onSendMessage({
-            action: 'user-set',
+            action: 'set-state',
             entity: 'sector',
+            date: new Date(),
+            id,
+            data: {id, state},
+        }));
+    };
+
+export const changeSignal =
+    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
+        return dispatch(onSendMessage({
+            action: 'set-state',
+            entity: 'signal',
             date: new Date(),
             id,
             data: {id, state},
@@ -70,6 +81,39 @@ export const changePoint =
             date: new Date(),
             id,
             data: {id, state},
+        }));
+    };
+
+export const changeABCondition =
+    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
+        return dispatch(onSendMessage({
+            action: 'switch-block-condition',
+            entity: 'auto-block-sector',
+            date: new Date(),
+            id,
+            data: {id, state},
+        }));
+    };
+
+export const removeABError =
+    (dispatch: Dispatch<Action<string>>, id: number): ActionMessageSend<{ id: number }> => {
+        return dispatch(onSendMessage({
+            action: 'remove-error',
+            entity: 'auto-block-sector',
+            date: new Date(),
+            id,
+            data: {id},
+        }));
+    };
+
+export const changeABDir =
+    (dispatch: Dispatch<Action<string>>, id: number, dir: -1 | 1): ActionMessageSend<{ id: number, dir: -1 | 1 }> => {
+        return dispatch(onSendMessage({
+            action: 'change-dir',
+            entity: 'banalized-auto-block',
+            date: new Date(),
+            id,
+            data: {id, dir},
         }));
     };
 

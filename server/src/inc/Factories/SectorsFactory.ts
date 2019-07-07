@@ -1,19 +1,21 @@
-import { sectors } from '../../definitions/Sectors';
 import Sector from '../objects/Sector';
 import { Message } from '../../../../definitions/interfaces';
 import {
     LocoNetMessage,
+    LocoNetReciever,
     MessageReciever,
 } from './DateReceiver';
+import { sectors } from '../../data/sectors';
 
-class SectorsFactory implements MessageReciever {
+class SectorsFactory implements MessageReciever, LocoNetReciever {
 
     private readonly sectors: Sector[];
 
     constructor() {
-        this.sectors = sectors.map((value => {
+
+        this.sectors = sectors.map(value => {
             return new Sector(value);
-        }));
+        });
     }
 
     public findById(id: number): Sector {
@@ -34,15 +36,22 @@ class SectorsFactory implements MessageReciever {
     }
 
     public handleLocoNetReceive(data: LocoNetMessage) {
+        this.sectors.forEach((sector) => {
+            if (sector.id == data.locoNetId) {
+                sector.handleLocoNetReceive(data);
+            }
+        });
     }
 
     public handleMessageReceive(message: Message): void {
         if (message.entity !== 'sector') {
             return;
         }
-        const {data} = message;
-        const sector = this.findById(data.id);
-        sector.state = data.state;
+        this.sectors.forEach((sector) => {
+            if (sector.id == message.id) {
+                sector.handleMessageReceive(message);
+            }
+        });
     }
 }
 

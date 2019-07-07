@@ -1,4 +1,5 @@
 import * as SerialPort from 'serialport';
+// import * as Readline from '@serialport/parser-readline';
 import {
     LocoNetMessage,
     LocoNetReciever,
@@ -12,9 +13,10 @@ class SerialConnector implements MessageReciever {
 
     private connector: SerialPort;
     private params: SerialPort.OpenOptions;
-    private port: string = '/dev/ttyUSB1';
 
-    private tryConnect() {
+    private port: string = '/dev/ttyUSB0';
+
+    public tryConnect() {
         try {
             this.connector = new SerialPort(this.port, {
                 baudRate: 115200,
@@ -23,10 +25,15 @@ class SerialConnector implements MessageReciever {
                 parity: 'none',
                 stopBits: 1,
             }, (err) => {
+                // console.log(err);
             });
             this.dateReceive();
         }
+        catch (e) {
+            console.log(e);
+        }
     }
+
 
     handleMessageReceive(message: Message<{ port: string, params: SerialPort.OpenOptions }>) {
         if (message.entity == 'loconet-connector') {
@@ -44,16 +51,27 @@ class SerialConnector implements MessageReciever {
     }
 
     public send(data: LocoNetMessage): void {
-        const msg = data.locoNetId + ':' + data.type + ':' + data.value;
+        const msg = data.locoNetId + ':' + data.type + ':' + data.value + '\r\n';
+        // console.log('send:' + msg);
         this.connector.write(msg);
     }
 
     private dateReceive(): void {
-        this.connector.on('data', (data) => {
+        const parser = new SerialPort.parsers.Readline({
+            delimiter: '\r\n',
+            encoding: 'ascii',
+        });
+        this.connector.pipe(parser);
+
+        parser.on('data', (data) => {
+            const msg = this.parseMessage(data.toString());
+            if (!msg) {
+                return;
+            }
             this.listeners.forEach((listener) => {
-                listener.handleLocoNetReceive(this.parseMessage(data.toString()))
+                listener.handleLocoNetReceive(msg)
             });
-            console.log(data.toString());
+            // console.log('parsed received:' + data);
         });
     }
 
@@ -62,6 +80,10 @@ class SerialConnector implements MessageReciever {
     }
 
     private parseMessage(msg: string): LocoNetMessage {
+        if (!msg.match(/[0-9]+:[a-z]:-?[0-9]+/)) {
+            console.log('errored received:' + msg);
+            return null;
+        }
         const parts = msg.split(':');
         return {
             locoNetId: +parts[0],

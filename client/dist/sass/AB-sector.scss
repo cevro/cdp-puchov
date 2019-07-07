@@ -1,0 +1,26 @@
+@import "mixins/disconnect";
+
+circle {
+  &.AB-sector-state {
+    &.undefined {
+      fill: $disconnect-color;
+    }
+    &.occupied {
+      fill: red;
+    }
+    &.free {
+      fill: green;
+    }
+  }
+  &.AB-sector-error {
+    &.undefined {
+      fill: $disconnect-color;
+    }
+    &.no-error {
+      fill: green;
+    }
+    &.has-error {
+      fill: red;
+    }
+  }
+}
