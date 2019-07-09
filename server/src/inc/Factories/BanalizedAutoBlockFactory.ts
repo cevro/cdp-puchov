@@ -3,7 +3,7 @@ import {
     LocoNetReciever,
     MessageReciever,
 } from './DateReceiver';
-import { Message } from '../../../../definitions/interfaces';
+import { Message } from '../../definitions/interfaces';
 import BanalizedAutoBlock, { BANALIZERD_AB_ENTITY_NAME } from '../objects/BanalizedAutoBlock';
 
 class BanalizedAutoBlockFactory implements MessageReciever, LocoNetReciever {

@@ -6,20 +6,19 @@
 
 
 class SectorRef : protected ObjectDump, public ISector {
-private:
-    int id;
+
 private:
     int state;
 public:
     SectorRef(int id) {
-        this->id = id;
+        this->locoNetId = id;
         this->state = this->STATE_UNDEFINED;
     }
 
 public:
     void setState(int receivedState) {
         this->state = receivedState;
-        this->dump();
+        this->dumpState();
     }
 
 public:
@@ -29,7 +28,7 @@ public:
 
 public:
     int getId() {
-        return this->id;
+        return this->locoNetId;
     }
 
 public:
@@ -41,11 +40,14 @@ public:
     }
 
 public:
+    void dump(){
+        this->dumpState();
+    }
     /**
      * @deprecated
      */
-    void dump() {
-        Serial.print(this->id);
+    void dumpState() {
+        Serial.print(this->locoNetId);
         Serial.print(":s:");
         Serial.println(this->state);
     }

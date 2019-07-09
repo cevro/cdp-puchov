@@ -8,7 +8,7 @@ using namespace Signal;
 
 typedef SectorRef SectorRefs[30];
 
-typedef Signal::Signal SignalRefs[38];
+typedef Signal::Signal SignalRefs[42];
 typedef OneSideAutoBlock OneSideABRefs[4];
 
 class BanalizedAutoBlock {
@@ -19,14 +19,42 @@ public:
     int dir;
 
     BanalizedAutoBlock(int id, int mainId, int auxId) : id(id), mainId(mainId), auxId(auxId) {
-    this->dir=1;
+        this->dir = 1;
 
     };
 public:
-    void dump(){
+    void dump() {
+        this->dumpLocked();
+        this->dumpDir();
+    }
+
+private:
+    bool locked;
+public:
+    void lock() {
+        this->locked = true;
+        this->dumpLocked();
+    }
+
+    bool isLocked() {
+        return this->locked;
+    }
+
+    void unlock() {
+        this->locked = false;
+        this->dumpLocked();
+    }
+
+    void dumpDir() {
         Serial.print(this->id);
         Serial.print(":d:");
         Serial.println(this->dir);
+    }
+
+    void dumpLocked() {
+        Serial.print(this->id);
+        Serial.print(":l:");
+        Serial.println(this->locked);
     }
 
 };
@@ -36,11 +64,11 @@ auto ab2 = BanalizedAutoBlock(450, 404, 402);
 
 BanalizedAutoBlock ABs[] = {ab1, ab2};
 
-auto ab1S = OneSideAutoBlock(401, 8, (int[]) {701, 703, 705, 707, 709, 711, 713, 715});
-auto ab2S = OneSideAutoBlock(402, 8, (int[]) {700, 702, 704, 706, 708, 710, 712, 714});
+auto ab1S = OneSideAutoBlock(401, 9, (int[]) {717,701, 703, 705, 707, 709, 711, 713, 715});
+auto ab2S = OneSideAutoBlock(402, 9, (int[]) {716,700, 702, 704, 706, 708, 710, 712, 714});
 
-auto ab1L = OneSideAutoBlock(403, 9, (int[]) {721, 723, 725, 727, 729, 731, 733, 735, 737});
-auto ab2L = OneSideAutoBlock(404, 9, (int[]) {720, 722, 724, 726, 728, 730, 732, 734, 736});
+auto ab1L = OneSideAutoBlock(403, 10, (int[]) {739,721, 723, 725, 727, 729, 731, 733, 735, 737});
+auto ab2L = OneSideAutoBlock(404, 10, (int[]) {738,720, 722, 724, 726, 728, 730, 732, 734, 736});
 
 OneSideABRefs oneSideAutoBlocks = {ab1S, ab2S, ab1L, ab2L};
 
@@ -134,6 +162,13 @@ auto signal35 = Signal::Signal(13, 535);
 auto signal36 = Signal::Signal(13, 536);
 auto signal37 = Signal::Signal(13, 537);
 
+auto signal40 = Signal::Signal(13, 540);
+auto signal41 = Signal::Signal(13, 541);
+
+auto signal42 = Signal::Signal(13, 542);
+auto signal43 = Signal::Signal(13, 543);
+
+
 SignalRefs signals = {
         signal0, signal1, signal2, signal3, signal4,
         signal5, signal6, signal7, signal8, signal9,
@@ -145,8 +180,13 @@ SignalRefs signals = {
         signal25, signal26, signal27, signal28, signal29,
 
         signal30, signal31, signal32, signal33, signal34,
-        signal35, signal36, signal37
+        signal35, signal36, signal37,
+
+        signal40,signal41,signal42,signal43
 };
+
+auto ABSector1S_0 = AutoBlockSector(717, 1, 541, 501, (int[]) {129});
+auto ABSector2S_0 = AutoBlockSector(716, 1, 540, 500, (int[]) {130});
 
 auto ABSector1S_1 = AutoBlockSector(701, 1, 501, 503, (int[]) {127});
 auto ABSector2S_1 = AutoBlockSector(700, 1, 500, 502, (int[]) {128});
@@ -172,6 +212,9 @@ auto ABSector2S_7 = AutoBlockSector(712, 2, 512, 514, (int[]) {108, 106});
 auto ABSector1S_8 = AutoBlockSector(715, 2, 515, 517, (int[]) {103, 101});
 auto ABSector2S_8 = AutoBlockSector(714, 2, 514, 516, (int[]) {104, 102});
 
+
+auto ABSector1L_0 = AutoBlockSector(739, 1, 543, 519, (int[]) {101});
+auto ABSector2L_0 = AutoBlockSector(738, 1, 542, 518, (int[]) {102});
 
 auto ABSector1L_1 = AutoBlockSector(721, 2, 519, 521, (int[]) {103, 105});
 auto ABSector2L_1 = AutoBlockSector(720, 2, 518, 520, (int[]) {104, 106});
@@ -201,6 +244,7 @@ auto ABSector1L_9 = AutoBlockSector(737, 1, 535, 537, (int[]) {129});
 auto ABSector2L_9 = AutoBlockSector(736, 1, 534, 536, (int[]) {130});
 
 AutoBlockSector ABSectors[] = {
+ABSector1S_0,ABSector2S_0,
         ABSector1S_1, ABSector2S_1,
         ABSector1S_2, ABSector2S_2,
         ABSector1S_3, ABSector2S_3,
@@ -210,6 +254,7 @@ AutoBlockSector ABSectors[] = {
         ABSector1S_7, ABSector2S_7,
         ABSector1S_8, ABSector2S_8,
 
+ABSector1L_0,ABSector2L_0,
         ABSector1L_1, ABSector2L_1,
         ABSector1L_2, ABSector2L_2,
         ABSector1L_3, ABSector2L_3,
@@ -341,8 +386,17 @@ void handleCmd(int id, char cmd, int value) {
  * @param value
  */
 void handleChangeAutoBlock(int id, char cmd, int value) {
+
     for (auto &banalizedAB: ABs) {
         if (banalizedAB.id == id) {
+            if (cmd == 'l') {
+                if (value) {
+                    banalizedAB.lock();
+                } else {
+                    banalizedAB.unlock();
+                }
+                return;
+            }
             if (banalizedAB.dir == value) {
                 return;
             }
@@ -359,8 +413,10 @@ void handleChangeAutoBlock(int id, char cmd, int value) {
                     break;
                 }
                 canChange =
-                        canChange && (getAutoBlockSector(inactiveOAB.sectors[i]).state == AutoBlockSector::STATE_FREE);
+                        canChange &&
+                        (getAutoBlockSector(inactiveOAB.sectors[i]).getState() == AutoBlockSector::STATE_FREE);
             }
+
             if (!canChange) {
                 Serial.println('cannnot change');
                 return;
@@ -370,15 +426,14 @@ void handleChangeAutoBlock(int id, char cmd, int value) {
                 if (inactiveOAB.sectors[i] == 0) {
                     break;
                 }
-                getAutoBlockSector(inactiveOAB.sectors[i]).active = false;
-                getAutoBlockSector(inactiveOAB.sectors[i]).error = 0;
+                getAutoBlockSector(inactiveOAB.sectors[i]).setActive(false);
             }
             for (int i = 0; i < 20; i++) {
                 if (activeOAB.sectors[i] == 0) {
                     break;
                 }
-                getAutoBlockSector(activeOAB.sectors[i]).active = true;
-                getAutoBlockSector(activeOAB.sectors[i]).state = AutoBlockSector::STATE_FREE;
+                getAutoBlockSector(activeOAB.sectors[i]).setActive(true);
+
 
             }
             banalizedAB.dir = value;
@@ -401,7 +456,7 @@ void setup() {
             if (oneSideAutoBlock.sectors[i] == 0) {
                 break;
             }
-            getAutoBlockSector(oneSideAutoBlock.sectors[i]).active = false;
+            getAutoBlockSector(oneSideAutoBlock.sectors[i]).setActive(false);
         }
     }
 
@@ -410,11 +465,70 @@ void setup() {
         signal.dump();
     }
     for (auto &banalizedAB: ABs) {
-    banalizedAB.dump();
+        banalizedAB.dump();
     }
 
 
 }
+
+
+int8_t getABSectorState(AutoBlockSector ABSector) {
+    if (!ABSector.getActive()) {
+        return AutoBlockSector::STATE_INACTIVE;
+    }
+    int8_t newState = AutoBlockSector::STATE_FREE;
+
+    for (int i = 0; i < ABSector.length; i++) {
+        if (ABSector.sectorIds[i] == 0) {
+            break;
+        }
+        SectorRef sector = getSector(ABSector.sectorIds[i]);
+        if (sector.getState() != SectorRef::STATE_FREE) {
+            newState = AutoBlockSector::STATE_OCCUPIED;
+        }
+    }
+    return newState;
+}
+
+/*
+void changeABState(AutoBlockSector ABSector, Signal::Signal exitSignal, int8_t newState) {
+    if (ABSector.getState() == newState) {
+        return;
+    }
+    // zhoď na stoj
+    if (newState == AutoBlockSector::STATE_OCCUPIED) {
+        ABSector.setState(AutoBlockSector::STATE_OCCUPIED);
+    }
+    if (newState == AutoBlockSector::STATE_FREE) {
+        // uplna blocková podmienka
+        if ((exitSignal.state == SignalRef::SIGNAL_STOJ &&
+             ABSector.getState() == AutoBlockSector::STATE_OCCUPIED)
+            || !ABSector.getFullBlockConditionActive()) {
+            ABSector.setState(AutoBlockSector::STATE_FREE);
+        } else {
+            ABSector.setError(AutoBlockSector::ERROR_FULL_BLOCK_CONDITION);
+        }
+    }
+    ABSector.dump();
+
+}
+
+*/
+uint8_t getABSignal(AutoBlockSector ABSector, Signal::Signal exitSignal) {
+    if (!ABSector.getActive()) {
+        return 13;
+    }
+    if (ABSector.getError()) {
+        return SignalRef::SIGNAL_STOJ;
+    }
+
+    if (ABSector.getState() == AutoBlockSector::STATE_FREE) {
+        return SignalRef::signalStrategy(exitSignal.state);
+    } else {
+        return SignalRef::SIGNAL_STOJ;
+    }
+}
+
 
 char tmp[10];
 
@@ -448,50 +562,36 @@ void loop() {
 
         Signal::Signal &entrySignal = getSignal(ABSector.entrySignalId);
         Signal::Signal &exitSignal = getSignal(ABSector.exitSignalId);
-        int newEntrySignalId;
-        if (ABSector.error != 0) {
-            newEntrySignalId = SignalRef::SIGNAL_STOJ;
-        } else {
-            if (ABSector.active) {
-                int newState = AutoBlockSector::STATE_FREE;
 
-                for (int i = 0; i < ABSector.length; i++) {
-                    if (ABSector.sectorIds[i] == 0) {
-                        break;
-                    }
-                    SectorRef sector = getSector(ABSector.sectorIds[i]);
-                    if (sector.getState() != SectorRef::STATE_FREE) {
-                        newState = AutoBlockSector::STATE_OCCUPIED;
-                    }
-                }
+
+        int8_t newState = getABSectorState(ABSector);
 // vyhodnoť a ulož stav
-                if (ABSector.state == newState) {
-                    // do nothing
-                } else {
-                    // zhoď na stoj
-                    if (newState == AutoBlockSector::STATE_OCCUPIED) {
+        if (ABSector.getState() != newState) {
+            // zhoď na stoj
+            if (newState == AutoBlockSector::STATE_OCCUPIED) {
+                ABSector.setState(AutoBlockSector::STATE_OCCUPIED);
+            }
+            if (newState == AutoBlockSector::STATE_FREE) {
+                // uvolnenie sektoru
 
-                        ABSector.state = AutoBlockSector::STATE_OCCUPIED;
-                    } else if (newState == AutoBlockSector::STATE_FREE) {
-                        // uvolnenie sektoru
-                        if (exitSignal.state == SignalRef::SIGNAL_STOJ || !ABSector.fullBlockConditionActive) {
-                            ABSector.state = AutoBlockSector::STATE_FREE;
-                        } else {
-                            ABSector.error = AutoBlockSector::ERROR_FULL_BLOCK_CONDITION;
-                        }
-                    }
-                    ABSector.dump();
-                }
-// prehoď signali
-                if (ABSector.state == AutoBlockSector::STATE_FREE) {
-                    newEntrySignalId = SignalRef::signalStrategy(exitSignal.state);
+                if ((exitSignal.state == SignalRef::SIGNAL_STOJ &&
+                     ABSector.getState() == AutoBlockSector::STATE_OCCUPIED)
+                    || !ABSector.getFullBlockConditionActive() ||
+                    ABSector.getState() == AutoBlockSector::STATE_INACTIVE) {
+                    ABSector.setState(AutoBlockSector::STATE_FREE);
                 } else {
-                    newEntrySignalId = SignalRef::SIGNAL_STOJ;
+                    ABSector.setError(AutoBlockSector::ERROR_FULL_BLOCK_CONDITION);
                 }
-            } else {
-                newEntrySignalId = 13;
+            }
+            if (newState == AutoBlockSector::STATE_INACTIVE) {
+                ABSector.setState(AutoBlockSector::STATE_INACTIVE);
+                ABSector.setError(0);
             }
         }
+
+
+        uint8_t newEntrySignalId = getABSignal(ABSector, exitSignal);
+
         if (entrySignal.state != newEntrySignalId) {
             entrySignal.setState(newEntrySignalId);
         }

@@ -77,6 +77,10 @@ export default class TrainRouteLock {
                 const sector = sectors[id];
                 sector.check();
             }
+            //const knot = route.knot;
+           // if (knot) {
+            //    knot.check();
+          //  }
         } catch (e) {
             console.log('try build reason:' + e.message);
             this.reason = e.message;

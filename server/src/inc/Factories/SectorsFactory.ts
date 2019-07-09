@@ -1,5 +1,5 @@
-import Sector from '../objects/Sector';
-import { Message } from '../../../../definitions/interfaces';
+import Sector from '../objects/Sectors/Sector';
+import { Message } from '../../definitions/interfaces';
 import {
     LocoNetMessage,
     LocoNetReciever,

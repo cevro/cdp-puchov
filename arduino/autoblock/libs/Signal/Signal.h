@@ -7,7 +7,7 @@ namespace Signal {
         int id;
         int scomPin;
         uint8_t mask;
-        int state;
+        uint8_t state;
         int lockTime;
     private:
         uint8_t status;
@@ -20,7 +20,7 @@ namespace Signal {
 
     public:
 
-        void setState(int id) {
+        void setState(uint8_t id) {
 
             this->state = id;
             this->mask = 0x00000001;

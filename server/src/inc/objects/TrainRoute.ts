@@ -1,6 +1,6 @@
 import Signal from './Signal';
 import PointPosition from './PointPosition';
-import Sector from './Sector';
+import Sector from './Sectors/Sector';
 import { signalFactory } from '../Factories/SignalFactory';
 import { sectorFactory } from '../Factories/SectorsFactory';
 import { TrainRouteDefinition } from '../../data/puchov/routes/1L';
@@ -15,6 +15,7 @@ export default class TrainRoute {
     public readonly pointPositions: PointPosition[];
     public startSignal: Signal;
     public endSignal: Signal;
+    // public trackApproval: TrackApproval;
 
     public readonly endSector: Sector;
 

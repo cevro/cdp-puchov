@@ -54,8 +54,11 @@ export interface AutoBlockSectorState {
     fullBlockConditionActive: number;
 }
 
+export type ABRequestedDir = -1 | 0 | 1
+export type ABDir = ABRequestedDir | 0;
+
 export interface BanalizedABState {
-    dir: -1 | 0 | 1;
+    dir: ABDir;
     locoNetId: number;
 }
 

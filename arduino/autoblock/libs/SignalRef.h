@@ -3,13 +3,14 @@
 
 class SignalRef {
 public:
-    static const int SIGNAL_STOJ = 0;
-    static const int SIGNAL_VOLNO = 1;
-    static const int SIGNAL_VYSTRAHA = 2;
+    static const uint8_t SIGNAL_STOJ = 0;
+    static const uint8_t SIGNAL_VOLNO = 1;
+    static const uint8_t SIGNAL_VYSTRAHA = 2;
+    static const uint8_t SIGNAL_OFF = 13;
 
 public:
     int id;
-    int state;
+    uint8_t state;
 
     SignalRef(int signalId) {
         this->id = signalId;

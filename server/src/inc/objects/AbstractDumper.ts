@@ -1,7 +1,7 @@
 import { logger } from '../../webSocetServer';
-import { MESSAGE_ACTION_STATE_UPDATE } from '../../../../definitions/interfaces';
+import { MESSAGE_ACTION_STATE_UPDATE } from '../../definitions/interfaces';
 
-export default abstract class AbstractDumper<T = any> {
+export default class AbstractDumper<T = any> {
 
     public sendState() {
         logger.log<T>({

@@ -10,6 +10,7 @@ export interface TrainRouteDefinition {
     endSectorId: number;
     speed: number | null;
     sufficientDistance?: boolean;
+    knotId?: number;
 }
 
 const routes1L: TrainRouteDefinition[] = [

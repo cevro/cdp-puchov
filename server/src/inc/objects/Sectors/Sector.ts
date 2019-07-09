@@ -1,18 +1,18 @@
-import { logger } from '../../webSocetServer';
-import { STATUS_FREE } from '../../consts/obvod/status';
+import { logger } from '../../../webSocetServer';
+import { STATUS_FREE } from '../../../consts/obvod/status';
 import {
     Message,
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
-} from '../../definitions/interfaces';
+} from '../../../definitions/interfaces';
 import {
     DataDumper,
     LocoNetMessage,
     LocoNetReciever,
     MessageReciever,
-} from '../Factories/DateReceiver';
-import { locoNetConnector } from '../SerialConnector/SerialConnector';
-import { SectorBackEndDefinition } from '../../data/sectors';
+} from '../../Factories/DateReceiver';
+import { locoNetConnector } from '../../SerialConnector/SerialConnector';
+import { SectorBackEndDefinition } from '../../../data/sectors';
 
 export default class Sector implements DataDumper<SectorState>, LocoNetReciever, MessageReciever {
     public readonly locoNetId;

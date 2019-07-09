@@ -1,12 +1,12 @@
-import { AutoBlockSectorState } from '../../../../definitions/interfaces';
-import { Message } from '../../definitions/interfaces';
+import { AutoBlockSectorState } from '../../../definitions/interfaces';
+import { Message } from '../../../definitions/interfaces';
 import {
     LocoNetMessage,
     LocoNetReciever,
     MessageReciever,
-} from '../Factories/DateReceiver';
-import { locoNetConnector } from '../SerialConnector/SerialConnector';
-import AbstractDumper from './AbstractDumper';
+} from '../../Factories/DateReceiver';
+import { locoNetConnector } from '../../SerialConnector/SerialConnector';
+import AbstractDumper from './../AbstractDumper';
 
 export default class AutoBlockSector extends AbstractDumper<AutoBlockSectorState> implements MessageReciever, LocoNetReciever {
     public readonly locoNetId: number;
@@ -96,7 +96,7 @@ export default class AutoBlockSector extends AbstractDumper<AutoBlockSectorState
                 this.sendState();
                 break;
         }
-       // console.log(this);
+        // console.log(this);
     }
 
     public handleMessageReceive(message: Message): void {

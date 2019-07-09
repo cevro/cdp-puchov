@@ -5,7 +5,7 @@
 
 class Sector : public ISector {
 private:
-    int locoNetId;
+
     int pin;
     int values[5];
     int index;

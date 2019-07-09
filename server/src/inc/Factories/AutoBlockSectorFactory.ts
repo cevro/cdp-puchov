@@ -6,8 +6,8 @@ import {
 import {
     AutoBlockSectorState,
     Message,
-} from '../../../../definitions/interfaces';
-import AutoBlockSector from '../objects/AutoBlockSector';
+} from '../../definitions/interfaces';
+import AutoBlockSector from '../objects/Sectors/AutoBlockSector';
 import { autoBlockSectors } from '../../definitions/AutoBlockSectors';
 
 class AutoBlockSectorFactory implements MessageReciever, LocoNetReciever {

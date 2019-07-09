@@ -21,6 +21,8 @@ export const autoBlockSectors: AutoBlockSectorDefinition[] = [
     {locoNetId: 713},
     {locoNetId: 714},
     {locoNetId: 715},
+    {locoNetId: 716},
+    {locoNetId: 717},
 
     {locoNetId: 720},
     {locoNetId: 721},
@@ -41,5 +43,7 @@ export const autoBlockSectors: AutoBlockSectorDefinition[] = [
     {locoNetId: 735},
     {locoNetId: 736},
     {locoNetId: 737},
+    {locoNetId: 738},
+    {locoNetId: 739},
 
 ];

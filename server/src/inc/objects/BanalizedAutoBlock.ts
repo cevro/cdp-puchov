@@ -3,13 +3,22 @@ import {
     LocoNetReciever,
     MessageReciever,
 } from '../Factories/DateReceiver';
-import { Message } from '../../definitions/interfaces';
+import {
+    ABDir,
+    Message,
+} from '../../definitions/interfaces';
 import { locoNetConnector } from '../SerialConnector/SerialConnector';
 import AbstractDumper from './AbstractDumper';
 
 export const BANALIZERD_AB_ENTITY_NAME = 'banalized-auto-block';
-export default class BanalizedAutoBlock extends AbstractDumper<{ dir: -1 | 0 | 1; locoNetId: number }> implements MessageReciever, LocoNetReciever {
-    private dir;
+
+export interface ABState {
+    dir: ABDir;
+    locoNetId: number;
+}
+
+export default class BanalizedAutoBlock extends AbstractDumper<ABState> implements MessageReciever, LocoNetReciever {
+    private dir: ABDir;
     private readonly locoNetId;
 
     constructor(data: { locoNetId: number }) {
@@ -18,7 +27,7 @@ export default class BanalizedAutoBlock extends AbstractDumper<{ dir: -1 | 0 | 1
         this.dir = 0;
     }
 
-    public handleMessageReceive(message: Message) {
+    public handleMessageReceive(message: Message): void {
         switch (message.action) {
             case 'change-dir':
                 return locoNetConnector.send({
@@ -29,24 +38,29 @@ export default class BanalizedAutoBlock extends AbstractDumper<{ dir: -1 | 0 | 1
         }
     }
 
-    public handleLocoNetReceive(data: LocoNetMessage) {
+    public handleLocoNetReceive(data: LocoNetMessage): void {
         switch (data.type) {
             case 'd':
-                this.dir = data.value;
+                this.dir = (<ABDir> data.value);
                 this.sendState();
                 return;
         }
+        return;
     }
 
-    public getLocoNetId() {
+    public getDir(): ABDir {
+        return this.dir;
+    }
+
+    public getLocoNetId(): number {
         return this.locoNetId;
     }
 
-    public getEntityName() {
+    public getEntityName(): string {
         return BANALIZERD_AB_ENTITY_NAME;
     }
 
-    public dumpData() {
+    public dumpData(): ABState {
         return {
             dir: this.dir,
             locoNetId: this.locoNetId,

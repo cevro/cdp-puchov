@@ -1,6 +1,5 @@
 import TrainRoute from '../objects/TrainRoute';
-import { routes } from '../../data/puchov/routes/1L';
-import { Message } from '../../../../definitions/interfaces';
+import { Message } from '../../definitions/interfaces';
 import { RouteFinderRequest } from '../../definitions/interfaces';
 import { logger } from '../../webSocetServer';
 import { MessageReciever } from './DateReceiver';

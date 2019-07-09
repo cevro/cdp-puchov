@@ -49,4 +49,9 @@ export const signals: SignalBackEndDefinition[] = [
     {locoNetId: 538},
     {locoNetId: 539},
 
+    {locoNetId: 540},
+    {locoNetId: 541},
+    {locoNetId: 542},
+    {locoNetId: 543},
+
 ];
