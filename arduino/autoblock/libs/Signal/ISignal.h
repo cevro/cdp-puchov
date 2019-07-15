@@ -1,7 +1,3 @@
-//
-// Created by miso on 15.7.2019.
-//
-
 #ifndef KOLAJISKO_ISIGNAL_H
 #define KOLAJISKO_ISIGNAL_H
 
@@ -19,6 +15,10 @@ namespace Signals {
         }
 
     public:
+        /**
+         * @deprecated
+         * @return
+         */
         int getId() {
             return this->locoNetId;
         }
@@ -45,7 +45,17 @@ namespace Signals {
             Serial.print(":s:");
             Serial.println(this->state);
         }
+
+    public:
+        virtual void clock()=0;
+
+    public:
+        virtual void handleCmd(char cmd, int value);
+
+    public:
+        virtual void dump() = 0;
     };
+
 
 };
 #endif //KOLAJISKO_ISIGNAL_H

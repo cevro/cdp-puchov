@@ -50,6 +50,18 @@ public:
         Serial.println(this->locked);
     }
 
+    void handleCmd(char cmd, int value) {
+        switch (cmd) {
+            case 'l':
+                if (value) {
+                    this->lock();
+                } else {
+                    this->unlock();
+                }
+                break;
+        }
+        return;
+    }
 };
 
 #endif //HELLO_WORLD_BIDIRECTIONALAB_H

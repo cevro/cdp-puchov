@@ -1,7 +1,3 @@
-//
-// Created by miso on 3.7.2019.
-//
-
 #ifndef ARDUINO_ISECTOR_H
 #define ARDUINO_ISECTOR_H
 

@@ -14,7 +14,7 @@ namespace Signals {
     private:
         uint8_t status;
     public:
-        Signal(int scomPin, int id) : ISignal(id){
+        Signal(int scomPin, int id) : ISignal(id) {
             // this->state = 5;
             this->status = 1;
             this->setPin(scomPin);
@@ -40,8 +40,6 @@ namespace Signals {
 
     public:
         void clock() {
-            //    Serial.println(this->status);
-            //Serial.println(this->data);
             if (this->lockTime < 300) {
                 this->lockTime += 10;
                 return;
@@ -71,6 +69,12 @@ namespace Signals {
                     this->status = 1;
                     break;
             }
+        }
+
+
+    public:
+        void dump() {
+            this->dumpState();
         }
 
     private:

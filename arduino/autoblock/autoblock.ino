@@ -1,7 +1,7 @@
 #include "./libs/SectorRef.h"
-#include "libs/Signal/SignalRef.h"
-#include "libs/Signal/Signal.h"
-#include "libs/Signal/SignalStrategy.h"
+#include "./libs/Signal/SignalRef.h"
+#include "./libs/Signal/Signal.h"
+#include "./libs/Signal/SignalStrategy.h"
 #include "./libs/AutoBlockSector.h"
 #include "./libs/OneSideAutoBlock.h"
 #include "./libs/BiDirectionalAB.h"
@@ -13,14 +13,14 @@ auto ab1S = OneSideAutoBlock(401, 9, (int[]) {717, 701, 703, 705, 707, 709, 711,
 auto ab1L = OneSideAutoBlock(403, 10, (int[]) {739, 721, 723, 725, 727, 729, 731, 733, 735, 737});
 //auto ab2L = OneSideAutoBlock(404, 10, (int[]) {738, 720, 722, 724, 726, 728, 730, 732, 734, 736});
 
-OneSideAutoBlock* oneSideAutoBlocks[] = {&ab1S, /*ab2S,*/ &ab1L, /*ab2L*/};
+OneSideAutoBlock *oneSideAutoBlocks[] = {&ab1S, /*ab2S,*/ &ab1L, /*ab2L*/};
 
 
 auto ab1 = BiDirectionalAB(451, ab1S, ab1L);
 
 //auto ab2 = BiDirectionalAB(450, 404, 402);
 
-BiDirectionalAB *ABs[] = {&ab1/*, ab2*/};
+BiDirectionalAB *biDirABs[] = {&ab1/*, ab2*/};
 
 /***** Define sectors *****/
 auto sector1 = SectorRef(101);
@@ -58,22 +58,22 @@ auto sector29 = SectorRef(129);
 //auto sector30 = SectorRef(130);
 
 
-SectorRef sectors[] = {
-        sector1, //sector2,
-        sector3, //sector4,
-        sector5, //sector6,
-        sector7, //sector8,
-        sector9, //sector10,
-        sector11, //sector12,
-        sector13, //sector14,
-        sector15, //sector16,
-        sector17, //sector18,
-        sector19, //sector20,
-        sector21, //sector22,
-        sector23, //sector24,
-        sector25, //sector26,
-        sector27, //sector28,
-        sector29, //sector30
+SectorRef *sectors[] = {
+        &sector1, //sector2,
+        &sector3, //sector4,
+        &sector5, //sector6,
+        &sector7, //sector8,
+        &sector9, //sector10,
+        &sector11, //sector12,
+        &sector13, //sector14,
+        &sector15, //sector16,
+        &sector17, //sector18,
+        &sector19, //sector20,
+        &sector21, //sector22,
+        &sector23, //sector24,
+        &sector25, //sector26,
+        &sector27, //sector28,
+        &sector29, //sector30
 };
 
 /***** Define signals *****/
@@ -131,7 +131,7 @@ auto signal41 = Signals::Signal(13, 541);
 auto signal43 = Signals::Signal(13, 543);
 
 
-Signals::Signal *signals[] = {
+Signals::ISignal *signals[] = {
         //signal0,
         &signal1,
         //signal2,
@@ -240,27 +240,27 @@ auto ABSector1L_8 = AutoBlockSector(735, 1, signal33, signal35, (int[]) {127});
 auto ABSector1L_9 = AutoBlockSector(737, 1, signal35, signal37, (int[]) {129});
 //auto ABSector2L_9 = AutoBlockSector(736, 1, 534, 536, (int[]) {130});
 
-AutoBlockSector ABSectors[] = {
-        ABSector1S_0, //ABSector2S_0,
-        ABSector1S_1, //ABSector2S_1,
-        ABSector1S_2, //ABSector2S_2,
-        ABSector1S_3, //ABSector2S_3,
-        ABSector1S_4, //ABSector2S_4,
-        ABSector1S_5, //ABSector2S_5,
-        ABSector1S_6, //ABSector2S_6,
-        ABSector1S_7, //ABSector2S_7,
-        ABSector1S_8, //ABSector2S_8,
+AutoBlockSector* ABSectors[] = {
+        &ABSector1S_0, //ABSector2S_0,
+        &ABSector1S_1, //ABSector2S_1,
+        &ABSector1S_2, //ABSector2S_2,
+        &ABSector1S_3, //ABSector2S_3,
+        &ABSector1S_4, //ABSector2S_4,
+        &ABSector1S_5, //ABSector2S_5,
+        &ABSector1S_6, //ABSector2S_6,
+        &ABSector1S_7, //ABSector2S_7,
+        &ABSector1S_8, //ABSector2S_8,
 
-        ABSector1L_0, //ABSector2L_0,
-        ABSector1L_1, //ABSector2L_1,
-        ABSector1L_2, //ABSector2L_2,
-        ABSector1L_3, //ABSector2L_3,
-        ABSector1L_4, //ABSector2L_4,
-        ABSector1L_5, //ABSector2L_5,
-        ABSector1L_6, //ABSector2L_6,
-        ABSector1L_7, //ABSector2L_7,
-        ABSector1L_8, //ABSector2L_8,
-        ABSector1L_9, //ABSector2L_9,
+        &ABSector1L_0, //ABSector2L_0,
+        &ABSector1L_1, //ABSector2L_1,
+        &ABSector1L_2, //ABSector2L_2,
+        &ABSector1L_3, //ABSector2L_3,
+        &ABSector1L_4, //ABSector2L_4,
+        &ABSector1L_5, //ABSector2L_5,
+        &ABSector1L_6, //ABSector2L_6,
+        &ABSector1L_7, //ABSector2L_7,
+        &ABSector1L_8, //ABSector2L_8,
+        &ABSector1L_9, //ABSector2L_9,
 };
 
 /**
@@ -268,22 +268,9 @@ AutoBlockSector ABSectors[] = {
  * @param id
  * @return
  */
-Signals::Signal *getSignal(int id) {
-    for (auto &signal: signals) {
-        if (signal->getId() == id) {
-            return signal;
-        }
-    }
-};
-
-/**
- *
- * @param id
- * @return
- */
-AutoBlockSector &getAutoBlockSector(int id) {
+AutoBlockSector *getAutoBlockSector(int id) {
     for (auto &sector: ABSectors) {
-        if (sector.getId() == id) {
+        if (sector->getId() == id) {
             return sector;
         }
     }
@@ -294,9 +281,9 @@ AutoBlockSector &getAutoBlockSector(int id) {
  * @param id
  * @return
  */
-SectorRef getSector(int id) {
+SectorRef *getSector(int id) {
     for (auto &sector: sectors) {
-        if (sector.getId() == id) {
+        if (sector->getId() == id) {
             return sector;
         }
     }
@@ -307,18 +294,18 @@ SectorRef getSector(int id) {
  *
  */
 void sendState() {
-    /*for (auto &signal: signals) {
-        signal.dump();
-    }*/
     for (auto &sector: sectors) {
-        sector.dump();
+        sector->dump();
     }
     for (auto &ABSector: ABSectors) {
-        ABSector.dump();
+        ABSector->dump();
     }
-    /*  for (int i = 0; i < 20; ++i) {
-          objects[i]->dump();
-      }*/
+    for (auto &signal: signals) {
+        signal->dump();
+    }
+    for (auto &BiDirAB: biDirABs) {
+        BiDirAB->dump();
+    }
     return;
 };
 
@@ -329,12 +316,6 @@ void sendState() {
  * @param value
  */
 void handleCmd(int id, char cmd, int value) {
-    /*for (int i = 0; i < 20; ++i) {
-        if (objects[i]->getId() == id) {
-            objects[i]->handleCmd(cmd, value);
-        }
-    }
-    return;*/
 
     // Signals
     for (auto &signal: signals) {
@@ -344,21 +325,16 @@ void handleCmd(int id, char cmd, int value) {
     }
 
     for (auto &sector: sectors) {
-        if (sector.getId() == id) {
-            sector.handleCmd(cmd, value);
+        if (sector->getId() == id) {
+            sector->handleCmd(cmd, value);
         }
     }
     for (auto &ABSector: ABSectors) {
-        if (ABSector.getId() == id) {
-            ABSector.handleCmd(cmd, value);
+        if (ABSector->getId() == id) {
+            ABSector->handleCmd(cmd, value);
         }
     }
     handleChangeAutoBlock(id, cmd, value);
-    /* for (auto &OneSideAutoBlock: OneSideAutoBlocks) {
-             if (ABSector.getId() == id) {
-                 ABSector.handleCmd(cmd, value);
-             }
-         }*/
     return;
 }
 
@@ -370,16 +346,10 @@ void handleCmd(int id, char cmd, int value) {
  */
 void handleChangeAutoBlock(int id, char cmd, int value) {
 
-    for (auto &banalizedAB: ABs) {
+    for (auto &banalizedAB: biDirABs) {
         if (banalizedAB->id == id) {
+            banalizedAB->handleCmd(cmd, value);
             switch (cmd) {
-                case 'l':
-                    if (value) {
-                        banalizedAB->lock();
-                    } else {
-                        banalizedAB->unlock();
-                    }
-                    return;
                 case 'd':
                     if (banalizedAB->dir == value) {
                         return;
@@ -400,7 +370,7 @@ void handleChangeAutoBlock(int id, char cmd, int value) {
                         }
                         canChange =
                                 canChange &&
-                                (getAutoBlockSector(inactiveOAB.sectors[i]).getState() == AB_SECTOR_STATE_FREE);
+                                (getAutoBlockSector(inactiveOAB.sectors[i])->getState() == AB_SECTOR_STATE_FREE);
                     }
                     canChange = canChange && !banalizedAB->isLocked();
 
@@ -413,13 +383,13 @@ void handleChangeAutoBlock(int id, char cmd, int value) {
                         if (inactiveOAB.sectors[i] == 0) {
                             break;
                         }
-                        getAutoBlockSector(inactiveOAB.sectors[i]).setActive(false);
+                        getAutoBlockSector(inactiveOAB.sectors[i])->setActive(false);
                     }
                     for (int i = 0; i < 20; i++) {
                         if (activeOAB.sectors[i] == 0) {
                             break;
                         }
-                        getAutoBlockSector(activeOAB.sectors[i]).setActive(true);
+                        getAutoBlockSector(activeOAB.sectors[i])->setActive(true);
 
 
                     }
@@ -439,63 +409,35 @@ void setup() {
     while (!Serial) { ;
     }
 
-    for (auto &AB: ABs) {
+    for (auto &AB: biDirABs) {
         for (int i = 0; i < 20; i++) {
             if (AB->auxAB.sectors[i] == 0) {
                 break;
             }
             Serial.println(AB->auxAB.sectors[i]);
-            getAutoBlockSector(AB->auxAB.sectors[i]).setActive(false);
+            getAutoBlockSector(AB->auxAB.sectors[i])->setActive(false);
         }
     }
 
     sendState();
-    for (auto &signal: signals) {
-        signal->dumpState();
-    }
-    for (auto &banalizedAB: ABs) {
-        banalizedAB->dump();
-    }
+
 }
 
-int8_t getABSectorState(AutoBlockSector ABSector) {
-    if (!ABSector.getActive()) {
-        return ABSector.getState();
+int8_t getABSectorState(AutoBlockSector* ABSector) {
+    if (!ABSector->getActive()) {
+        return ABSector->getState();
     }
     int8_t newState = AB_SECTOR_STATE_FREE;
 
-    for (int i = 0; i < ABSector.length; i++) {
-        SectorRef sector = getSector(ABSector.sectorIds[i]);
-        if (sector.getState() != SectorRef::STATE_FREE) {
+    for (int i = 0; i < ABSector->length; i++) {
+        SectorRef* sector = getSector(ABSector->sectorIds[i]);
+        if (sector->getState() != SectorRef::STATE_FREE) {
             newState = AB_SECTOR_STATE_OCCUPIED;
         }
     }
     return newState;
 }
 
-/*
-void changeABState(AutoBlockSector ABSector, Signals::Signal exitSignal, int8_t newState) {
-    if (ABSector.getState() == newState) {
-        return;
-    }
-    // zhoď na stoj
-    if (newState == AutoBlockSector::STATE_OCCUPIED) {
-        ABSector.setState(AutoBlockSector::STATE_OCCUPIED);
-    }
-    if (newState == AutoBlockSector::STATE_FREE) {
-        // uplna blocková podmienka
-        if ((exitSignal.state == SignalRef::SIGNAL_STOJ &&
-             ABSector.getState() == AutoBlockSector::STATE_OCCUPIED)
-            || !ABSector.getFullBlockConditionActive()) {
-            ABSector.setState(AutoBlockSector::STATE_FREE);
-        } else {
-            ABSector.setError(AutoBlockSector::ERROR_FULL_BLOCK_CONDITION);
-        }
-    }
-    ABSector.dump();
-
-}
-*/
 
 char tmp[10];
 
@@ -526,8 +468,9 @@ void loop() {
 
     for (auto &ABSector: ABSectors) {
         ABSectorState_t newState = getABSectorState(ABSector);
-        ABSector.setState(newState);
-        ABSector.clock();
+        ABSector->setState(newState);
+
+        ABSector->clock();
     }
     delay(10);
 

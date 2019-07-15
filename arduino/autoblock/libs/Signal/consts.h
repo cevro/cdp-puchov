@@ -1,7 +1,3 @@
-//
-// Created by miso on 15.7.2019.
-//
-
 #ifndef KOLAJISKO_CONSTS_H
 #define KOLAJISKO_CONSTS_H
 namespace Signals{
