@@ -10,7 +10,7 @@ private:
     int values[5];
     int index;
 
-    int state;
+    int8_t state;
 public:
     Sector(int locoNetId, int pin) : locoNetId(locoNetId), pin(pin) {}
 
@@ -46,7 +46,7 @@ public:
     }
 
 public:
-    int getState() {
+    int8_t getState() {
         return this->state;
     }
 

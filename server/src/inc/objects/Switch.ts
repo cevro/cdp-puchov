@@ -11,15 +11,15 @@ import {
 } from '../../definitions/interfaces';
 import { DataDumper } from '../Factories/DateReceiver';
 
-export default class Point implements DataDumper<PointState> {
-    public TYPE_NAME = 'point';
+export default class Switch implements DataDumper<PointState> {
+    public TYPE_NAME = 'switch';
 
     private _position: pointPosition;
     private _requestedPosition: requestedPointPosition;
 
-    public readonly id;
+    public readonly id: number;
     private lockedBy: number[] = [];
-    public readonly sector;
+    public readonly sector: number;
 
     constructor(definition: PointDefinition) {
         this.id = definition.id;
@@ -46,10 +46,6 @@ export default class Point implements DataDumper<PointState> {
         return this._requestedPosition;
     }
 
-    get changing(): boolean {
-        return this._requestedPosition !== this._position;
-    }
-
     public check(position: requestedPointPosition): void {
         if (this.position == position) {
             return;
@@ -63,41 +59,29 @@ export default class Point implements DataDumper<PointState> {
         if (this.position !== position) {
             await this.changePosition(position);
         }
-        this.addLocker(id);
-    }
-
-    public unlock(id: number) {
-        this.removeLocker(id);
-    }
-
-    public unlockBySector(id: number, sectorId: number) {
-        if (this.sector === sectorId) {
-            this.removeLocker(id);
-        }
-    }
-
-    private addLocker(id: number) {
         this.lockedBy.push(id);
         this.sendState();
     }
 
-    private removeLocker(id: number) {
+    public unlock(id: number) {
         this.lockedBy = this.lockedBy.filter((lockerId) => {
             return lockerId !== id;
         });
         this.sendState();
     }
 
-    public async changePosition(position: requestedPointPosition) {
+    public changePosition(position: requestedPointPosition) {
 
         if (this.lockedBy.length > 0) {
             throw new Error();
         }
         this.requestedPosition = position;
-        await new Promise((resolve) => {
-            setTimeout(() => resolve(), 5000);
-        });
-        this.position = position;
+
+        setTimeout(() => {
+                this.position = position;
+            }, 5000,
+        );
+
     }
 
     public dumpData(): PointState {
@@ -106,7 +90,6 @@ export default class Point implements DataDumper<PointState> {
             position: this.position,
             requestedPosition: this.requestedPosition,
             locked: this.lockedBy,
-            changing: this.changing,
         };
     }
 

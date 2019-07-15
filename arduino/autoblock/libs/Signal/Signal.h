@@ -1,30 +1,32 @@
+
 #ifndef ARDUINO_SIGNAL_H
 #define ARDUINO_SIGNAL_H
 
-namespace Signal {
-    class Signal {
+#include "consts.h"
+#include "ISignal.h"
+
+namespace Signals {
+    class Signal : public ISignal {
     public:
-        int id;
-        int scomPin;
+        int8_t scomPin;
         uint8_t mask;
-        uint8_t state;
         int lockTime;
     private:
         uint8_t status;
     public:
-        Signal(int scomPin, int id) : id(id) {
-            this->state = 5;
+        Signal(int scomPin, int id) : ISignal(id){
+            // this->state = 5;
             this->status = 1;
             this->setPin(scomPin);
         };
 
     public:
 
-        void setState(uint8_t id) {
+        void setState(SignalState_t id) {
 
             this->state = id;
             this->mask = 0x00000001;
-            this->dump();
+            this->dumpState();
         }
 
     public:
@@ -34,11 +36,6 @@ namespace Signal {
                     this->setState(value);
             }
             return;
-        }
-
-    public:
-        int getId() {
-            return this->id;
         }
 
     public:
@@ -76,21 +73,8 @@ namespace Signal {
             }
         }
 
-    public:
-        int getState() {
-            return this->state;
-        }
-
-    public:
-        void dump() {
-            Serial.print(this->id);
-            Serial.print(":s:");
-            Serial.println(this->state);
-
-        }
-
     private:
-        void setPin(int pin) {
+        void setPin(int8_t pin) {
             this->scomPin = pin;
             pinMode(pin, OUTPUT);
             digitalWrite(this->scomPin, HIGH);

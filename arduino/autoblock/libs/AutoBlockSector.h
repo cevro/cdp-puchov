@@ -1,40 +1,42 @@
 #include "StateObject.h"
+#include "Signal/Signal.h"
+#include "Signal/consts.h"
 
 #ifndef KOLAJISKO_AUTOBLOCKSECTOR_H
 #define KOLAJISKO_AUTOBLOCKSECTOR_H
 
+typedef int8_t ABSectorState_t;
+
+const ABSectorState_t AB_SECTOR_STATE_OCCUPIED = 1;
+const ABSectorState_t AB_SECTOR_STATE_FREE = 2;
+const ABSectorState_t AB_SECTOR_STATE_UNDEFINED = -1;
+
+
 class AutoBlockSector : ObjectDump {
 public:
-    static const int8_t STATE_OCCUPIED = 1;
-    static const int8_t STATE_FREE = 2;
-    static const int8_t STATE_UNDEFINED = -1;
-    static const int8_t STATE_INACTIVE = 3;
-
     static const int8_t ERROR_FULL_BLOCK_CONDITION = 1;
 private:
     int id;
     bool active;
     bool fullBlockConditionActive;
     int8_t error;
-    int8_t state;
+    ABSectorState_t state;
 public:
     // 0 FREE 1 obsadeny
     uint8_t length;
-    int entrySignalId;
-    int exitSignalId;
-    int sectorIds[15];
+    Signals::Signal &entrySignal;
+    Signals::Signal &exitSignal;
 
+    int sectorIds[15];
 
     AutoBlockSector(
             int id,
             uint8_t length,
-            int entrySignal,
-            int exitSignal,
+            Signals::Signal &entrySignalRef,
+            Signals::Signal &exitSignalRef,
             const int sectors[]
-    ) : entrySignalId(entrySignal), exitSignalId(exitSignal) {
-        this->id = id;
-        this->length = length;
-        this->state = this->STATE_UNDEFINED;
+    ) : entrySignal(entrySignalRef), exitSignal(exitSignalRef), id(id), length(length) {
+        this->state = AB_SECTOR_STATE_UNDEFINED;
         this->error = 0;
         this->active = true;
         this->fullBlockConditionActive = true;
@@ -55,18 +57,61 @@ public:
         }
     }
 
+private:
+     getABSignal() {
+        if (!this->getActive()) {
+            return 13;
+        }
+        if (this->getError()) {
+            return Signals::SIGNAL_STATE_SIGNAL_STOJ;
+        }
+
+        if (this->getState() == AB_SECTOR_STATE_FREE) {
+            return Signals::signalStrategy(this->exitSignal.getState());
+        } else {
+            return Signals::SIGNAL_STATE_SIGNAL_STOJ;
+        }
+    }
+
+public:
+    void clock() {
+
+
+        uint8_t newEntrySignalId = this->getABSignal();
+        if (this->entrySignal.getState() != newEntrySignalId) {
+            this->entrySignal.setState(newEntrySignalId);
+        }
+    }
+
 public:
     int getId() {
         return this->id;
     }
 
 public:
-    void setState(int8_t state) {
-        this->state = state;
-        this->dumpState();
+    void setState(ABSectorState_t newState) {
+        if (this->getState() != newState) {
+            // zhoď na stoj
+            if (newState == AB_SECTOR_STATE_OCCUPIED) {
+                this->state = AB_SECTOR_STATE_OCCUPIED;
+            }
+            if (newState == AB_SECTOR_STATE_FREE) {
+                // uvolnenie sektoru
+
+                if ((this->exitSignal.getState() == Signals::SIGNAL_STATE_SIGNAL_STOJ &&
+                     this->getState() == AB_SECTOR_STATE_OCCUPIED)
+                    || !this->getFullBlockConditionActive()) {
+                    this->state = AB_SECTOR_STATE_FREE;
+                } else {
+                    this->setError(AutoBlockSector::ERROR_FULL_BLOCK_CONDITION);
+                }
+            }
+            this->dumpState();
+        }
+
     }
 
-    int8_t getState() {
+    ABSectorState_t getState() {
         return this->state;
     }
 
@@ -96,6 +141,7 @@ public:
         this->dumpActive();
 
         this->setError(0);
+        this->state = AB_SECTOR_STATE_FREE;
     }
 
     bool getActive() {

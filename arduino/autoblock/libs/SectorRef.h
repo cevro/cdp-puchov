@@ -8,21 +8,20 @@
 class SectorRef : protected ObjectDump, public ISector {
 
 private:
-    int state;
+    int8_t state;
 public:
-    SectorRef(int id) {
-        this->locoNetId = id;
+    SectorRef(int id) : ISector(id) {
         this->state = this->STATE_UNDEFINED;
     }
 
 public:
-    void setState(int receivedState) {
+    void setState(int8_t receivedState) {
         this->state = receivedState;
         this->dumpState();
     }
 
 public:
-    int getState() {
+    int8_t getState() {
         return this->state;
     }
 
@@ -40,9 +39,10 @@ public:
     }
 
 public:
-    void dump(){
+    void dump() {
         this->dumpState();
     }
+
     /**
      * @deprecated
      */

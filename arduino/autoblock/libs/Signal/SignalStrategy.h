@@ -1,7 +1,10 @@
 #ifndef ARDUINO_SIGNALSTRATEGY_H
 #define ARDUINO_SIGNALSTRATEGY_H
-namespace Signal {
-    int signalStrategy(int endSignalId) {
+
+#include "consts.h"
+
+namespace Signals {
+    SignalState_t signalStrategy(SignalState_t endSignalId) {
         switch (endSignalId) {
             case 0:
             case 8:

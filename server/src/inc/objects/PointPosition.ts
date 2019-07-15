@@ -1,10 +1,10 @@
-import Point from './Point';
+import Switch from './Switch';
 import { pointFactory } from '../Factories/PointFactory';
 import { requestedPointPosition } from '../../definitions/Points';
 
 export default class PointPosition {
     private readonly position: requestedPointPosition;
-    private readonly point: Point;
+    private readonly point: Switch;
     private readonly safePositions: PointPosition[];
 
     constructor(

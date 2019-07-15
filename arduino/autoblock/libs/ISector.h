@@ -8,9 +8,12 @@
 class ISector {
 
 public:
-    static const int STATE_OCCUPIED = 2;
-    static const int STATE_FREE = 1;
-    static const int STATE_UNDEFINED = -1;
+    ISector(int locoNetId) : locoNetId(locoNetId) {};
+
+public:
+    static const int8_t STATE_OCCUPIED = 2;
+    static const int8_t STATE_FREE = 1;
+    static const int8_t STATE_UNDEFINED = -1;
     int locoNetId;
 
 };

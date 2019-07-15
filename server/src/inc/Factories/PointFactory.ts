@@ -1,5 +1,5 @@
 import { points } from '../../definitions/Points';
-import Point from '../objects/Point';
+import Switch from '../objects/Switch';
 import {
     Message,
     PointState,
@@ -12,15 +12,15 @@ import {
 
 class PointsFactory implements LocoNetReciever, MessageReciever {
 
-    private readonly points: Point[];
+    private readonly points: Switch[];
 
     constructor() {
         this.points = points.map((value => {
-            return new Point(value);
+            return new Switch(value);
         }));
     }
 
-    public findById(id: number): Point {
+    public findById(id: number): Switch {
         for (const index in this.points) {
             if (this.points.hasOwnProperty(index)) {
                 if (this.points[index].id === id) {

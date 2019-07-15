@@ -1,0 +1,6 @@
+[submodule "arduino/LocoNet"]
+	path = arduino/LocoNet
+	url = https://github.com/mrrwa/LocoNet
+[submodule "arduino/cmake"]
+	path = arduino/cmake
+	url = https://github.com/arduino-cmake/Arduino-CMake-NG.git

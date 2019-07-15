@@ -73,7 +73,7 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReciever,
     }
 
 
-    public check() {
+    public check(): void {
         if (this.locked) {
             throw Error('Locked by ' + this.locked);
         }

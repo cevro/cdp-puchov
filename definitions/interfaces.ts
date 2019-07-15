@@ -30,7 +30,6 @@ export interface PointState {
     position: pointPosition;
     requestedPosition: requestedPointPosition;
     locked: number[];
-    changing: boolean;
 }
 
 export interface SectorState {
