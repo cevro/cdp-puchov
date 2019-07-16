@@ -1,9 +1,12 @@
-#include "StateObject.h"
-#include "Signal/Signal.h"
-#include "Signal/consts.h"
+
 
 #ifndef KOLAJISKO_AUTOBLOCKSECTOR_H
 #define KOLAJISKO_AUTOBLOCKSECTOR_H
+
+#include "StateObject.h"
+#include "Signal/Signal.h"
+#include "Signal/consts.h"
+#include "LocoNetObject.h"
 
 typedef int8_t ABSectorState_t;
 
@@ -12,11 +15,10 @@ const ABSectorState_t AB_SECTOR_STATE_FREE = 2;
 const ABSectorState_t AB_SECTOR_STATE_UNDEFINED = -1;
 
 
-class AutoBlockSector : ObjectDump {
+class AutoBlockSector : public LocoNetObject {
 public:
     static const int8_t ERROR_FULL_BLOCK_CONDITION = 1;
 private:
-    int id;
     bool active;
     bool fullBlockConditionActive;
     int8_t error;
@@ -24,18 +26,18 @@ private:
 public:
     // 0 FREE 1 obsadeny
     uint8_t length;
-    Signals::Signal &entrySignal;
-    Signals::Signal &exitSignal;
+    Signals::Signal *entrySignal;
+    Signals::Signal *exitSignal;
 
     int sectorIds[15];
 
     AutoBlockSector(
-            int id,
+            locoNetAddress_t id,
             uint8_t length,
-            Signals::Signal &entrySignalRef,
-            Signals::Signal &exitSignalRef,
+            Signals::ISignal *entrySignalRef,
+            Signals::ISignal *exitSignalRef,
             const int sectors[]
-    ) : entrySignal(entrySignalRef), exitSignal(exitSignalRef), id(id), length(length) {
+    ) : entrySignal(entrySignalRef), exitSignal(exitSignalRef), length(length), LocoNetObject(id) {
         this->state = AB_SECTOR_STATE_UNDEFINED;
         this->error = 0;
         this->active = true;
@@ -58,7 +60,7 @@ public:
     }
 
 private:
-     getABSignal() {
+    getABSignal() {
         if (!this->getActive()) {
             return 13;
         }
@@ -67,7 +69,7 @@ private:
         }
 
         if (this->getState() == AB_SECTOR_STATE_FREE) {
-            return Signals::signalStrategy(this->exitSignal.getState());
+            return Signals::signalStrategy(this->exitSignal->getState());
         } else {
             return Signals::SIGNAL_STATE_SIGNAL_STOJ;
         }
@@ -78,14 +80,9 @@ public:
 
 
         uint8_t newEntrySignalId = this->getABSignal();
-        if (this->entrySignal.getState() != newEntrySignalId) {
-            this->entrySignal.setState(newEntrySignalId);
+        if (this->entrySignal->getState() != newEntrySignalId) {
+            this->entrySignal->setState(newEntrySignalId);
         }
-    }
-
-public:
-    int getId() {
-        return this->id;
     }
 
 public:
@@ -98,7 +95,7 @@ public:
             if (newState == AB_SECTOR_STATE_FREE) {
                 // uvolnenie sektoru
 
-                if ((this->exitSignal.getState() == Signals::SIGNAL_STATE_SIGNAL_STOJ &&
+                if ((this->exitSignal->getState() == Signals::SIGNAL_STATE_SIGNAL_STOJ &&
                      this->getState() == AB_SECTOR_STATE_OCCUPIED)
                     || !this->getFullBlockConditionActive()) {
                     this->state = AB_SECTOR_STATE_FREE;
@@ -157,25 +154,25 @@ public:
     }
 
     void dumpState() {
-        Serial.print(this->id);
+        Serial.print(this->getLocoNetId());
         Serial.print(":s:");
         Serial.println(this->state);
     }
 
     void dumpFullBlockConditionActive() {
-        Serial.print(this->id);
+        Serial.print(this->getLocoNetId());
         Serial.print(":c:");
         Serial.println(this->fullBlockConditionActive);
     }
 
     void dumpActive() {
-        Serial.print(this->id);
+        Serial.print(this->getLocoNetId());
         Serial.print(":a:");
         Serial.println(this->active);
     }
 
     void dumpError() {
-        Serial.print(this->id);
+        Serial.print(this->getLocoNetId());
         Serial.print(":e:");
         Serial.println(this->error);
     }

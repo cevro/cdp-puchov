@@ -23,19 +23,9 @@ namespace Signals {
     public:
 
         void setState(SignalState_t id) {
-
-            this->state = id;
+            ISignal::setState(id);
             this->mask = 0x00000001;
             this->dumpState();
-        }
-
-    public:
-        void handleCmd(char cmd, int value) {
-            switch (cmd) {
-                case 's':
-                    this->setState(value);
-            }
-            return;
         }
 
     public:
@@ -75,6 +65,12 @@ namespace Signals {
     public:
         void dump() {
             this->dumpState();
+        }
+
+        void dumpState() {
+            Serial.print(this->getLocoNetId());
+            Serial.print(":s:");
+            Serial.println(this->state);
         }
 
     private:

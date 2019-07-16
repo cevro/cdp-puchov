@@ -10,14 +10,9 @@ namespace Signals {
         SignalRef(int signalId) : ISignal(signalId) {}
 
     public:
-        void dump() {
-            this->dumpState();
-        };
+        void dump() {};
     public:
         void clock() {};
-
-    public:
-        void handleCmd(char cmd, int value) {};
     };
 
 };

@@ -2,37 +2,22 @@
 #define KOLAJISKO_ISIGNAL_H
 
 #include "consts.h"
+#include "../LocoNetObject.h"
 
 namespace Signals {
-    class ISignal {
-    protected:
-        int locoNetId;
+    class ISignal : public LocoNetObject {
     protected:
         SignalState_t state;
     public:
-        ISignal(int locoNetId) : locoNetId(locoNetId) {
+        ISignal(int locoNetId) : LocoNetObject(locoNetId) {
 
         }
 
-    public:
-        /**
-         * @deprecated
-         * @return
-         */
-        int getId() {
-            return this->locoNetId;
-        }
-
-    public:
-        int getLocoNetId() {
-            return this->getId();
-        }
 
     public:
         void setState(SignalState_t receivedState) {
             this->state = receivedState;
-            this->dumpState();
-        }
+        };
 
     public:
         SignalState_t getState() {
@@ -40,22 +25,14 @@ namespace Signals {
         }
 
     public:
-        void dumpState() {
-            Serial.print(this->locoNetId);
-            Serial.print(":s:");
-            Serial.println(this->state);
+        void handleCmd(char cmd, int value) {
+            switch (cmd) {
+                case 's':
+                    this->setState(value);
+            }
+            return;
         }
 
-    public:
-        virtual void clock()=0;
-
-    public:
-        virtual void handleCmd(char cmd, int value);
-
-    public:
-        virtual void dump() = 0;
     };
-
-
 };
 #endif //KOLAJISKO_ISIGNAL_H

@@ -2,24 +2,22 @@
 #define HELLO_WORLD_BIDIRECTIONALAB_H
 
 #include "OneSideAutoBlock.h"
+#include "LocoNetObject.h"
 
-class BiDirectionalAB {
+class BiDirectionalAB : public LocoNetObject {
 public:
     OneSideAutoBlock &mainAB;
     OneSideAutoBlock &auxAB;
 public:
-    int id;
-
     int8_t dir;
 
-    BiDirectionalAB(int id, OneSideAutoBlock &mainAB, OneSideAutoBlock &auxAB) : id(id), mainAB(mainAB), auxAB(auxAB) {
+    BiDirectionalAB(int id, OneSideAutoBlock &mainAB, OneSideAutoBlock &auxAB) :
+            LocoNetObject(id),
+            mainAB(mainAB),
+            auxAB(auxAB) {
         this->dir = 1;
     };
-public:
-    void dump() {
-        this->dumpLocked();
-        this->dumpDir();
-    }
+
 
 private:
     bool locked;
@@ -38,14 +36,20 @@ public:
         this->dumpLocked();
     }
 
+public:
+    void dump() {
+        this->dumpLocked();
+        this->dumpDir();
+    }
+
     void dumpDir() {
-        Serial.print(this->id);
+        Serial.print(this->getLocoNetId());
         Serial.print(":d:");
         Serial.println(this->dir);
     }
 
     void dumpLocked() {
-        Serial.print(this->id);
+        Serial.print(this->getLocoNetId());
         Serial.print(":l:");
         Serial.println(this->locked);
     }
@@ -62,6 +66,9 @@ public:
         }
         return;
     }
+
+public:
+    void clock() {};
 };
 
 #endif //HELLO_WORLD_BIDIRECTIONALAB_H

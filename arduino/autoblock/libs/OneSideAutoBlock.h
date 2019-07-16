@@ -1,23 +1,25 @@
 #ifndef ARDUINO_ONESIDEAUTOBLOCK_H
 #define ARDUINO_ONESIDEAUTOBLOCK_H
 
-class OneSideAutoBlock {
-private:
-    int id;
+#include "LocoNetObject.h"
+
+class OneSideAutoBlock : public LocoNetObject {
 public:
     bool active;
     int sectors[20];
 
-    OneSideAutoBlock(int id, int l, int sectors[]) : id(id) {
+    OneSideAutoBlock(locoNetAddress_t id, int l, int sectors[]) : LocoNetObject(id) {
         for (int i = 0; i < l; i++) {
             this->sectors[i] = sectors[i];
         }
     }
 
 public:
-    int getId() {
-        return this->id;
-    }
+    void handleCmd(char cmd, int val) {};
+public:
+    void dump() {};
+public:
+    void clock() {};
 };
 
 #endif //ARDUINO_ONESIDEAUTOBLOCK_H
