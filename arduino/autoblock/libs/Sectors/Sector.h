@@ -9,8 +9,6 @@ namespace Sectors {
         int pin;
         int values[5];
         int index;
-
-        sectorState_t state;
     public:
         Sector(int locoNetId, int pin) : locoNetId(locoNetId), pin(pin) {}
 
@@ -43,11 +41,6 @@ namespace Sectors {
                 this->state = newState;
                 this->dump();
             }
-        }
-
-    public:
-        sectorState_t getState() {
-            return this->state;
         }
 
     public:

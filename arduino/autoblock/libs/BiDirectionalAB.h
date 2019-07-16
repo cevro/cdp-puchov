@@ -18,6 +18,15 @@ public:
         this->dir = 1;
     };
 
+public:
+    void init() {
+        for (int i = 0; i < 20; i++) {
+            if (this->auxAB.sectors[i] == 0) {
+                break;
+            }
+            this->auxAB.sectors[i]->setActive(false);
+        }
+    }
 
 private:
     bool locked;
@@ -63,8 +72,60 @@ public:
                     this->unlock();
                 }
                 break;
+
+            case 'd':
+                return this->changeDir(value);
+
         }
         return;
+    }
+
+private:
+    void changeDir(int value) {
+        if (this->dir == value) {
+            return;
+        }
+        if (!(value == -1 || value == 1)) {
+            return;
+        }
+
+        OneSideAutoBlock &activeOAB =
+                (value == -1) ? this->auxAB : this->mainAB;
+        OneSideAutoBlock &inactiveOAB =
+                (value == -1) ? this->mainAB : this->auxAB;
+
+        bool canChange = true;
+        for (int i = 0; i < 20; i++) {
+            if (inactiveOAB.sectors[i] == 0) {
+                break;
+            }
+            canChange =
+                    canChange &&
+                    (inactiveOAB.sectors[i]->getState() == AB_SECTOR_STATE_FREE);
+        }
+        canChange = canChange && !this->isLocked();
+
+        if (!canChange) {
+            Serial.println('cannnot change');
+            return;
+        }
+
+        for (int i = 0; i < 20; i++) {
+            if (inactiveOAB.sectors[i] == 0) {
+                break;
+            }
+            inactiveOAB.sectors[i]->setActive(false);
+        }
+        for (int i = 0; i < 20; i++) {
+            if (activeOAB.sectors[i] == 0) {
+                break;
+            }
+            activeOAB.sectors[i]->setActive(true);
+
+
+        }
+        this->dir = value;
+        this->dump();
     }
 
 public:

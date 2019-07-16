@@ -70,7 +70,7 @@ namespace Signals {
         void dumpState() {
             Serial.print(this->getLocoNetId());
             Serial.print(":s:");
-            Serial.println(this->state);
+            Serial.println(this->getState());
         }
 
     private:

@@ -2,13 +2,14 @@
 #define ARDUINO_ONESIDEAUTOBLOCK_H
 
 #include "LocoNetObject.h"
+#include "AutoBlockSector.h"
 
 class OneSideAutoBlock : public LocoNetObject {
 public:
     bool active;
-    int sectors[20];
+    AutoBlockSector *sectors[20];
 
-    OneSideAutoBlock(locoNetAddress_t id, int l, int sectors[]) : LocoNetObject(id) {
+    OneSideAutoBlock(locoNetAddress_t id, int l, AutoBlockSector *sectors[]) : LocoNetObject(id) {
         for (int i = 0; i < l; i++) {
             this->sectors[i] = sectors[i];
         }

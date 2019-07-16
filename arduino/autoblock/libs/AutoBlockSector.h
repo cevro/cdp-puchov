@@ -7,6 +7,7 @@
 #include "Signal/Signal.h"
 #include "Signal/consts.h"
 #include "LocoNetObject.h"
+#include "./Sectors/ISector.h"
 
 typedef int8_t ABSectorState_t;
 
@@ -28,22 +29,21 @@ public:
     uint8_t length;
     Signals::Signal *entrySignal;
     Signals::Signal *exitSignal;
-
-    int sectorIds[15];
+    Sectors::ISector *sectors[10];
 
     AutoBlockSector(
             locoNetAddress_t id,
             uint8_t length,
             Signals::ISignal *entrySignalRef,
             Signals::ISignal *exitSignalRef,
-            const int sectors[]
+            Sectors::ISector *sectors[10]
     ) : entrySignal(entrySignalRef), exitSignal(exitSignalRef), length(length), LocoNetObject(id) {
         this->state = AB_SECTOR_STATE_UNDEFINED;
         this->error = 0;
         this->active = true;
         this->fullBlockConditionActive = true;
         for (int i = 0; i < length; i++) {
-            this->sectorIds[i] = sectors[i];
+            this->sectors[i] = sectors[i];
         }
     }
 
@@ -73,11 +73,26 @@ private:
         } else {
             return Signals::SIGNAL_STATE_SIGNAL_STOJ;
         }
-    }
+    };
 
+    ABSectorState_t getABSectorState() {
+        if (!this->getActive()) {
+            return this->getState();
+        }
+        int8_t newState = AB_SECTOR_STATE_FREE;
+
+        for (int i = 0; i < this->length; i++) {
+            if (this->sectors[i]->getState() != Sectors::STATE_FREE) {
+                newState = AB_SECTOR_STATE_OCCUPIED;
+            }
+        }
+        return newState;
+    };
 public:
     void clock() {
 
+        ABSectorState_t newState = this->getABSectorState();
+        this->setState(newState);
 
         uint8_t newEntrySignalId = this->getABSignal();
         if (this->entrySignal->getState() != newEntrySignalId) {

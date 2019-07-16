@@ -13,10 +13,19 @@ namespace Sectors {
 
     class ISector : public LocoNetObject {
 
+    protected:
+        sectorState_t state;
+
     public:
         ISector(locoNetAddress_t locoNetId) : LocoNetObject(locoNetId) {};
     public:
         void clock() {};
+
+
+    public:
+        sectorState_t getState() {
+            return this->state;
+        }
     };
 };
 

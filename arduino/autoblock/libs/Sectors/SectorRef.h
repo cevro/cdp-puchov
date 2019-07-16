@@ -7,8 +7,7 @@
 namespace Sectors {
     class SectorRef : public ISector {
 
-    private:
-        sectorState_t state;
+
     public:
         SectorRef(locoNetAddress_t id) : ISector(id) {
             this->state = Sectors::STATE_UNDEFINED;
@@ -20,10 +19,6 @@ namespace Sectors {
             this->dumpState();
         }
 
-    public:
-        int8_t getState() {
-            return this->state;
-        }
 
     public:
         void handleCmd(char cmd, int value) {
