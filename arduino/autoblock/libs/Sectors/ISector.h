@@ -21,7 +21,6 @@ namespace Sectors {
     public:
         void clock() {};
 
-
     public:
         sectorState_t getState() {
             return this->state;

@@ -1,4 +1,3 @@
-#include "../StateObject.h"
 #include "ISector.h"
 
 #ifndef ARDUINO_SECTORREF_H

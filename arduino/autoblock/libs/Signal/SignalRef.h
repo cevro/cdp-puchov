@@ -13,6 +13,10 @@ namespace Signals {
         void dump() {};
     public:
         void clock() {};
+
+        void setState(SignalState_t receivedState) {
+            this->state = receivedState;
+        };
     };
 
 };

@@ -36,7 +36,7 @@ class PointsPreview extends React.Component<State, {}> {
                         <div className="row">
                             <span className="col-1">{sectorDef.id}</span>
                             <span className="col-2">{sectorDef.name}</span>
-                            <span className="col-2">{pointState && pointState.changing}</span>
+                            <span className="col-2">{/*pointState && pointState.changing*/}</span>
                             <span className="col-1">
                             <span className={this.getClassNameByState(state)}>
                                {state === undefined ? 'NA' : state}

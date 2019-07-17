@@ -22,8 +22,8 @@ namespace Signals {
 
     public:
 
-        void setState(SignalState_t id) {
-            ISignal::setState(id);
+        void setState(SignalState_t receivedState) {
+            this->state = receivedState;
             this->mask = 0x00000001;
             this->dumpState();
         }

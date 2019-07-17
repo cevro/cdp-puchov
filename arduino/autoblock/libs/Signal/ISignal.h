@@ -9,15 +9,11 @@ namespace Signals {
     protected:
         SignalState_t state;
     public:
-        ISignal(int locoNetId) : LocoNetObject(locoNetId) {
-
-        }
+        ISignal(int locoNetId) : LocoNetObject(locoNetId) {};
 
 
     public:
-        void setState(SignalState_t receivedState) {
-            this->state = receivedState;
-        };
+        virtual void setState(SignalState_t receivedState) = 0;
 
     public:
         SignalState_t getState() {

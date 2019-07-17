@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { Store } from '../../reducers';
+import {Store} from '../../reducers';
 import {
     togglePointText,
     toggleSignalText,
 } from '../../actions/displayOptions';
-import { SignalTypes } from '../definitions/Signals';
-import { displayOptionsState } from '../../reducers/displayOptions';
+import {SignalTypes} from '../definitions/Signals';
+import {displayOptionsState} from '../../reducers/displayOptions';
 
 interface State {
     displayState?: displayOptionsState;
@@ -28,7 +28,7 @@ class Options extends React.Component<State, {}> {
             <div className="col-6">
                 <h6>Toggle label on signals</h6>
                 {SignalTypes.getAllTypes().map((type: number) => {
-                    return <div className="row">
+                    return <div className="row" key={type}>
                         <button className="btn btn-link" onClick={() => {
                             onToggleSignal(type);
                         }}>
