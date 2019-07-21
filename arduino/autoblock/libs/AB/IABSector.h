@@ -1,5 +1,5 @@
-#ifndef KOLAJISKO_IAUTOBLOCKSECTOR_H
-#define KOLAJISKO_IAUTOBLOCKSECTOR_H
+#ifndef KOLAJISKO_IABSector_H
+#define KOLAJISKO_IABSector_H
 
 #include "../Signal/Signal.h"
 #include "../Signal/consts.h"
@@ -15,19 +15,20 @@ namespace AutomaticBlock {
     const ABSectorState_t AB_SECTOR_STATE_FREE = 2;
     const ABSectorState_t AB_SECTOR_STATE_UNDEFINED = -1;
 
-    class IAutoBlockSector : public LocoNetObject {
+
+    class IABSector : public LocoNetObject {
     public:
         static const int8_t ERROR_FULL_BLOCK_CONDITION = 1;
     public:
-        Signals::Signal *entrySignal;
-        Signals::Signal *exitSignal;
+        Signals::ISignal *entrySignal;
+        Signals::ISignal *exitSignal;
     protected:
         bool active;
         bool fullBlockConditionActive;
         int8_t error;
         ABSectorState_t state;
     public:
-        IAutoBlockSector(
+        IABSector(
                 locoNetAddress_t id
         ) : LocoNetObject(id) {
             this->state = AB_SECTOR_STATE_UNDEFINED;
@@ -54,7 +55,7 @@ namespace AutomaticBlock {
                         || !this->getFullBlockConditionActive()) {
                         this->state = AB_SECTOR_STATE_FREE;
                     } else {
-                        this->setError(IAutoBlockSector::ERROR_FULL_BLOCK_CONDITION);
+                        this->setError(IABSector::ERROR_FULL_BLOCK_CONDITION);
                     }
                 }
                 this->dumpState();
@@ -148,7 +149,7 @@ namespace AutomaticBlock {
         };
 
     protected:
-        getABSignal() {
+        Signals::SignalState_t getABSignal() {
             if (!this->getActive()) {
                 return 13;
             }

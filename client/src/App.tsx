@@ -17,7 +17,7 @@ import SignalsPreview from './components/MessageBox/SignalsPreview';
 import ContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
 import { frontEndScheme } from './definition/all';
 import Scheme from './components/Scheme/Index';
-import ABSectorsPreview from './components/MessageBox/ABSectorsPreview';
+import ABSectorsPreview from './components/MessageBox/ABSector/Index';
 
 interface Props {
     accessKey: string;
@@ -99,6 +99,4 @@ export default class App extends React.Component<Props, {}> {
             </Provider>
         );
     }
-
-    //  <Scheme/>
 }

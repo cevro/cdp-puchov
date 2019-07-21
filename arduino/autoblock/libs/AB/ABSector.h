@@ -1,5 +1,4 @@
 
-
 #ifndef KOLAJISKO_AUTOBLOCKSECTOR_H
 #define KOLAJISKO_AUTOBLOCKSECTOR_H
 
@@ -15,17 +14,17 @@ typedef int8_t ABSectorState_t;
 namespace AutomaticBlock {
 
     template<uint8_t L>
-    class AutoBlockSector : public IAutoBlockSector {
+    class ABSector : public IABSector {
     public:
 
         Sectors::ISector *sectors[L];
 
-        AutoBlockSector(
+        ABSector(
                 locoNetAddress_t id,
                 Signals::ISignal *entrySignalRef,
                 Signals::ISignal *exitSignalRef,
                 Sectors::ISector *sectors[L]
-        ) : IAutoBlockSector(id) {
+        ) : IABSector(id) {
             this->entrySignal = entrySignalRef;
             this->exitSignal = exitSignalRef;
             for (int i = 0; i < L; i++) {
@@ -42,7 +41,7 @@ namespace AutomaticBlock {
             int8_t newState = AB_SECTOR_STATE_FREE;
 
             for (int i = 0; i < L; i++) {
-                if (this->sectors[i]->getState() != Sectors::STATE_FREE) {
+                if (!this->sectors[i]->isFree()) {
                     newState = AB_SECTOR_STATE_OCCUPIED;
                 }
             }

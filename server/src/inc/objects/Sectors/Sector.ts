@@ -1,5 +1,5 @@
-import { logger } from '../../../webSocetServer';
-import { STATUS_FREE } from '../../../consts/obvod/status';
+import {logger} from '../../../webSocetServer';
+import {STATUS_FREE, STATUS_UNDEFINED} from '../../../consts/obvod/status';
 import {
     Message,
     MESSAGE_ACTION_STATE_UPDATE,
@@ -11,8 +11,8 @@ import {
     LocoNetReciever,
     MessageReciever,
 } from '../../Factories/DateReceiver';
-import { locoNetConnector } from '../../SerialConnector/SerialConnector';
-import { SectorBackEndDefinition } from '../../../data/sectors';
+import {locoNetConnector} from '../../SerialConnector/SerialConnector';
+import {SectorBackEndDefinition} from '../../../data/sectors';
 
 export default class Sector implements DataDumper<SectorState>, LocoNetReciever, MessageReciever {
     public readonly locoNetId;
@@ -22,7 +22,7 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReciever,
     constructor(definition: SectorBackEndDefinition) {
         this.locoNetId = definition.locoNetId;
         this._locked = null;
-        this._state = STATUS_FREE;
+        this._state = STATUS_UNDEFINED;
 
     }
 

@@ -1,11 +1,12 @@
-#include "./libs/Sectors/SectorRef.h"
-#include "./libs/Signal/SignalRef.h"
-#include "./libs/Signal/Signal.h"
-#include "./libs/Signal/SignalStrategy.h"
-#include "libs/AB/AutoBlockSector.h"
-#include "libs/AB/OneSideAutoBlock.h"
-#include "libs/AB/BiDirectionalAB.h"
-#include "./libs/LocoNetObject.h"
+#include "libs/Sectors/SectorRef.h"
+#include "libs/Signal/SignalRef.h"
+#include "libs/Signal/Signal.h"
+#include "libs/Signal/SignalStrategy.h"
+#include "libs/AB/ABSector.h"
+#include "libs/AB/OneDirAB.h"
+#include "libs/AB/BiDirAB.h"
+#include "libs/LocoNetObject.h"
+#include <Arduino.h>
 
 using namespace Sectors;
 using namespace Signals;
@@ -105,71 +106,71 @@ auto signal43 = Signal(13, 543);
 
 /* ***************** ABSectors ****************************/
 
-//auto ABSector1S_0 = AutoBlockSector(717, 1, &signal41, &signal1, (ISector *[]) {129});
+//auto ABSector1S_0 = ABSector(717, 1, &signal41, &signal1, (ISector *[]) {129});
 
-auto ABSector1S_0 = AutoBlockSector<1>(717, &signal41, &signal1, (ISector *[]) {&sector29});
+auto ABSector1S_0 = ABSector<1>(717, &signal41, &signal1, (ISector *[]) {&sector29});
 
-//auto ABSector2S_0 = AutoBlockSector(716, 1, 540, 500, (ISector *[]) {130});
+//auto ABSector2S_0 = ABSector(716, 1, 540, 500, (ISector *[]) {130});
 
-auto ABSector1S_1 = AutoBlockSector<1>(701, &signal1, &signal3, (ISector *[]) {&sector27});
-//auto ABSector2S_1 = AutoBlockSector(700, 1, 500, 502, (ISector *[]) {128});
+auto ABSector1S_1 = ABSector<1>(701, &signal1, &signal3, (ISector *[]) {&sector27});
+//auto ABSector2S_1 = ABSector(700, 1, 500, 502, (ISector *[]) {128});
 
-auto ABSector1S_2 = AutoBlockSector<1>(703, &signal3, &signal5, (ISector *[]) {&sector25});
-//auto ABSector2S_2 = AutoBlockSector(702, 1, 502, 504, (ISector *[]) {126});
+auto ABSector1S_2 = ABSector<1>(703, &signal3, &signal5, (ISector *[]) {&sector25});
+//auto ABSector2S_2 = ABSector(702, 1, 502, 504, (ISector *[]) {126});
 
-auto ABSector1S_3 = AutoBlockSector<2>(705, &signal5, &signal7, (ISector *[]) {&sector23, &sector21});
-//auto ABSector2S_3 = AutoBlockSector(704, 2, 504, 506, (ISector *[]) {124, 122});
+auto ABSector1S_3 = ABSector<2>(705, &signal5, &signal7, (ISector *[]) {&sector23, &sector21});
+//auto ABSector2S_3 = ABSector(704, 2, 504, 506, (ISector *[]) {124, 122});
 
-auto ABSector1S_4 = AutoBlockSector<2>(707, &signal7, &signal9, (ISector *[]) {&sector19, &sector17});
-//auto ABSector2S_4 = AutoBlockSector(706, 2, 506, 508, (ISector *[]) {120, 118});
+auto ABSector1S_4 = ABSector<2>(707, &signal7, &signal9, (ISector *[]) {&sector19, &sector17});
+//auto ABSector2S_4 = ABSector(706, 2, 506, 508, (ISector *[]) {120, 118});
 
-auto ABSector1S_5 = AutoBlockSector<2>(709, &signal9, &signal11, (ISector *[]) {&sector15, &sector13});
-//auto ABSector2S_5 = AutoBlockSector(708, 2, 508, 510, (ISector *[]) {116, 114});
+auto ABSector1S_5 = ABSector<2>(709, &signal9, &signal11, (ISector *[]) {&sector15, &sector13});
+//auto ABSector2S_5 = ABSector(708, 2, 508, 510, (ISector *[]) {116, 114});
 
-auto ABSector1S_6 = AutoBlockSector<2>(711, &signal11, &signal13, (ISector *[]) {&sector11, &sector9});
-//auto ABSector2S_6 = AutoBlockSector(710, 2, 510, 512, (ISector *[]) {112, 110});
+auto ABSector1S_6 = ABSector<2>(711, &signal11, &signal13, (ISector *[]) {&sector11, &sector9});
+//auto ABSector2S_6 = ABSector(710, 2, 510, 512, (ISector *[]) {112, 110});
 
-auto ABSector1S_7 = AutoBlockSector<2>(713, &signal13, &signal15, (ISector *[]) {&sector7, &sector5});
-//auto ABSector2S_7 = AutoBlockSector(712, 2, 512, 514, (ISector *[]) {108, 106});
+auto ABSector1S_7 = ABSector<2>(713, &signal13, &signal15, (ISector *[]) {&sector7, &sector5});
+//auto ABSector2S_7 = ABSector(712, 2, 512, 514, (ISector *[]) {108, 106});
 
-auto ABSector1S_8 = AutoBlockSector<2>(715, &signal15, &signal17, (ISector *[]) {&sector3, &sector1});
-//auto ABSector2S_8 = AutoBlockSector(714, 2, 514, 516, (ISector *[]) {104, 102});
-
-
-auto ABSector1L_0 = AutoBlockSector<1>(739, &signal43, &signal19, (ISector *[]) {&sector1});
-//auto ABSector2L_0 = AutoBlockSector(738, 1, 542, 518, (ISector *[]) {102});
-
-auto ABSector1L_1 = AutoBlockSector<2>(721, &signal19, &signal21, (ISector *[]) {&sector3, &sector5});
-//auto ABSector2L_1 = AutoBlockSector(720, 2, 518, 520, (ISector *[]) {104, 106});
-
-auto ABSector1L_2 = AutoBlockSector<2>(723, &signal21, &signal23, (ISector *[]) {&sector7, &sector9});
-//auto ABSector2L_2 = AutoBlockSector(722, 2, 520, 522, (ISector *[]) {108, 110});
-
-auto ABSector1L_3 = AutoBlockSector<2>(725, &signal23, &signal25, (ISector *[]) {&sector11, &sector13});
-//auto ABSector2L_3 = AutoBlockSector(724, 2, 522, 524, (ISector *[]) {112, 114});
-
-auto ABSector1L_4 = AutoBlockSector<2>(727, &signal25, &signal27, (ISector *[]) {&sector15, &sector17});
-//auto ABSector2L_4 = AutoBlockSector(726, 2, 524, 526, (ISector *[]) {116, 118});
-
-auto ABSector1L_5 = AutoBlockSector<1>(729, &signal27, &signal29, (ISector *[]) {&sector19});
-//auto ABSector2L_5 = AutoBlockSector(728, 1, 526, 528, (ISector *[]) {118});
-
-auto ABSector1L_6 = AutoBlockSector<1>(731, &signal29, &signal31, (ISector *[]) {&sector21});
-//auto ABSector2L_6 = AutoBlockSector(730, 1, 528, 530, (ISector *[]) {122});
-
-auto ABSector1L_7 = AutoBlockSector<2>(733, &signal31, &signal33, (ISector *[]) {&sector23, &sector25});
-//auto ABSector2L_7 = AutoBlockSector(732, 1, 530, 532, (ISector *[]) {124, 126});
+auto ABSector1S_8 = ABSector<2>(715, &signal15, &signal17, (ISector *[]) {&sector3, &sector1});
+//auto ABSector2S_8 = ABSector(714, 2, 514, 516, (ISector *[]) {104, 102});
 
 
-auto ABSector1L_8 = AutoBlockSector<1>(735, &signal33, &signal35, (ISector *[]) {&sector27});
-//auto ABSector2L_8 = AutoBlockSector(734, 1, 532, 534, (ISector *[]) {128});
+auto ABSector1L_0 = ABSector<1>(739, &signal43, &signal19, (ISector *[]) {&sector1});
+//auto ABSector2L_0 = ABSector(738, 1, 542, 518, (ISector *[]) {102});
+
+auto ABSector1L_1 = ABSector<2>(721, &signal19, &signal21, (ISector *[]) {&sector3, &sector5});
+//auto ABSector2L_1 = ABSector(720, 2, 518, 520, (ISector *[]) {104, 106});
+
+auto ABSector1L_2 = ABSector<2>(723, &signal21, &signal23, (ISector *[]) {&sector7, &sector9});
+//auto ABSector2L_2 = ABSector(722, 2, 520, 522, (ISector *[]) {108, 110});
+
+auto ABSector1L_3 = ABSector<2>(725, &signal23, &signal25, (ISector *[]) {&sector11, &sector13});
+//auto ABSector2L_3 = ABSector(724, 2, 522, 524, (ISector *[]) {112, 114});
+
+auto ABSector1L_4 = ABSector<2>(727, &signal25, &signal27, (ISector *[]) {&sector15, &sector17});
+//auto ABSector2L_4 = ABSector(726, 2, 524, 526, (ISector *[]) {116, 118});
+
+auto ABSector1L_5 = ABSector<1>(729, &signal27, &signal29, (ISector *[]) {&sector19});
+//auto ABSector2L_5 = ABSector(728, 1, 526, 528, (ISector *[]) {118});
+
+auto ABSector1L_6 = ABSector<1>(731, &signal29, &signal31, (ISector *[]) {&sector21});
+//auto ABSector2L_6 = ABSector(730, 1, 528, 530, (ISector *[]) {122});
+
+auto ABSector1L_7 = ABSector<2>(733, &signal31, &signal33, (ISector *[]) {&sector23, &sector25});
+//auto ABSector2L_7 = ABSector(732, 1, 530, 532, (ISector *[]) {124, 126});
 
 
-auto ABSector1L_9 = AutoBlockSector<1>(737, &signal35, &signal37, (ISector *[]) {&sector29});
-//auto ABSector2L_9 = AutoBlockSector(736, 1, 534, 536, (ISector *[]) {130});
+auto ABSector1L_8 = ABSector<1>(735, &signal33, &signal35, (ISector *[]) {&sector27});
+//auto ABSector2L_8 = ABSector(734, 1, 532, 534, (ISector *[]) {128});
 
 
-auto ab1S = OneSideAutoBlock<9>(401, (IAutoBlockSector *[]) {
+auto ABSector1L_9 = ABSector<1>(737, &signal35, &signal37, (ISector *[]) {&sector29});
+//auto ABSector2L_9 = ABSector(736, 1, 534, 536, (ISector *[]) {130});
+
+
+auto ab1S = OneDirAB<9>(401, (IABSector *[]) {
         &ABSector1S_0,
         &ABSector1S_1,
         &ABSector1S_2,
@@ -182,7 +183,7 @@ auto ab1S = OneSideAutoBlock<9>(401, (IAutoBlockSector *[]) {
 });
 //auto ab2S = OneSideAutoBlock(402, 9, (ISector *[]) {716, 700, 702, 704, 706, 708, 710, 712, 714});
 
-auto ab1L = OneSideAutoBlock<10>(403, (IAutoBlockSector *[]) {
+auto ab1L = OneDirAB<10>(403, (IABSector *[]) {
         &ABSector1L_0,
         &ABSector1L_1,
         &ABSector1L_2,
@@ -198,7 +199,7 @@ auto ab1L = OneSideAutoBlock<10>(403, (IAutoBlockSector *[]) {
 
 
 
-auto ab1 = BiDirectionalAB(451, &ab1S, &ab1L);
+auto ab1 = BiDirAB(451, &ab1S, &ab1L);
 
 //auto ab2 = BiDirectionalAB(450, 404, 402);
 
@@ -297,9 +298,9 @@ LocoNetObject *objects[] = {
 };
 
 
-IOneSideAutoBlock *oneSideAutoBlocks[] = {&ab1S, /*ab2S,*/ &ab1L, /*ab2L*/};
+IOneDirAB *oneSideAutoBlocks[] = {&ab1S, /*ab2S,*/ &ab1L, /*ab2L*/};
 
-BiDirectionalAB *biDirABs[] = {&ab1/*, ab2*/};
+BiDirAB *biDirABs[] = {&ab1/*, ab2*/};
 
 
 void sendState() {

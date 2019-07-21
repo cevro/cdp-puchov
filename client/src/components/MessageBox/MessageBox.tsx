@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Message } from '../definitions/interfaces';
 import Downloader from '../helpers/Downloader';
 import { Store } from '../../reducers';
+import LocoNetConnector from "./LocoNetConnector";
 
 interface State {
     messages?: Message[];
@@ -30,6 +31,7 @@ class MessageBox extends React.Component<State, {}> {
         });
         return (<div className="list-group list-scroll">
             <Downloader/>
+            <LocoNetConnector/>
             {msgs}
         </div>)
     }

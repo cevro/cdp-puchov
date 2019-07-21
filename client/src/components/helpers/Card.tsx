@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { logger } from 'redux-logger';
 
 interface Props {
-    name: string;
+    name: string | JSX.Element;
 }
 
 export default class Card extends React.Component<Props, {}> {

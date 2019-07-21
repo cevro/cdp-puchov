@@ -3,24 +3,20 @@
 
 #include "../LocoNetObject.h"
 #include "IABSector.h"
+#include "IOneDirAB.h"
 
 namespace AutomaticBlock {
-    class IOneSideAutoBlock : public LocoNetObject {
-    public:
-
-        IOneSideAutoBlock(locoNetAddress_t id) : LocoNetObject(id) {};
-
-        virtual void setActive(bool a) = 0;
-
-        virtual bool canChange() = 0;
-    };
 
     template<uint8_t L>
-    class OneSideAutoBlock : public IOneSideAutoBlock {
+    class OneDirAB : public IOneDirAB {
     public:
-        IAutoBlockSector *sectors[L];
+        IABSector *sectors[L];
 
-        OneSideAutoBlock(locoNetAddress_t id, IAutoBlockSector *sectors[]) : IOneSideAutoBlock(id) {
+        OneDirAB(locoNetAddress_t
+                 id,
+                 IABSector *sectors[]
+        ) :
+                IOneDirAB(id) {
             for (int i = 0; i < L; i++) {
                 this->sectors[i] = sectors[i];
             }

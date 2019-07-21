@@ -9,9 +9,11 @@
     &.blink {
       animation: signal-blink 1.1s infinite;
     }
+
     &.off {
       opacity: 0;
     }
+
     &.undefined {
       fill: $disconnect-color;
     }
@@ -22,50 +24,59 @@
       text {
         fill: white;
       }
+
       rect {
         fill: blue;
         stroke: white;
       }
     }
   }
+
   &.signal-type-1, &.signal-type-2, &.signal-type-3 {
     .label {
       text {
         fill: white;
       }
+
       rect {
         fill: red;
         stroke: white;
       }
     }
   }
+
   .label {
     text {
       fill: white;
       text-anchor: middle;
       font-size: .5rem;
     }
+
     rect {
       stroke: white;
     }
   }
+
   &.signal-type-5 {
     .label {
       text {
         fill: white;
       }
+
       rect {
         fill: black;
         stroke: white;
       }
     }
   }
+
   .label {
     text {
       fill: white;
       text-anchor: middle;
       font-size: .5rem;
     }
+
     rect {
       stroke: white;
     }
@@ -186,10 +197,12 @@ svg {
 
 .card.bg-black {
   background-color: black;
+
   .list-group-item {
     border-color: #999;
     padding: .25rem 1.25rem;
   }
+
   .card-header {
     border-color: #999;
   }
@@ -201,21 +214,28 @@ svg {
       stroke-width: 2px;
       fill: none;
     }
+
     &.undefined {
       polyline {
         stroke: $disconnect-color;
       }
     }
+
     &.active {
       polyline {
         stroke: green;
       }
     }
+
     &.inactive {
       polyline {
         stroke: #222;
       }
     }
   }
+}
+
+.list-group-item.list-item-undefined {
+  background-color: $disconnect-color;
 }
 

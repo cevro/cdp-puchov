@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '../../../../reducers';
-import { getABSectorState } from '../../../../middleware/objectState';
-import { AutoBlockSectorState } from '../../../definitions/interfaces';
-import { AutoBlockSectorFrontEndDefinition } from '../../../../definition/autoBlock/Pu-LpM';
+import {connect} from 'react-redux';
+import {Store} from '../../../../reducers';
+import {getABSectorState} from '../../../../middleware/objectState';
+import {AutoBlockSectorState} from '../../../definitions/interfaces';
+import {AutoBlockSectorFrontEndDefinition} from '../../../../definition/autoBlock/Pu-LpM';
 
 interface Props {
     definition: AutoBlockSectorFrontEndDefinition;
@@ -12,15 +12,16 @@ interface Props {
 interface State {
     stateObject?: AutoBlockSectorState;
 
-    onPointClick?(id: number): void;
+   // onPointClick?(id: number): void;
 }
 
-class AutoBlockSector extends React.Component<Props & State, {}> {
+class ABSector extends React.Component<Props & State, {}> {
     public render() {
         const {
             stateObject,
-            definition: {x, y},
         } = this.props;
+        const x = 10;
+        const y = 10;
         const active = stateObject ? stateObject.active : undefined;
         const error = stateObject ? stateObject.errorCode : undefined;
         const state = stateObject ? stateObject.state : undefined;
@@ -92,10 +93,10 @@ const mapStateToProps = (state: Store, ownProps: Props): State => {
 
 const mapDispatchToProps = (dispatch, ownProps: Props): State => {
     return {
-        onPointClick: (id) => null,// dispatch(signalSelect(id)),
+        //onPointClick: (id) => null,// dispatch(signalSelect(id)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AutoBlockSector);
+export default connect(mapStateToProps, mapDispatchToProps)(ABSector);
 
 

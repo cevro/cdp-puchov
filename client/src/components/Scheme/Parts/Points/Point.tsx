@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '../../../../reducers';
-import { PointDefinition } from '../../../definitions/Points';
-import { getPointState } from '../../../../middleware/objectState';
-import { PointState } from '../../../definitions/interfaces';
+import {connect} from 'react-redux';
+import {Store} from '../../../../reducers';
+import {PointDefinition} from '../../../definitions/Points';
+import {getPointState} from '../../../../middleware/objectState';
+import {PointState} from '../../../definitions/interfaces';
 
 interface Props {
     definition: PointDefinition;
@@ -27,9 +27,10 @@ class Point extends React.Component<Props & State, {}> {
             },
         } = this.props;
         const state = stateObject ? stateObject.position : undefined;
+        const requestedState = stateObject ? stateObject.requestedPosition : undefined;
         const locked = stateObject ? stateObject.locked : [];
         return (
-            <g className={'point ' + this.getStateClassName(state, !!locked.length, stateObject ? stateObject.changing : false)}
+            <g className={'point ' + this.getStateClassName(state, !!locked.length, (requestedState != state))}
                transform={'translate(' + x + ',' + y + ')'}>
                 {displayLabel && <g transform={'translate(0,-10)'}>
                     <text>{name}</text>

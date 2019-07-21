@@ -2,7 +2,7 @@
 //#include "./libs/SignalRef.h"
 //#include "libs/Signal/Signal.h"
 //#include "libs/Signal/SignalStrategy.h"
-//#include "./libs/AutoBlockSector.h"
+//#include "./libs/ABSector.h"
 //#include "./libs/OneSideAutoBlock.h"
 //
 //
@@ -17,7 +17,7 @@
 //auto signal2 = Signals::Signal(8, 503);
 //
 //
-//auto ABSector1S_0 = AutoBlockSector(717, 1, signal1, signal2, (int[]) {101});
+//auto ABSector1S_0 = ABSector(717, 1, signal1, signal2, (int[]) {101});
 //
 //
 ///**

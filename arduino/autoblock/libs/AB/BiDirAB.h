@@ -1,18 +1,18 @@
 #ifndef HELLO_WORLD_BIDIRECTIONALAB_H
 #define HELLO_WORLD_BIDIRECTIONALAB_H
 
-#include "OneSideAutoBlock.h"
+#include "OneDirAB.h"
 #include "../LocoNetObject.h"
 
 namespace AutomaticBlock {
-    class BiDirectionalAB : public LocoNetObject {
+    class BiDirAB : public LocoNetObject {
     public:
-        IOneSideAutoBlock *mainAB;
-        IOneSideAutoBlock *auxAB;
+        IOneDirAB *mainAB;
+        IOneDirAB *auxAB;
     public:
         int8_t dir;
 
-        BiDirectionalAB(int id, IOneSideAutoBlock *mainAB, IOneSideAutoBlock *auxAB) :
+        BiDirAB(int id, IOneDirAB *mainAB, IOneDirAB *auxAB) :
                 LocoNetObject(id),
                 mainAB(mainAB),
                 auxAB(auxAB) {
@@ -85,15 +85,15 @@ namespace AutomaticBlock {
                 return;
             }
 
-            IOneSideAutoBlock *activeOAB =
+            IOneDirAB *activeOAB =
                     (value == -1) ? this->auxAB : this->mainAB;
-            IOneSideAutoBlock *inactiveOAB =
+            IOneDirAB *inactiveOAB =
                     (value == -1) ? this->mainAB : this->auxAB;
 
             bool canChange = inactiveOAB->canChange() && !this->isLocked();
 
             if (!canChange) {
-                Serial.println('cannnot change');
+                Serial.println("cannnot change");
                 return;
             }
 
@@ -101,7 +101,7 @@ namespace AutomaticBlock {
             activeOAB->setActive(true);
 
             this->dir = value;
-            this->dump();
+            this->dumpDir();
         }
 
     public:

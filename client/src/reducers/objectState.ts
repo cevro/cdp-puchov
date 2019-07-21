@@ -35,13 +35,21 @@ export interface BanalizedABsState {
     [locoNetId: number]: BanalizedABState;
 }
 
+export interface LocoNetConnectorState {
+    availablePorts: string[];
+    status: number;
+    port: string;
+}
+
 export interface ObjectState {
     signals: SignalsState;
     sectors: SectorsState;
     points: PointsState;
     routeBuilder: TrainRouteDump;
     ABSectors: AutoBlockSectorsState;
-    banalizedAB: BanalizedABsState
+    biDirABs: BanalizedABsState;
+    oneDirABs: any;
+    locoNetConnector: LocoNetConnectorState;
 }
 
 const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
@@ -56,7 +64,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
             case 'auto-block-sector':
                 return ABSectorRetrieve(store, action);
             case 'banalized-auto-block':
-                return banalizedABRetrieve(store, action);
+                return biDirABRetrieve(store, action);
             default:
                 return store;
         }
@@ -111,44 +119,36 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData
         points: pointsData,
         routeBuilder: routeBuilder,
         ABSectors: ABSectorsData,
-        banalizedAB: banalizedABsData,
+        biDirABs: banalizedABsData,
+
     };
 };
+
+function objectRetrieve<T extends { locoNetId: number }>(accessKey: keyof ObjectState, store: ObjectState, action: ActionMessageRetrieve<T>): ObjectState {
+    const {data, data: {locoNetId}} = action.data;
+    return {
+        ...store,
+        [accessKey]: {
+            ...store[accessKey],
+            [+locoNetId]: data,
+        },
+    };
+}
 
 const ABSectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<AutoBlockSectorState>): ObjectState => {
-    const {data, data: {locoNetId}} = action.data;
-    return {
-        ...store,
-        ABSectors: {
-            ...store.ABSectors,
-            [+locoNetId]: data,
-        },
-    };
+    return objectRetrieve<AutoBlockSectorState>('ABSectors', store, action);
 };
 
-const banalizedABRetrieve = (store: ObjectState, action: ActionMessageRetrieve<BanalizedABState>): ObjectState => {
-    const {data, data: {locoNetId}} = action.data;
-    return {
-        ...store,
-        banalizedAB: {
-            ...store.banalizedAB,
-            [+locoNetId]: data,
-        },
-    };
+const biDirABRetrieve = (store: ObjectState, action: ActionMessageRetrieve<BanalizedABState>): ObjectState => {
+    return objectRetrieve<BanalizedABState>('biDirABs', store, action);
 };
 
 const signalRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SignalState>): ObjectState => {
-    const {data, data: {locoNetId}} = action.data;
-    return {
-        ...store,
-        signals: {
-            ...store.signals,
-            [+locoNetId]: data,
-        },
-    };
+    return objectRetrieve<SignalState>('signals', store, action);
 };
 
 const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SectorState>): ObjectState => {
+   // return objectRetrieve<SectorState>('sectors', store, action);
     const {data, data: {id}} = action.data;
     return {
         ...store,
@@ -170,6 +170,7 @@ const pointRetrieve = (store: ObjectState, action: ActionMessageRetrieve<PointSt
     };
 };
 
+
 const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<TrainRouteDump>): ObjectState => {
     const {data} = action.data;
     return {
@@ -183,12 +184,19 @@ const initState: ObjectState = {
     sectors: {},
     points: {},
     ABSectors: {},
+
     routeBuilder: {
         buffer: [],
         hasError: false,
         locked: false,
     },
-    banalizedAB: {},
+    biDirABs: {},
+    oneDirABs: {},
+    locoNetConnector: {
+        availablePorts: [],
+        port: undefined,
+        status: undefined,
+    }
 };
 
 export const objectState = (state: ObjectState = initState, action): ObjectState => {

@@ -1,4 +1,4 @@
-import { Store } from '../reducers';
+import {Store} from '../reducers';
 import {
     AutoBlockSectorState,
     BanalizedABState,
@@ -7,65 +7,42 @@ import {
     SignalState,
 } from '../components/definitions/interfaces';
 
+function getObjectState<T>(accessKey: string, store: Store, locoNetId: number): T {
+    const objects = store.objectState[accessKey];
+    let state = undefined;
+    for (const id in objects) {
+        if (objects.hasOwnProperty(id)) {
+            if (+id === locoNetId) {
+                state = objects[id];
+            }
+        }
+    }
+    return state;
+}
+
+/**
+ *
+ * @param store
+ * @param signalId
+ */
 export const getSignal = (store: Store, signalId: number): SignalState => {
-    const {signals} = store.objectState;
-    let state = undefined;
-    for (const id in signals) {
-        if (signals.hasOwnProperty(id)) {
-            if (+id === signalId) {
-                state = signals[signalId];
-            }
-        }
-    }
-    return state;
+    return getObjectState<SignalState>('signals', store, signalId);
 };
+export const getSignalState = (store: Store, signalId: number): SignalState => {
+    return getObjectState<SignalState>('signals', store, signalId);
+};
+
 export const getSectorState = (store: Store, sectorId: number): SectorState => {
-    let state = undefined;
-    const {sectors} = store.objectState;
-    for (const id in sectors) {
-        if (sectors.hasOwnProperty(id)) {
-            if (+id === sectorId) {
-                state = sectors[id];
-            }
-        }
-    }
-    return state;
+    return getObjectState<SectorState>('sectors', store, sectorId);
 };
-export const getPointState = (store: Store, sectorId: number): PointState => {
-    let state = undefined;
-    const {points} = store.objectState;
-    for (const id in points) {
-        if (points.hasOwnProperty(id)) {
-            if (+id === sectorId) {
-                state = points[id];
-            }
-        }
-    }
-    return state;
+export const getPointState = (store: Store, pointId: number): PointState => {
+    return getObjectState<PointState>('points', store, pointId);
 };
 
 export const getABSectorState = (store: Store, sectorId: number): AutoBlockSectorState => {
-    let state = undefined;
-    const {ABSectors} = store.objectState;
-    for (const id in ABSectors) {
-        if (ABSectors.hasOwnProperty(id)) {
-            if (+id === sectorId) {
-                state = ABSectors[id];
-            }
-        }
-    }
-    return state;
+    return getObjectState<AutoBlockSectorState>('ABSectors', store, sectorId);
 };
 
 export const getBanalizedABState = (store: Store, ABId: number): BanalizedABState => {
-    let state = undefined;
-    const {banalizedAB} = store.objectState;
-    for (const id in banalizedAB) {
-        if (banalizedAB.hasOwnProperty(id)) {
-            if (+id === ABId) {
-                state = banalizedAB[id];
-            }
-        }
-    }
-    return state;
+    return getObjectState<BanalizedABState>('banalizedAB', store, ABId);
 };

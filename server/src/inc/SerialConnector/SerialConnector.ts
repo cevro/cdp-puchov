@@ -5,7 +5,7 @@ import {
     LocoNetReciever,
     MessageReciever,
 } from '../Factories/DateReceiver';
-import { Message } from '../../definitions/interfaces';
+import {Message} from '../../definitions/interfaces';
 
 
 class SerialConnector implements MessageReciever {
@@ -14,9 +14,10 @@ class SerialConnector implements MessageReciever {
     private connector: SerialPort;
     private params: SerialPort.OpenOptions;
 
-    private port: string = '/dev/ttyUSB0';
+    private port: string = '/dev/ttyACM0';
 
     public tryConnect() {
+
         try {
             this.connector = new SerialPort(this.port, {
                 baudRate: 115200,
@@ -28,19 +29,24 @@ class SerialConnector implements MessageReciever {
                 // console.log(err);
             });
             this.dateReceive();
-        }
-        catch (e) {
+        } catch (e) {
             console.log(e);
         }
     }
 
-
-    handleMessageReceive(message: Message<{ port: string, params: SerialPort.OpenOptions }>) {
+    public handleMessageReceive(message: Message<{ port: string, params: SerialPort.OpenOptions }>) {
         if (message.entity == 'loconet-connector') {
             switch (message.action) {
                 case 'connect':
-                    this.params = message.data.params;
+                    //this.params = message.data.params;
                     this.port = message.data.port;
+                    if (this.port === message.data.port) {
+                        return;
+                    }
+                    this.port = message.data.port;
+                    if (this.connector) {
+                        this.connector.close();
+                    }
                     this.tryConnect();
                     break;
                 case 'reconnect':
