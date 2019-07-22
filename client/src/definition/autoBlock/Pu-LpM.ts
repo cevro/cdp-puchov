@@ -84,7 +84,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-22',
         locoNetId: 515,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -95,7 +95,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-22',
         locoNetId: 514,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -107,7 +107,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-34',
         locoNetId: 513,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -118,7 +118,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-34',
         locoNetId: 512,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -130,7 +130,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-50',
         locoNetId: 511,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -141,7 +141,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-50',
         locoNetId: 510,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -153,7 +153,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-64',
         locoNetId: 509,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -164,7 +164,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-64',
         locoNetId: 508,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -176,7 +176,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-76',
         locoNetId: 507,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -187,7 +187,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-76',
         locoNetId: 506,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -199,7 +199,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-120',
         locoNetId: 505,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -210,7 +210,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-120',
         locoNetId: 504,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -222,7 +222,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-102',
         locoNetId: 503,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -233,7 +233,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-102',
         locoNetId: 502,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -245,7 +245,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-116',
         locoNetId: 501,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -256,7 +256,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-116',
         locoNetId: 500,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 180,
@@ -269,7 +269,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-15',
         locoNetId: 519,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -280,7 +280,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-15',
         locoNetId: 518,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -292,7 +292,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-29',
         locoNetId: 521,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -303,7 +303,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-29',
         locoNetId: 520,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -315,7 +315,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-39',
         locoNetId: 523,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -326,7 +326,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-39',
         locoNetId: 522,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -339,7 +339,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-51',
         locoNetId: 525,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -350,7 +350,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-51',
         locoNetId: 524,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -362,7 +362,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-65',
         locoNetId: 527,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -373,7 +373,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-65',
         locoNetId: 526,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -385,7 +385,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-75',
         locoNetId: 529,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -396,7 +396,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-75',
         locoNetId: 528,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -408,7 +408,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-87',
         locoNetId: 531,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -419,7 +419,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-87',
         locoNetId: 530,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -431,7 +431,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-101',
         locoNetId: 533,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -442,7 +442,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-101',
         locoNetId: 532,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -454,7 +454,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '1-115',
         locoNetId: 535,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -465,7 +465,7 @@ const signals: SignalFrontEndDefinition[] = [
     {
         name: '2-115',
         locoNetId: 534,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         lights: ['HZ', 'Z', 'C'],
         SVGData: {
             rotate: 0,
@@ -732,7 +732,7 @@ export const autoBlockPuLpM: SchemeItem = {
         signals: signals,
         points: [],
         ABSectors: autoBlockSectors,
-        banalizedAB: [
+        biDirAB: [
             {
                 locoNetId: 451,
                 mainDir: 'L',

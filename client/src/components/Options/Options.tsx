@@ -6,7 +6,7 @@ import {
 } from 'redux';
 import {Store} from '../../reducers';
 import {
-    togglePointText,
+    toggleTurnoutText,
     toggleSignalText,
 } from '../../actions/displayOptions';
 import {SignalTypes} from '../definitions/Signals';
@@ -59,7 +59,7 @@ class Options extends React.Component<State, {}> {
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
         onToggleSignal: (type: number) => dispatch(toggleSignalText(type)),
-        onToggleTurnouts: () => dispatch(togglePointText()),
+        onToggleTurnouts: () => dispatch(toggleTurnoutText()),
     };
 };
 

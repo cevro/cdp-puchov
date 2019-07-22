@@ -90,7 +90,7 @@ export default class Turnout implements DataDumper<TurnoutMessages.StateUpdateDa
         logger.log<TurnoutMessages.StateUpdateMessage>({
             action: TurnoutMessages.MESSAGE_ACTION_STATE_UPDATE,
             entity: ENTITY_TURNOUT,
-            locoNetId: this.locoNetId,
+            id: this.locoNetId,
             date: new Date(),
             data: this.dumpData(),
         });

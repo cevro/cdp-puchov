@@ -1,6 +1,5 @@
 import Signal from '../objects/Signal';
 import {
-    Message,
     SignalState,
 } from '../../definitions/interfaces';
 import {
@@ -10,6 +9,7 @@ import {
 } from './DateReceiver';
 import {signals} from '../../data/signals';
 import {ENTITY_SIGNAL} from "../../definitions/consts";
+import {Message} from '../../definitions/messages';
 
 class SignalsFactory implements LocoNetReceiver, MessageReciever {
 

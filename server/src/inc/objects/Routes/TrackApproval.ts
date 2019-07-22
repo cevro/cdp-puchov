@@ -1,7 +1,6 @@
 import BanalizedAutoBlock from '../AB/BiDirAB';
 import {
     ABRequestedDir,
-    Message,
 } from '../../../../../definitions/interfaces';
 import AbstractDumper from '../AbstractDumper';
 import {
@@ -10,6 +9,7 @@ import {
     MessageReciever,
 } from '../../Factories/DateReceiver';
 import { locoNetConnector } from '../../SerialConnector/SerialConnector';
+import {Message} from '../../../definitions/messages';
 
 export default class TrackApproval extends AbstractDumper<any> implements LocoNetReceiver, MessageReciever {
 

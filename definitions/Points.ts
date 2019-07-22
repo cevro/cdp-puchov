@@ -279,7 +279,7 @@ export const turnouts: TurnoutDefinition[] = [
     },
 ];
 
-export const getPointById = (locoNetId: number): TurnoutDefinition => {
+export const getTurnoutById = (locoNetId: number): TurnoutDefinition => {
     return turnouts.filter((point) => {
         return point.locoNetId === locoNetId;
     })[0];

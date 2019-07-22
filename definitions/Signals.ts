@@ -3,10 +3,10 @@ export const SignalTypes = new class {
     public readonly TYPE_EXIT = 2;
     public readonly TYPE_PATH = 3;
     public readonly TYPE_SHUNT = 4;
-    public readonly TYPE_AUTOBLOCK = 5;
+    public readonly TYPE_AB = 5;
 
     public getAllTypes(): number[] {
-        return [this.TYPE_ENTRY, this.TYPE_EXIT, this.TYPE_PATH, this.TYPE_SHUNT, this.TYPE_AUTOBLOCK];
+        return [this.TYPE_ENTRY, this.TYPE_EXIT, this.TYPE_PATH, this.TYPE_SHUNT, this.TYPE_AB];
     }
 
     public getLabel(type: number): string {
@@ -19,8 +19,8 @@ export const SignalTypes = new class {
                 return 'path';
             case this.TYPE_SHUNT:
                 return 'shunt';
-            case this.TYPE_AUTOBLOCK:
-                return 'autoblock';
+            case this.TYPE_AB:
+                return 'AB';
             default:
                 throw new Error();
         }
@@ -519,28 +519,28 @@ const signalAutoblokLM: SignalFrontEndDefinition[] = [
     {
         name: '1-15',
         locoNetId: 11015,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 0, x: 2000, y: 210},
         lights: ['HZ', 'Z', 'C'],
     },
     {
         name: '1-22',
         locoNetId: 11022,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 180, x: 2100, y: 210},
         lights: ['HZ', 'Z', 'C'],
     },
     {
         name: '2-15',
         locoNetId: 12015,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 0, x: 2000, y: 240},
         lights: ['HZ', 'Z', 'C'],
     },
     {
         name: '2-22',
         locoNetId: 12022,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 180, x: 2100, y: 240},
         lights: ['HZ', 'Z', 'C'],
     },
@@ -549,28 +549,28 @@ const signalAutoblokPB: SignalFrontEndDefinition[] = [
     {
         name: '1-1600',
         locoNetId: 511600,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 180, x: -100, y: 0},
         lights: ['HZ', 'Z', 'C'],
     },
     {
         name: '1-1603',
         locoNetId: 511603,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 0, x: -200, y: 0},
         lights: ['HZ', 'Z', 'C'],
     },
     {
         name: '2-1600',
         locoNetId: 521600,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 180, x: -100, y: 30},
         lights: ['HZ', 'Z', 'C'],
     },
     {
         name: '2-1603',
         locoNetId: 521603,
-        type: SignalTypes.TYPE_AUTOBLOCK,
+        type: SignalTypes.TYPE_AB,
         SVGData: {rotate: 0, x: -200, y: 30},
         lights: ['HZ', 'Z', 'C'],
     },

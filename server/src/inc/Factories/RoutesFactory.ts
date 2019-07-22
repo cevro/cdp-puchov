@@ -1,5 +1,5 @@
 import TrainRoute from '../objects/Routes/TrainRoute';
-import { Message } from '../../definitions/interfaces';
+import { Message } from '../../definitions/messages';
 import { RouteFinderRequest } from '../../definitions/interfaces';
 import { logger } from '../../webSocetServer';
 import { MessageReciever } from './DateReceiver';

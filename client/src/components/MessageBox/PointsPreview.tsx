@@ -11,7 +11,7 @@ import {
     turnouts,
     RequestedTurnoutPosition,
 } from '../definitions/Points';
-import {changePoint} from '../../actions/webSocets';
+import {changeTurnout} from '../../actions/webSocets';
 
 interface State {
     turnoutsState?: TurnoutsState;
@@ -19,7 +19,7 @@ interface State {
     onChangeTurnout?(id: number, state: RequestedTurnoutPosition): void;
 }
 
-class PointsPreview extends React.Component<State, {}> {
+class TurnoutPreview extends React.Component<State, {}> {
     public render() {
         const {turnoutsState: pointsState} = this.props;
 
@@ -28,13 +28,13 @@ class PointsPreview extends React.Component<State, {}> {
                 {turnouts.map((sectorDef, index) => {
                     // sectorsState[id];
                     // sectorDef.id;
-                    const pointState = pointsState[sectorDef.id];
+                    const pointState = pointsState[sectorDef.locoNetId];
                     const state = pointState ? pointState.position : undefined;
                     const locked = pointState ? pointState.locked : [];
 
                     return <div className="list-group-item" key={index}>
                         <div className="row">
-                            <span className="col-1">{sectorDef.id}</span>
+                            <span className="col-1">{sectorDef.locoNetId}</span>
                             <span className="col-2">{sectorDef.name}</span>
                             <span className="col-2">{/*pointState && pointState.changing*/}</span>
                             <span className="col-1">
@@ -43,7 +43,7 @@ class PointsPreview extends React.Component<State, {}> {
                             </span>
                             </span>
                             <div className="col-3">
-                                {this.getButton(sectorDef.id, state)}
+                                {this.getButton(sectorDef.locoNetId, state)}
                             </div>
                             <div className="col-4">
                                 {locked.map((id) => {
@@ -100,8 +100,8 @@ const mapStateToProps = (state: Store): State => {
 };
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
-        onChangeTurnout: (id: number, state: RequestedTurnoutPosition) => changePoint(dispatch, id, state),
+        onChangeTurnout: (id: number, state: RequestedTurnoutPosition) => changeTurnout(dispatch, id, state),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PointsPreview);
+export default connect(mapStateToProps, mapDispatchToProps)(TurnoutPreview);

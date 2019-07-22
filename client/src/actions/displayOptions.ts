@@ -13,7 +13,7 @@ export const toggleSignalText = (signalType: number): ToggleSignalAction => {
 };
 
 export const ACTION_TOGGLE_POINT_TEXT = 'ACTION_TOGGLE_POINT_TEXT';
-export const togglePointText = (): Action<string> => {
+export const toggleTurnoutText = (): Action<string> => {
     return {
         type: ACTION_TOGGLE_POINT_TEXT,
     };

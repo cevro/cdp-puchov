@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Store} from '../../../../reducers';
 import {getBiDirABState} from '../../../../middleware/objectState';
-import {BanalizedABDefinition} from '../../../../definition/all';
+import {BiDirABDefinition} from '../../../../definition/all';
 import {BiDirABState} from '../../../../../../definitions/interfaces';
 import {changeABDir} from '../../../../actions/webSocets';
 import {
@@ -11,7 +11,7 @@ import {
 } from 'redux';
 
 interface Props {
-    definition: BanalizedABDefinition;
+    definition: BiDirABDefinition;
 }
 
 interface State {
@@ -20,7 +20,7 @@ interface State {
     onChangeDir?(id: number, dir: -1 | 1): void;
 }
 
-class BanalizedAB extends React.Component<Props & State, {}> {
+class BiDirAB extends React.Component<Props & State, {}> {
     public render() {
         const {
             stateObject,
@@ -77,6 +77,6 @@ const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(BanalizedAB);
+export default connect(mapStateToProps, mapDispatchToProps)(BiDirAB);
 
 

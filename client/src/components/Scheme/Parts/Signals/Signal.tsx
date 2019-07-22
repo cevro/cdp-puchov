@@ -68,7 +68,7 @@ class Signal extends React.Component<Props & State, {}> {
                     points="0,7 7,0 0,-7"
                     transform={'rotate(' + rotate + ')'}
                 />;
-            case SignalTypes.TYPE_AUTOBLOCK:
+            case SignalTypes.TYPE_AB:
                 return <>
                     <polyline
                         points="0,7 7,0 0,-7"

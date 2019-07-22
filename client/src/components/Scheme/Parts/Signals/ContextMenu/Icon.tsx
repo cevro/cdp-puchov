@@ -215,7 +215,7 @@ export default class Icon extends React.Component<Props, {}> {
                     <rect x={-width / 2} y={0} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={25} width={width} height={25} fill={'blue'}/>
                 </g>;
-            case SignalTypes.TYPE_AUTOBLOCK:
+            case SignalTypes.TYPE_AB:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={50} fill={'white'}/>
                 </g>;
@@ -248,7 +248,7 @@ export default class Icon extends React.Component<Props, {}> {
                     <rect x={-width / 2} y={50} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={75} width={width} height={25} fill={'blue'}/>
                 </g>;
-            case SignalTypes.TYPE_AUTOBLOCK:
+            case SignalTypes.TYPE_AB:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={100} fill={'white'}/>
                 </g>;

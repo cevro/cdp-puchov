@@ -2,12 +2,12 @@ import {
     SignalBackEndDefinition,
     signalLight,
 } from '../components/definitions/Signals';
-import { PointDefinition } from '../components/definitions/Points';
+import {TurnoutDefinition} from '../components/definitions/Points';
 import {
     autoBlockPuLpM,
     AutoBlockSectorFrontEndDefinition,
 } from './autoBlock/Pu-LpM';
-import { SectorDefinition } from '../components/definitions/Sectors';
+import {SectorDefinition} from '../components/definitions/Sectors';
 
 export type signalLight = 'HZ' | 'Z' | 'C' | 'B' | 'X' | 'DZ' | 'M';
 
@@ -35,9 +35,9 @@ export interface SchemeItem {
     objects: {
         sectors: SectorDefinition[]
         signals: SignalFrontEndDefinition[];
-        points: PointDefinition[];
+        points: TurnoutDefinition[];
         ABSectors: AutoBlockSectorFrontEndDefinition[];
-        banalizedAB: BanalizedABDefinition[];
+        biDirAB: BiDirABDefinition[];
     };
     viewBox: string;
 }
@@ -46,7 +46,7 @@ export interface frontEndScheme {
     [key: string]: SchemeItem;
 }
 
-export interface BanalizedABDefinition {
+export interface BiDirABDefinition {
     locoNetId: number;
     mainDir: 'L' | 'P';
     SVDData: {
@@ -71,7 +71,7 @@ export const frontEndScheme: frontEndScheme = {
             signals: [],
             points: [],
             ABSectors: [],
-            banalizedAB: [],
+            biDirAB: [],
         },
         viewBox: '-300 -90 2650 400',
     },

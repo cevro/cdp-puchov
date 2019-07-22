@@ -1,5 +1,5 @@
-import {AutoBlockSectorState} from '../../../../../definitions/interfaces';
-import {Message} from '../../../../../definitions/interfaces';
+import {ABSectorState} from '../../../../../definitions/interfaces';
+import {Message} from '../../../../../definitions/messages';
 import {
     LocoNetMessage,
     LocoNetReceiver,
@@ -9,7 +9,7 @@ import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import AbstractDumper from '../AbstractDumper';
 import {ENTITY_AB_SECTOR} from "../../../definitions/consts";
 
-export default class ABSector extends AbstractDumper<AutoBlockSectorState> implements MessageReciever, LocoNetReceiver {
+export default class ABSector extends AbstractDumper<ABSectorState> implements MessageReciever, LocoNetReceiver {
     public readonly locoNetId: number;
     private _error: number;
     private _state: number;
@@ -69,7 +69,7 @@ export default class ABSector extends AbstractDumper<AutoBlockSectorState> imple
         return ENTITY_AB_SECTOR;
     }
 
-    public dumpData(): AutoBlockSectorState {
+    public dumpData(): ABSectorState {
         return {
             state: this.state,
             locoNetId: this.getLocoNetId(),

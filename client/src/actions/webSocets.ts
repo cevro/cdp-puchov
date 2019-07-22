@@ -27,11 +27,11 @@ export const onMessageRetrieve = (data: Message): ActionMessageRetrieve => {
 
 export const ACTION_MESSAGE_SEND = 'ACTION_MESSAGE_SEND';
 
-export interface ActionMessageSend<T = any> extends Action<string> {
-    message: Message<T>
+export interface ActionMessageSend<M extends Message<any>> extends Action<string> {
+    message: M;
 }
 
-export function onSendMessage<T extends Message<any> = Message<any>>(message: T): ActionMessageSend<T> {
+export function onSendMessage<M extends Message<any>>(message: M): ActionMessageSend<M> {
 
     return {
         type: ACTION_MESSAGE_SEND,
@@ -59,9 +59,9 @@ export const successSend = (id: string): ActionSendSuccess => {
     }
 };
 
-export function send<T = any, M extends Message<any> = Message<any>>
-(dispatch: Dispatch<Action<string>>, id: number, entity: string, action: string, data: T): ActionMessageSend<M> {
-    return dispatch(onSendMessage<M>({
+export function send<T>
+(dispatch: Dispatch<Action<string>>, id: number, entity: string, action: string, data: T): ActionMessageSend<Message<T>> {
+    return dispatch(onSendMessage({
         action,
         entity,
         date: new Date(),
@@ -71,8 +71,8 @@ export function send<T = any, M extends Message<any> = Message<any>>
 }
 
 export const changeSector =
-    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
-        return send(dispatch, id, ENTITY_SECTOR, 'set-state', {id, state});
+    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<Message<{ id: number; state: number }>> => {
+        return send<{ id: number; state: number }>(dispatch, id, ENTITY_SECTOR, 'set-state', {id, state});
     };
 
 export const changeSignal =
@@ -86,7 +86,7 @@ export const changeSignal =
         }));
     };
 
-export const changePoint =
+export const changeTurnout =
     (dispatch: Dispatch<Action<string>>, id: number, state: RequestedTurnoutPosition): ActionMessageSend<TurnoutMessages.ChangePositionMessage> => {
         return dispatch(onSendMessage({
             action: TurnoutMessages.MESSAGE_ACTION_SET_POSITION,

@@ -3,13 +3,11 @@ import {
     LocoNetReceiver,
     MessageReciever,
 } from './DateReceiver';
-import {
-    AutoBlockSectorState,
-    Message,
-} from '../../definitions/interfaces';
+import {ABSectorState} from '../../definitions/interfaces';
 import ABSector from '../objects/AB/ABSector';
 import {autoBlockSectors} from '../../definitions/AutoBlockSectors';
 import {ENTITY_AB_SECTOR} from "../../definitions/consts";
+import {Message} from '../../definitions/messages';
 
 class ABSectorsFactory implements MessageReciever, LocoNetReceiver {
     private readonly ABSectors: ABSector[];
@@ -20,7 +18,7 @@ class ABSectorsFactory implements MessageReciever, LocoNetReceiver {
         });
     }
 
-    public dump(): AutoBlockSectorState[] {
+    public dump(): ABSectorState[] {
         return this.ABSectors.map((sector) => {
             return sector.dumpData();
         });

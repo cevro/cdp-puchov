@@ -1,7 +1,9 @@
 import {logger} from '../../../webSocetServer';
-import {STATUS_FREE, STATUS_UNDEFINED} from '../../../consts/obvod/status';
 import {
-    Message,
+    STATUS_FREE,
+    STATUS_UNDEFINED,
+} from '../../../consts/obvod/status';
+import {
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
 } from '../../../definitions/interfaces';
@@ -13,6 +15,7 @@ import {
 } from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import {SectorBackEndDefinition} from '../../../data/sectors';
+import {Message} from '../../../definitions/messages';
 
 export default class Sector implements DataDumper<SectorState>, LocoNetReceiver, MessageReciever {
     public readonly locoNetId;
@@ -72,7 +75,6 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReceiver,
         }
     }
 
-
     public check(): void {
         if (this.locked) {
             throw Error('Locked by ' + this.locked);
@@ -100,7 +102,7 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReceiver,
     public dumpData(): SectorState {
         return {
             state: this.state,
-            id: this.locoNetId,
+            locoNetId: this.locoNetId,
             locked: this.locked,
         };
     }

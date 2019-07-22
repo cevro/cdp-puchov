@@ -1,7 +1,6 @@
 import {SignalBackEndDefinition} from '../../definitions/Signals';
 import {logger} from '../../webSocetServer';
 import {
-    Message,
     MESSAGE_ACTION_STATE_UPDATE,
     SignalState,
 } from '../../definitions/interfaces';
@@ -13,6 +12,7 @@ import {
 } from '../Factories/DateReceiver';
 import {locoNetConnector} from '../SerialConnector/SerialConnector';
 import {ENTITY_SIGNAL} from "../../definitions/consts";
+import {Message} from '../../definitions/messages';
 
 export default class Signal implements LocoNetReceiver, DataDumper<SignalState>, MessageReciever {
     public locoNetId;

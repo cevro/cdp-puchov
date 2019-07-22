@@ -9,13 +9,15 @@ import {
     DumpData,
     MESSAGE_ACTION_DUMP,
     MESSAGE_ACTION_STATE_UPDATE,
-    TurnoutState,
     SectorState,
     SignalState,
     TrainRouteDump,
 } from '../components/definitions/interfaces';
 
-import {Message} from '../components/definitions/messages';
+import {
+    Message,
+    TurnoutMessages,
+} from '../components/definitions/messages';
 import {
     ENTITY_AB_SECTOR,
     ENTITY_SECTOR,
@@ -32,7 +34,7 @@ export interface SectorsState {
 }
 
 export interface TurnoutsState {
-    [id: number]: TurnoutState;
+    [id: number]: TurnoutMessages.StateUpdateData;
 }
 
 export interface ABSectorsState {
@@ -159,7 +161,7 @@ const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messag
     return objectRetrieve('sectors', store, action);
 };
 
-const turnoutRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<TurnoutState>>): ObjectState => {
+const turnoutRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<TurnoutMessages.StateUpdateData>>): ObjectState => {
     return objectRetrieve('turnouts', store, action);
 };
 

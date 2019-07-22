@@ -5,10 +5,10 @@ import {
 } from '../../Factories/DateReceiver';
 import {
     ABDir,
-    Message,
 } from '../../../../../definitions/interfaces';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import AbstractDumper from '../AbstractDumper';
+import {Message} from '../../../definitions/messages';
 
 export const BANALIZERD_AB_ENTITY_NAME = 'bi-dir-AB';
 

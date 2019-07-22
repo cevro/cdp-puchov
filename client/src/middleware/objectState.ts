@@ -2,11 +2,11 @@ import {Store} from '../reducers';
 import {
     ABSectorState,
     BiDirABState,
-    TurnoutState,
     SectorState,
     SignalState,
 } from '../components/definitions/interfaces';
 import {ObjectState} from "../reducers/objectState";
+import {TurnoutMessages} from '../components/definitions/messages';
 
 function getObjectState<K extends keyof ObjectState, I extends keyof ObjectState[K]>(accessKey: K, store: Store, locoNetId: I): ObjectState[K][I] {
     const objects = store.objectState[accessKey];
@@ -36,7 +36,7 @@ export const getSignalState = (store: Store, signalId: number): SignalState => {
 export const getSectorState = (store: Store, sectorId: number): SectorState => {
     return getObjectState('sectors', store, sectorId);
 };
-export const getPointState = (store: Store, pointId: number): TurnoutState => {
+export const getTurnoutState = (store: Store, pointId: number): TurnoutMessages.StateUpdateData => {
     return getObjectState('turnouts', store, pointId);
 };
 

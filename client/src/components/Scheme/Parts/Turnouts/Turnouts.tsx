@@ -1,9 +1,9 @@
 import * as React from 'react';
-import Point from './Turnout';
-import { PointDefinition } from '../../../definitions/Points';
+import Turnout from './Turnout';
+import { TurnoutDefinition } from '../../../definitions/Points';
 
 interface Props {
-    points: PointDefinition[];
+    points: TurnoutDefinition[];
 }
 
 export default class Turnouts extends React.Component<Props, {}> {
@@ -13,7 +13,7 @@ export default class Turnouts extends React.Component<Props, {}> {
         return (<g>
             {this.props.points.map((signal, signalId) => {
                 return <g key={signalId}>
-                    <Point definition={signal}/>
+                    <Turnout definition={signal}/>
                 </g>;
             })}
         </g>)

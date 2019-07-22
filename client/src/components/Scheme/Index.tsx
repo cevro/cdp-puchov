@@ -3,7 +3,7 @@ import Signals from './Parts/Signals/Signals';
 import Turnouts from './Parts/Turnouts/Turnouts';
 import Sectors from './Parts/Sectors/Sectors';
 import { SchemeItem } from '../../definition/all';
-import BanalizedABs from './Parts/BanalizedAB/Index';
+import BiDirABs from './Parts/BiDirAB/Index';
 
 interface Props {
     scheme: SchemeItem;
@@ -20,7 +20,7 @@ export default class Scheme extends React.Component<Props, {}> {
                 <Sectors sectors={scheme.objects.sectors}/>
                 <Turnouts points={scheme.objects.points}/>
                 <Signals signals={scheme.objects.signals}/>
-                <BanalizedABs ABs={scheme.objects.banalizedAB}/>
+                <BiDirABs ABs={scheme.objects.biDirAB}/>
 
             </svg>
         );
