@@ -2,19 +2,19 @@ import {
     connection,
     server,
 } from 'websocket';
-import { Message } from '../../definitions/interfaces';
-import { routeBuilder } from './inc/Factories/RouteBuilder';
-import { pointFactory } from './inc/Factories/PointFactory';
-import { signalFactory } from './inc/Factories/SignalFactory';
-import { sectorFactory } from './inc/Factories/SectorsFactory';
+import {Message} from '../../definitions/messages';
+import {routeBuilder} from './inc/Factories/RouteBuilder';
+import {turnoutsFactory} from './inc/Factories/TurnoutsFactory';
+import {signalFactory} from './inc/Factories/SignalsFactory';
+import {sectorFactory} from './inc/Factories/SectorsFactory';
 import {
     DumpData,
     MESSAGE_ACTION_DUMP,
 } from './definitions/interfaces';
-import { MessageReciever } from './inc/Factories/DateReceiver';
-import { routesFactory } from './inc/Factories/RoutesFactory';
-import { autoBlockSectorFactory } from './inc/Factories/AutoBlockSectorFactory';
-import { banalizedAutoBlockFactory } from './inc/Factories/BanalizedAutoBlockFactory';
+import {MessageReciever} from './inc/Factories/DateReceiver';
+import {routesFactory} from './inc/Factories/RoutesFactory';
+import {autoBlockSectorFactory} from './inc/Factories/ABSectorsFactory';
+import {banalizedAutoBlockFactory} from './inc/Factories/BiDirABsFactory';
 
 const http = require('http');
 
@@ -35,10 +35,10 @@ const initClient = (connection: connection) => {
         data: {
             signals: signalFactory.dump(),
             sectors: sectorFactory.dump(),
-            points: pointFactory.dump(),
+            points: turnoutsFactory.dump(),
             routeBuilder: routeBuilder.dumpBuffer(),
-            autoBlockSectors: autoBlockSectorFactory.dump(),
-            banalizedAutoBlocks: banalizedAutoBlockFactory.dump(),
+            ABSectors: autoBlockSectorFactory.dump(),
+            biDirABs: banalizedAutoBlockFactory.dump(),
         },
         id: 0,
     };
@@ -50,7 +50,7 @@ export const logger = new class {
     private dataReceivers: MessageReciever[] = [
         routesFactory,
         routeBuilder,
-        pointFactory,
+        turnoutsFactory,
         sectorFactory,
         autoBlockSectorFactory,
         banalizedAutoBlockFactory,
@@ -80,7 +80,7 @@ export const logger = new class {
         });
     }
 
-    public log<T = any>(message: Message<T>) {
+    public log<T extends Message<any>>(message: T) {
         this.wsServer.broadcast(JSON.stringify(message));
         // console.log('[' + message.date.toISOString() + ']: ' + JSON.stringify(message));
     }

@@ -1,21 +1,26 @@
 import * as React from "react";
 import {AutoBlockSectorFrontEndDefinition} from "../../../definition/autoBlock/Pu-LpM";
-import {AutoBlockSectorState} from "../../definitions/interfaces";
+import {ABSectorState} from "../../definitions/interfaces";
 import {Store} from "../../../reducers";
-import {Action, Dispatch} from "redux";
-import {changeABCondition, removeABError} from "../../../actions/webSocets";
+import {
+    Action,
+    Dispatch,
+} from "redux";
+import {
+    changeABCondition,
+    removeABError,
+} from "../../../actions/webSocets";
 import {connect} from "react-redux";
-import {AutoBlockSectorsState} from "../../../reducers/objectState";
+import {ABSectorsState} from "../../../reducers/objectState";
 
 interface Props {
     definition: AutoBlockSectorFrontEndDefinition;
-    objectState: AutoBlockSectorState;
+    objectState: ABSectorState;
     displayOnlyInterest: boolean;
 }
 
-
 interface State {
-    ABSectorsState?: AutoBlockSectorsState;
+    ABSectorsState?: ABSectorsState;
 
     onChangeABCondition?(state: number): void;
 
@@ -32,7 +37,7 @@ class Row extends React.Component<Props & State, InnerState> {
         this.state = {display: false};
     }
 
-    render() {
+    public render() {
         const {objectState, definition} = this.props;
         const active = objectState ? objectState.active : undefined;
         const error = objectState ? objectState.errorCode : undefined;
@@ -98,7 +103,7 @@ class Row extends React.Component<Props & State, InnerState> {
         </div>
     }
 
-    private getListClassName(objectState: AutoBlockSectorState, active: number, error: number, ABCondition: number) {
+    private getListClassName(objectState: ABSectorState, active: number, error: number, ABCondition: number) {
         if (objectState === undefined) {
             return 'list-item-undefined';
         }
@@ -162,7 +167,6 @@ class Row extends React.Component<Props & State, InnerState> {
         }
     }
 }
-
 
 const mapStateToProps = (state: Store): State => {
     return {

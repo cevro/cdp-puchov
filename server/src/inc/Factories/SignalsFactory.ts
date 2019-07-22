@@ -5,12 +5,13 @@ import {
 } from '../../definitions/interfaces';
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from './DateReceiver';
-import { signals } from '../../data/signals';
+import {signals} from '../../data/signals';
+import {ENTITY_SIGNAL} from "../../definitions/consts";
 
-class SignalFactory implements LocoNetReciever, MessageReciever {
+class SignalsFactory implements LocoNetReceiver, MessageReciever {
 
     private readonly signals: Signal[];
 
@@ -40,7 +41,7 @@ class SignalFactory implements LocoNetReciever, MessageReciever {
 
     public handleMessageReceive(message: Message) {
         //console.log('msq');
-        if (message.entity !== 'signal') {
+        if (message.entity !== ENTITY_SIGNAL) {
             return;
         }
         this.signals.forEach((signals) => {
@@ -59,4 +60,4 @@ class SignalFactory implements LocoNetReciever, MessageReciever {
     }
 }
 
-export const signalFactory = new SignalFactory();
+export const signalFactory = new SignalsFactory();

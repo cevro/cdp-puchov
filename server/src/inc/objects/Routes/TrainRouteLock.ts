@@ -1,10 +1,10 @@
-import TrainRoute from '../objects/TrainRoute';
-import { logger } from '../../webSocetServer';
-import { routesFactory } from './RoutesFactory';
+import TrainRoute from './TrainRoute';
+import { logger } from '../../../webSocetServer';
+import { routesFactory } from '../../Factories/RoutesFactory';
 import {
     MESSAGE_ACTION_STATE_UPDATE,
     TrainRouteBufferItem,
-} from '../../definitions/interfaces';
+} from '../../../../../definitions/interfaces';
 
 export default class TrainRouteLock {
     public readonly route: TrainRoute;
@@ -67,7 +67,7 @@ export default class TrainRouteLock {
     public check(): boolean {
         const route = this.route;
         try {
-            const pointPositions = route.getPointPositions();
+            const pointPositions = route.getTurnoutPositions();
             for (const id in pointPositions) {
                 const pointPosition = pointPositions[id];
                 pointPosition.check();
@@ -95,7 +95,7 @@ export default class TrainRouteLock {
         this.state = TrainRouteLock.STATE_BUILDING;
         routeBuilder.printBuffer();
         try {
-            const pointPositions = trainRoute.getPointPositions();
+            const pointPositions = trainRoute.getTurnoutPositions();
             for (const id in pointPositions) {
                 const pointPosition = pointPositions[id];
                 await pointPosition.lock(this.getId());
@@ -121,7 +121,7 @@ export default class TrainRouteLock {
     }
 
     public destroyRoute(): void {
-        const pointPositions = this.route.getPointPositions();
+        const pointPositions = this.route.getTurnoutPositions();
         for (const id in pointPositions) {
             const pointPosition = pointPositions[id];
             pointPosition.unlock(this.getId());

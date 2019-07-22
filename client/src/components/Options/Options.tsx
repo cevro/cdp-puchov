@@ -17,20 +17,20 @@ interface State {
 
     onToggleSignal?(type: number): void;
 
-    onTogglePoints?(): void;
+    onToggleTurnouts?(): void;
 }
 
 class Options extends React.Component<State, {}> {
 
     public render() {
-        const {onToggleSignal, displayState, onTogglePoints} = this.props;
+        const {displayState} = this.props;
         return (<div className="card-body row">
             <div className="col-6">
                 <h6>Toggle label on signals</h6>
                 {SignalTypes.getAllTypes().map((type: number) => {
                     return <div className="row" key={type}>
                         <button className="btn btn-link" onClick={() => {
-                            onToggleSignal(type);
+                            this.props.onToggleSignal(type);
                         }}>
                     <span
                         className={displayState.signals[type] ? 'text-success fa fa-check-square-o' : 'text-danger fa fa-square-o'}/>
@@ -44,11 +44,11 @@ class Options extends React.Component<State, {}> {
             <div className="col-6">
                 <div className="row">
                     <button className="btn btn-link" onClick={() => {
-                        onTogglePoints();
+                        this.props.onToggleTurnouts();
                     }}>
                     <span
                         className={displayState.points ? 'text-success fa fa-check-square-o' : 'text-danger fa fa-square-o'}/>
-                        <span className={'ml-3 badge badge-secondary'}>toggle points on</span>
+                        <span className={'ml-3 badge badge-secondary'}>toggle turnouts on</span>
                     </button>
                 </div>
             </div>
@@ -59,7 +59,7 @@ class Options extends React.Component<State, {}> {
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
         onToggleSignal: (type: number) => dispatch(toggleSignalText(type)),
-        onTogglePoints: () => dispatch(togglePointText()),
+        onToggleTurnouts: () => dispatch(togglePointText()),
     };
 };
 

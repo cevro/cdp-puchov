@@ -23,12 +23,12 @@ namespace Sectors {
     public:
         bool isFree() {
             return this->getState() == Sectors::STATE_FREE;
-        }
+        };
 
     public:
         sectorState_t getState() {
             return this->state;
-        }
+        };
     };
 };
 

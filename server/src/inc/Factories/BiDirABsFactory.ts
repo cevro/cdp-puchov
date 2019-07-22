@@ -1,12 +1,12 @@
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from './DateReceiver';
 import { Message } from '../../definitions/interfaces';
-import BanalizedAutoBlock, { BANALIZERD_AB_ENTITY_NAME } from '../objects/BanalizedAutoBlock';
+import BanalizedAutoBlock, { BANALIZERD_AB_ENTITY_NAME } from '../objects/AB/BiDirAB';
 
-class BanalizedAutoBlockFactory implements MessageReciever, LocoNetReciever {
+class BiDirABsFactory implements MessageReciever, LocoNetReceiver {
     private readonly ABs: BanalizedAutoBlock[];
 
     constructor() {
@@ -41,4 +41,4 @@ class BanalizedAutoBlockFactory implements MessageReciever, LocoNetReciever {
     }
 }
 
-export const banalizedAutoBlockFactory = new BanalizedAutoBlockFactory();
+export const banalizedAutoBlockFactory = new BiDirABsFactory();

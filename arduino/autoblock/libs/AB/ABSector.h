@@ -1,4 +1,3 @@
-
 #ifndef KOLAJISKO_AUTOBLOCKSECTOR_H
 #define KOLAJISKO_AUTOBLOCKSECTOR_H
 
@@ -9,7 +8,6 @@
 #include "IABSector.h"
 
 typedef int8_t ABSectorState_t;
-
 
 namespace AutomaticBlock {
 

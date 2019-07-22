@@ -1,12 +1,12 @@
 import * as React from 'react';
-import Point from './Point';
+import Point from './Turnout';
 import { PointDefinition } from '../../../definitions/Points';
 
 interface Props {
     points: PointDefinition[];
 }
 
-export default class Points extends React.Component<Props, {}> {
+export default class Turnouts extends React.Component<Props, {}> {
 
     public render() {
 

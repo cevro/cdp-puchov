@@ -1,4 +1,4 @@
-import TrainRoute from '../objects/TrainRoute';
+import TrainRoute from '../objects/Routes/TrainRoute';
 import { Message } from '../../definitions/interfaces';
 import { RouteFinderRequest } from '../../definitions/interfaces';
 import { logger } from '../../webSocetServer';

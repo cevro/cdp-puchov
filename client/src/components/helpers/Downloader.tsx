@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Message } from '../definitions/interfaces';
+import { Message } from '../definitions/messages';
 import {
     connectionClose,
     onMessageRetrieve,

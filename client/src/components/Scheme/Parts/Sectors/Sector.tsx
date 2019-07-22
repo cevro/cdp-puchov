@@ -10,9 +10,6 @@ import {
     SECTOR_STATE_OCCUPIED,
 } from '../../../MessageBox/SectorsPreview';
 
-const STATUS_FREE = 1;
-const STATUS_BUSY = 0;
-
 interface Props {
     definition: SectorDefinition;
 }

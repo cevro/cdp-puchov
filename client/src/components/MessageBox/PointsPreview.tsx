@@ -1,31 +1,31 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '../../reducers';
+import {connect} from 'react-redux';
+import {Store} from '../../reducers';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { PointsState } from '../../reducers/objectState';
+import {TurnoutsState} from '../../reducers/objectState';
 import {
-    pointPosition,
-    points,
-    requestedPointPosition,
+    TurnoutPosition,
+    turnouts,
+    RequestedTurnoutPosition,
 } from '../definitions/Points';
-import { changePoint } from '../../actions/webSocets';
+import {changePoint} from '../../actions/webSocets';
 
 interface State {
-    points?: PointsState;
+    turnoutsState?: TurnoutsState;
 
-    onChangePoint?(id: number, state: requestedPointPosition): void;
+    onChangeTurnout?(id: number, state: RequestedTurnoutPosition): void;
 }
 
 class PointsPreview extends React.Component<State, {}> {
     public render() {
-        const {points: pointsState} = this.props;
+        const {turnoutsState: pointsState} = this.props;
 
         return (
             <div className="list-group list-scroll">
-                {points.map((sectorDef, index) => {
+                {turnouts.map((sectorDef, index) => {
                     // sectorsState[id];
                     // sectorDef.id;
                     const pointState = pointsState[sectorDef.id];
@@ -57,21 +57,20 @@ class PointsPreview extends React.Component<State, {}> {
         )
     }
 
-
-    private getButton(id: number, state: pointPosition): JSX.Element {
+    private getButton(id: number, state: TurnoutPosition): JSX.Element {
         const buttons = [];
 
         if (state === 0 || state === 1) {
             buttons.push(<button className="btn btn-sm btn-secondary"
                                  onClick={() => {
-                                     this.props.onChangePoint(id, -1)
+                                     this.props.onChangeTurnout(id, -1)
                                  }}
             >-</button>);
         }
         if (state === 0 || state === -1) {
             buttons.push(<button className="btn btn-sm btn-primary"
                                  onClick={() => {
-                                     this.props.onChangePoint(id, 1)
+                                     this.props.onChangeTurnout(id, 1)
                                  }}
             >+</button>);
         }
@@ -96,12 +95,12 @@ class PointsPreview extends React.Component<State, {}> {
 
 const mapStateToProps = (state: Store): State => {
     return {
-        points: state.objectState.points,
+        turnoutsState: state.objectState.turnouts,
     };
 };
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
     return {
-        onChangePoint: (id: number, state: requestedPointPosition) => changePoint(dispatch, id, state),
+        onChangeTurnout: (id: number, state: RequestedTurnoutPosition) => changePoint(dispatch, id, state),
     };
 };
 

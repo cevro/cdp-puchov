@@ -1,20 +1,23 @@
 import * as SerialPort from 'serialport';
-// import * as Readline from '@serialport/parser-readline';
 import {
+    DataDumper,
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from '../Factories/DateReceiver';
-import {Message} from '../../definitions/interfaces';
+import {Message} from '../../definitions/messages';
+import {PortInfo} from "serialport";
+import {logger} from "../../webSocetServer";
 
 
 class SerialConnector implements MessageReciever {
-    private listeners: LocoNetReciever[] = [];
+    private listeners: LocoNetReceiver[] = [];
 
     private connector: SerialPort;
     private params: SerialPort.OpenOptions;
+    private ports: PortInfo[] = [];
 
-    private port: string = '/dev/ttyACM0';
+    private port: string = '/dev/ttyUSB0';
 
     public tryConnect() {
 
@@ -48,12 +51,33 @@ class SerialConnector implements MessageReciever {
                         this.connector.close();
                     }
                     this.tryConnect();
-                    break;
+                    return;
                 case 'reconnect':
                     this.tryConnect();
+                    return;
+                case 'get-port-list':
+                    this.handleGetPortList();
+                    return;
+
             }
 
         }
+    }
+
+    public handleGetPortList() {
+        SerialPort.list().then((list: PortInfo[]) => {
+            this.ports = list;
+            logger.log({
+                entity: 'loconet-connector',
+                id: 0,
+                action: 'port-list',
+                data: {
+                    ports: this.ports,
+                },
+                date: new Date(),
+            });
+        });
+
     }
 
     public send(data: LocoNetMessage): void {
@@ -81,7 +105,7 @@ class SerialConnector implements MessageReciever {
         });
     }
 
-    public registerListener(listener: LocoNetReciever) {
+    public registerListener(listener: LocoNetReceiver) {
         this.listeners.push(listener);
     }
 

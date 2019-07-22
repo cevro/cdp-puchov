@@ -1,21 +1,22 @@
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from './DateReceiver';
 import {
     AutoBlockSectorState,
     Message,
 } from '../../definitions/interfaces';
-import AutoBlockSector from '../objects/Sectors/AutoBlockSector';
-import { autoBlockSectors } from '../../definitions/AutoBlockSectors';
+import ABSector from '../objects/AB/ABSector';
+import {autoBlockSectors} from '../../definitions/AutoBlockSectors';
+import {ENTITY_AB_SECTOR} from "../../definitions/consts";
 
-class AutoBlockSectorFactory implements MessageReciever, LocoNetReciever {
-    private readonly ABSectors: AutoBlockSector[];
+class ABSectorsFactory implements MessageReciever, LocoNetReceiver {
+    private readonly ABSectors: ABSector[];
 
     constructor() {
         this.ABSectors = autoBlockSectors.map((value) => {
-            return new AutoBlockSector(value);
+            return new ABSector(value);
         });
     }
 
@@ -34,7 +35,7 @@ class AutoBlockSectorFactory implements MessageReciever, LocoNetReciever {
     }
 
     public handleMessageReceive(message: Message) {
-        if (message.entity !== 'auto-block-sector') {
+        if (message.entity !== ENTITY_AB_SECTOR) {
             return;
         }
         this.ABSectors.forEach((ABSector) => {
@@ -45,4 +46,4 @@ class AutoBlockSectorFactory implements MessageReciever, LocoNetReciever {
     }
 }
 
-export const autoBlockSectorFactory = new AutoBlockSectorFactory();
+export const autoBlockSectorFactory = new ABSectorsFactory();

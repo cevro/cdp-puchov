@@ -1,12 +1,12 @@
 import * as React from 'react';
-import {AutoBlockSectorsState} from '../../../reducers/objectState';
+import {ABSectorsState} from '../../../reducers/objectState';
 import {AutoBlockSectorFrontEndDefinition} from '../../../definition/autoBlock/Pu-LpM';
 import {Store} from '../../../reducers';
 import {connect} from 'react-redux';
 import Row from "./Row";
 
 interface State {
-    ABSectorsState?: AutoBlockSectorsState;
+    ABSectorsState?: ABSectorsState;
 }
 
 interface Props {
@@ -45,7 +45,6 @@ class Index extends React.Component<State & Props, InnerState> {
             </div>
         );
     }
-
 
 }
 

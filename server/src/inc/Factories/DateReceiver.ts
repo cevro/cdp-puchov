@@ -12,7 +12,7 @@ export interface LocoNetMessage {
     value: number
 }
 
-export interface LocoNetReciever {
+export interface LocoNetReceiver {
     handleLocoNetReceive(message: LocoNetMessage): void;
 }
 

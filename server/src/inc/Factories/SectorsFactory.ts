@@ -2,12 +2,12 @@ import Sector from '../objects/Sectors/Sector';
 import { Message } from '../../definitions/interfaces';
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from './DateReceiver';
 import { sectors } from '../../data/sectors';
 
-class SectorsFactory implements MessageReciever, LocoNetReciever {
+class SectorsFactory implements MessageReciever, LocoNetReceiver {
 
     private readonly sectors: Sector[];
 

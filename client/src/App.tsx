@@ -81,7 +81,7 @@ export default class App extends React.Component<Props, {}> {
                         }
                         {scheme.cards.points &&
                         <div className="col-3">
-                            <Card name={'Points'}>
+                            <Card name={'Turnouts'}>
                                 <PointsPreview/>
                             </Card>
                         </div>

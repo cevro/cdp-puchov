@@ -1,22 +1,22 @@
-import Switch from './Switch';
-import { pointFactory } from '../Factories/PointFactory';
-import { requestedPointPosition } from '../../definitions/Points';
+import Turnout from './Turnout';
+import { turnoutsFactory } from '../../Factories/TurnoutsFactory';
+import { RequestedTurnoutPosition } from '../../../../../definitions/Points';
 
-export default class PointPosition {
-    private readonly position: requestedPointPosition;
-    private readonly point: Switch;
-    private readonly safePositions: PointPosition[];
+export default class TurnoutPosition {
+    private readonly position: RequestedTurnoutPosition;
+    private readonly point: Turnout;
+    private readonly safePositions: TurnoutPosition[];
 
     constructor(
         pointId: number,
-        position: requestedPointPosition,
-        safePositions: { id: number, position: requestedPointPosition }[] = [],
+        position: RequestedTurnoutPosition,
+        safePositions: { id: number, position: RequestedTurnoutPosition }[] = [],
     ) {
-        this.point = pointFactory.findById(pointId);
+        this.point = turnoutsFactory.findById(pointId);
         this.position = position;
 
         this.safePositions = safePositions.map(({id, position}) => {
-            return new PointPosition(id, position);
+            return new TurnoutPosition(id, position);
         });
     };
 

@@ -2,7 +2,7 @@ import {
     ACTION_MESSAGE_SEND,
     ACTION_SEND_SUCCESS,
 } from '../actions/webSocets';
-import { Message } from '../components/definitions/interfaces';
+import {Message} from '../components/definitions/messages';
 
 export interface State {
     messages: {

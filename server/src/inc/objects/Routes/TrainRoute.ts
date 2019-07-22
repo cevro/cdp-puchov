@@ -1,18 +1,18 @@
-import Signal from './Signal';
-import PointPosition from './PointPosition';
-import Sector from './Sectors/Sector';
-import { signalFactory } from '../Factories/SignalFactory';
-import { sectorFactory } from '../Factories/SectorsFactory';
-import { TrainRouteDefinition } from '../../data/puchov/routes/1L';
-import { SignalStrategy } from '../Factories/SignalStrategy';
-import { BuildOptions } from '../../definitions/interfaces';
+import Signal from '../Signal';
+import TurnoutPosition from '../Turnout/TurnoutPosition';
+import Sector from '../Sectors/Sector';
+import { signalFactory } from '../../Factories/SignalsFactory';
+import { sectorFactory } from '../../Factories/SectorsFactory';
+import { TrainRouteDefinition } from '../../../data/puchov/routes/1L';
+import { SignalStrategy } from '../../Factories/SignalStrategy';
+import { BuildOptions } from '../../../../../definitions/interfaces';
 
 export default class TrainRoute {
     public id;
     public name: string;
 
     public readonly sectors: Sector[];
-    public readonly pointPositions: PointPosition[];
+    public readonly turnoutPositions: TurnoutPosition[];
     public startSignal: Signal;
     public endSignal: Signal;
     // public trackApproval: TrackApproval;
@@ -29,7 +29,7 @@ export default class TrainRoute {
         });
 
         this.name = def.name;
-        this.pointPositions = def.pointPositions;
+        this.turnoutPositions = def.turnoutPositions;
 
         this.endSignal = def.endSignalId ? signalFactory.findById(def.endSignalId) : null;
 
@@ -44,8 +44,8 @@ export default class TrainRoute {
         return this.sectors;
     };
 
-    public getPointPositions(): PointPosition[] {
-        return this.pointPositions;
+    public getTurnoutPositions(): TurnoutPosition[] {
+        return this.turnoutPositions;
     }
 
     public alock() {

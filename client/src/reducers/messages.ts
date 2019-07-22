@@ -1,5 +1,5 @@
 import { ACTION_MESSAGE_RETRIEVE } from '../actions/webSocets';
-import { Message } from '../components/definitions/interfaces';
+import { Message } from '../components/definitions/messages';
 
 
 const messageRetrieve = (state, action) => {

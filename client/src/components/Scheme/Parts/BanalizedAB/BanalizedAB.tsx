@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '../../../../reducers';
-import { getBanalizedABState } from '../../../../middleware/objectState';
-import { BanalizedABDefinition } from '../../../../definition/all';
-import { BanalizedABState } from '../../../../../../definitions/interfaces';
-import { changeABDir } from '../../../../actions/webSocets';
+import {connect} from 'react-redux';
+import {Store} from '../../../../reducers';
+import {getBiDirABState} from '../../../../middleware/objectState';
+import {BanalizedABDefinition} from '../../../../definition/all';
+import {BiDirABState} from '../../../../../../definitions/interfaces';
+import {changeABDir} from '../../../../actions/webSocets';
 import {
     Action,
     Dispatch,
@@ -15,7 +15,7 @@ interface Props {
 }
 
 interface State {
-    stateObject?: BanalizedABState;
+    stateObject?: BiDirABState;
 
     onChangeDir?(id: number, dir: -1 | 1): void;
 }
@@ -67,7 +67,7 @@ class BanalizedAB extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        stateObject: getBanalizedABState(state, ownProps.definition.locoNetId),
+        stateObject: getBiDirABState(state, ownProps.definition.locoNetId),
     };
 };
 

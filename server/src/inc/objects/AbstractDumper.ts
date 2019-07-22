@@ -1,10 +1,10 @@
-import { logger } from '../../webSocetServer';
-import { MESSAGE_ACTION_STATE_UPDATE } from '../../definitions/interfaces';
+import {logger} from '../../webSocetServer';
+import {MESSAGE_ACTION_STATE_UPDATE} from '../../definitions/interfaces';
 
 export default class AbstractDumper<T = any> {
 
     public sendState() {
-        logger.log<T>({
+        logger.log({
             action: MESSAGE_ACTION_STATE_UPDATE,
             entity: this.getEntityName(),
             data: this.dumpData(),

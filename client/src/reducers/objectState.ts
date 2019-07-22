@@ -4,16 +4,24 @@ import {
     ActionMessageRetrieve,
 } from '../actions/webSocets';
 import {
-    AutoBlockSectorState,
-    BanalizedABState,
+    ABSectorState,
+    BiDirABState,
     DumpData,
     MESSAGE_ACTION_DUMP,
     MESSAGE_ACTION_STATE_UPDATE,
-    PointState,
+    TurnoutState,
     SectorState,
     SignalState,
     TrainRouteDump,
 } from '../components/definitions/interfaces';
+
+import {Message} from '../components/definitions/messages';
+import {
+    ENTITY_AB_SECTOR,
+    ENTITY_SECTOR,
+    ENTITY_SIGNAL,
+    ENTITY_TURNOUT,
+} from "../../../definitions/consts";
 
 export interface SignalsState {
     [id: number]: SignalState;
@@ -23,16 +31,16 @@ export interface SectorsState {
     [id: number]: SectorState;
 }
 
-export interface PointsState {
-    [id: number]: PointState;
+export interface TurnoutsState {
+    [id: number]: TurnoutState;
 }
 
-export interface AutoBlockSectorsState {
-    [locoNetId: number]: AutoBlockSectorState;
+export interface ABSectorsState {
+    [locoNetId: number]: ABSectorState;
 }
 
-export interface BanalizedABsState {
-    [locoNetId: number]: BanalizedABState;
+export interface BiDirABsState {
+    [locoNetId: number]: BiDirABState;
 }
 
 export interface LocoNetConnectorState {
@@ -44,10 +52,10 @@ export interface LocoNetConnectorState {
 export interface ObjectState {
     signals: SignalsState;
     sectors: SectorsState;
-    points: PointsState;
+    turnouts: TurnoutsState;
     routeBuilder: TrainRouteDump;
-    ABSectors: AutoBlockSectorsState;
-    biDirABs: BanalizedABsState;
+    ABSectors: ABSectorsState;
+    biDirABs: BiDirABsState;
     oneDirABs: any;
     locoNetConnector: LocoNetConnectorState;
 }
@@ -55,13 +63,13 @@ export interface ObjectState {
 const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
     if (action.data.action === MESSAGE_ACTION_STATE_UPDATE) {
         switch (action.data.entity) {
-            case 'sector':
+            case ENTITY_SECTOR:
                 return sectorRetrieve(store, action);
-            case 'signal':
+            case ENTITY_SIGNAL:
                 return signalRetrieve(store, action);
-            case 'point':
-                return pointRetrieve(store, action);
-            case 'auto-block-sector':
+            case ENTITY_TURNOUT:
+                return turnoutRetrieve(store, action);
+            case ENTITY_AB_SECTOR:
                 return ABSectorRetrieve(store, action);
             case 'banalized-auto-block':
                 return biDirABRetrieve(store, action);
@@ -82,14 +90,14 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
     return store;
 
 };
-const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData>): ObjectState => {
+const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<DumpData>>): ObjectState => {
     const {
-        data: {sectors, signals, points, routeBuilder, autoBlockSectors, banalizedAutoBlocks},
+        data: {sectors, signals, points, routeBuilder, ABSectors, biDirABs},
     } = action.data;
 
     const sectorsData = {};
     sectors.forEach((sector) => {
-        sectorsData[sector.id] = sector;
+        sectorsData[sector.locoNetId] = sector;
     });
 
     const signalsData: SignalsState = {};
@@ -97,34 +105,34 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<DumpData
         signalsData[signal.locoNetId] = signal;
     });
 
-    const pointsData: PointsState = {};
+    const pointsData: TurnoutsState = {};
     points.forEach((point) => {
-        pointsData[point.id] = point;
+        pointsData[point.locoNetId] = point;
     });
 
-    const ABSectorsData: AutoBlockSectorsState = {};
-    autoBlockSectors.forEach((sector) => {
+    const ABSectorsData: ABSectorsState = {};
+    ABSectors.forEach((sector) => {
         ABSectorsData[sector.locoNetId] = sector;
     });
 
-    const banalizedABsData: BanalizedABsState = {};
-    banalizedAutoBlocks.forEach((AB) => {
-        banalizedABsData[AB.locoNetId] = AB;
+    const biDirABsData: BiDirABsState = {};
+    biDirABs.forEach((AB) => {
+        biDirABsData[AB.locoNetId] = AB;
     });
 
     return {
         ...store,
         sectors: sectorsData,
         signals: signalsData,
-        points: pointsData,
+        turnouts: pointsData,
         routeBuilder: routeBuilder,
         ABSectors: ABSectorsData,
-        biDirABs: banalizedABsData,
-
+        biDirABs: biDirABsData,
     };
 };
 
-function objectRetrieve<T extends { locoNetId: number }>(accessKey: keyof ObjectState, store: ObjectState, action: ActionMessageRetrieve<T>): ObjectState {
+function objectRetrieve<K extends keyof ObjectState, I extends keyof ObjectState[K]>
+(accessKey: K, store: ObjectState, action: ActionMessageRetrieve<Message<ObjectState[K][I]>>): ObjectState {
     const {data, data: {locoNetId}} = action.data;
     return {
         ...store,
@@ -135,43 +143,27 @@ function objectRetrieve<T extends { locoNetId: number }>(accessKey: keyof Object
     };
 }
 
-const ABSectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<AutoBlockSectorState>): ObjectState => {
-    return objectRetrieve<AutoBlockSectorState>('ABSectors', store, action);
+const ABSectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<ABSectorState>>): ObjectState => {
+    return objectRetrieve('ABSectors', store, action);
 };
 
-const biDirABRetrieve = (store: ObjectState, action: ActionMessageRetrieve<BanalizedABState>): ObjectState => {
-    return objectRetrieve<BanalizedABState>('biDirABs', store, action);
+const biDirABRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<BiDirABState>>): ObjectState => {
+    return objectRetrieve('biDirABs', store, action);
 };
 
-const signalRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SignalState>): ObjectState => {
-    return objectRetrieve<SignalState>('signals', store, action);
+const signalRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<SignalState>>): ObjectState => {
+    return objectRetrieve('signals', store, action);
 };
 
-const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<SectorState>): ObjectState => {
-   // return objectRetrieve<SectorState>('sectors', store, action);
-    const {data, data: {id}} = action.data;
-    return {
-        ...store,
-        sectors: {
-            ...store.sectors,
-            [+id]: data,
-        },
-    };
+const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<SectorState>>): ObjectState => {
+    return objectRetrieve('sectors', store, action);
 };
 
-const pointRetrieve = (store: ObjectState, action: ActionMessageRetrieve<PointState>): ObjectState => {
-    const {data, data: {id}} = action.data;
-    return {
-        ...store,
-        points: {
-            ...store.points,
-            [+id]: data,
-        },
-    };
+const turnoutRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<TurnoutState>>): ObjectState => {
+    return objectRetrieve('turnouts', store, action);
 };
 
-
-const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<TrainRouteDump>): ObjectState => {
+const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<Message<TrainRouteDump>>): ObjectState => {
     const {data} = action.data;
     return {
         ...store,
@@ -182,7 +174,7 @@ const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<
 const initState: ObjectState = {
     signals: {},
     sectors: {},
-    points: {},
+    turnouts: {},
     ABSectors: {},
 
     routeBuilder: {
@@ -196,7 +188,7 @@ const initState: ObjectState = {
         availablePorts: [],
         port: undefined,
         status: undefined,
-    }
+    },
 };
 
 export const objectState = (state: ObjectState = initState, action): ObjectState => {

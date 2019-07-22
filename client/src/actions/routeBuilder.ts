@@ -3,7 +3,7 @@ import {
     Dispatch,
 } from 'redux';
 
-import { RouteFinderRequest } from '../components/definitions/interfaces';
+import {Message, RouteFinderRequest} from '../components/definitions/interfaces';
 import { onSendMessage } from './webSocets';
 
 export const ACTION_SIGNAL_SELECT = 'ACTION_SIGNAL_SELECT';
@@ -36,7 +36,7 @@ export const clearSelect = (): Action<string> => {
 };
 
 export const findRoute = (dispatch: Dispatch<Action<string>>, startSignalId: number, endSectorId: number) => {
-    return dispatch(onSendMessage<RouteFinderRequest>({
+    return dispatch(onSendMessage<Message<RouteFinderRequest>>({
         action: 'find',
         entity: 'route-finder',
         date: new Date(),

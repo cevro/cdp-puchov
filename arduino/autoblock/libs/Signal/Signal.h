@@ -26,7 +26,7 @@ namespace Signals {
             this->state = receivedState;
             this->mask = 0x00000001;
             this->dumpState();
-        }
+        };
 
     public:
         void clock() {
@@ -58,27 +58,27 @@ namespace Signals {
 
                     this->status = 1;
                     break;
-            }
-        }
+            };
+        };
 
 
     public:
         void dump() {
             this->dumpState();
-        }
+        };
 
         void dumpState() {
             Serial.print(this->getLocoNetId());
             Serial.print(":s:");
             Serial.println(this->getState());
-        }
+        };
 
     private:
         void setPin(int8_t pin) {
             this->scomPin = pin;
             pinMode(pin, OUTPUT);
             digitalWrite(this->scomPin, HIGH);
-        }
+        };
     };
 };
 

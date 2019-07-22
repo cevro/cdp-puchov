@@ -1,14 +1,7 @@
-import {
-    pointPosition,
-    requestedPointPosition,
-} from './Points';
+import {TurnoutMessages} from './messages';
 
-export interface Message<T = any> {
-    entity: string;
-    action: string;
-    date: Date;
-    id: number;
-    data: T;
+export interface LocoNetObjectState {
+    locoNetId: number;
 }
 
 export interface TrainRouteDump {
@@ -25,28 +18,24 @@ export interface TrainRouteBufferItem {
     buildOptions: BuildOptions;
 }
 
-export interface PointState {
-    id: number;
-    position: pointPosition;
-    requestedPosition: requestedPointPosition;
-    locked: number[];
+/**
+ * @deprecated use TurnoutMessages.StateUpdateData
+ */
+export interface TurnoutState extends TurnoutMessages.StateUpdateData {
 }
 
-export interface SectorState {
-    id: number;
+export interface SectorState extends LocoNetObjectState {
     state: number;
     locked: number;
 }
 
-export interface SignalState {
-    locoNetId: number;
+export interface SignalState extends LocoNetObjectState {
     displayState: number;
     requestedState: number;
 }
 
-export interface AutoBlockSectorState {
+export interface ABSectorState extends LocoNetObjectState {
     state: number;
-    locoNetId: number,
     errorCode: number,
     errorMessage: string,
     active: number,
@@ -56,7 +45,7 @@ export interface AutoBlockSectorState {
 export type ABRequestedDir = -1 | 0 | 1
 export type ABDir = ABRequestedDir | 0;
 
-export interface BanalizedABState {
+export interface BiDirABState {
     dir: ABDir;
     locoNetId: number;
 }
@@ -70,10 +59,10 @@ export interface BuildOptions {
 export interface DumpData {
     sectors: SectorState[];
     signals: SignalState[];
-    points: PointState[];
+    points: TurnoutMessages.StateUpdateData[];
     routeBuilder: TrainRouteDump;
-    autoBlockSectors: AutoBlockSectorState[];
-    banalizedAutoBlocks: BanalizedABState[];
+    ABSectors: ABSectorState[];
+    biDirABs: BiDirABState[];
 }
 
 export interface RouteFinderRequest {
@@ -83,7 +72,6 @@ export interface RouteFinderRequest {
 
 export const MESSAGE_ACTION_STATE_UPDATE = 'state-update';
 export const MESSAGE_ACTION_DUMP = 'dump';
-
 
 export const MESSAGE_ACTION_MESSAGE = 'message';
 

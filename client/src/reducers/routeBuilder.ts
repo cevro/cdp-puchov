@@ -8,6 +8,7 @@ import {
     ACTION_MESSAGE_RETRIEVE,
     ActionMessageRetrieve,
 } from '../actions/webSocets';
+import {Message} from "../components/definitions/messages";
 
 export interface State {
     startSignalId: number;
@@ -38,7 +39,7 @@ const sectorSelect = (state: State, action: ActionRouteBuilderSelect): State => 
     }
 };
 
-const registerRoutes = (state: State, action: ActionMessageRetrieve<{ routes: any[] }>): State => {
+const registerRoutes = (state: State, action: ActionMessageRetrieve<Message<{ routes: any[] }>>): State => {
     if (action.data.entity === 'route-finder' && action.data.action === 'found') {
         return {
             ...state,

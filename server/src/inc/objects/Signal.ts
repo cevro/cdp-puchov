@@ -1,5 +1,5 @@
-import { SignalBackEndDefinition } from '../../definitions/Signals';
-import { logger } from '../../webSocetServer';
+import {SignalBackEndDefinition} from '../../definitions/Signals';
+import {logger} from '../../webSocetServer';
 import {
     Message,
     MESSAGE_ACTION_STATE_UPDATE,
@@ -8,12 +8,13 @@ import {
 import {
     DataDumper,
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from '../Factories/DateReceiver';
-import { locoNetConnector } from '../SerialConnector/SerialConnector';
+import {locoNetConnector} from '../SerialConnector/SerialConnector';
+import {ENTITY_SIGNAL} from "../../definitions/consts";
 
-export default class Signal implements LocoNetReciever, DataDumper<SignalState>, MessageReciever {
+export default class Signal implements LocoNetReceiver, DataDumper<SignalState>, MessageReciever {
     public locoNetId;
 
     private _displayState: number;
@@ -64,7 +65,7 @@ export default class Signal implements LocoNetReciever, DataDumper<SignalState>,
     public sendState() {
         logger.log({
             action: MESSAGE_ACTION_STATE_UPDATE,
-            entity: 'signal',
+            entity: ENTITY_SIGNAL,
             data: this.dumpData(),
             id: this.locoNetId,
             date: new Date(),

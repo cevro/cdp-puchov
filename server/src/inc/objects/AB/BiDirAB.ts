@@ -1,23 +1,23 @@
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
-} from '../Factories/DateReceiver';
+} from '../../Factories/DateReceiver';
 import {
     ABDir,
     Message,
-} from '../../definitions/interfaces';
-import { locoNetConnector } from '../SerialConnector/SerialConnector';
-import AbstractDumper from './AbstractDumper';
+} from '../../../../../definitions/interfaces';
+import {locoNetConnector} from '../../SerialConnector/SerialConnector';
+import AbstractDumper from '../AbstractDumper';
 
-export const BANALIZERD_AB_ENTITY_NAME = 'banalized-auto-block';
+export const BANALIZERD_AB_ENTITY_NAME = 'bi-dir-AB';
 
 export interface ABState {
     dir: ABDir;
     locoNetId: number;
 }
 
-export default class BanalizedAutoBlock extends AbstractDumper<ABState> implements MessageReciever, LocoNetReciever {
+export default class BiDirAB extends AbstractDumper<ABState> implements MessageReciever, LocoNetReceiver {
     private dir: ABDir;
     private readonly locoNetId;
 
@@ -41,7 +41,7 @@ export default class BanalizedAutoBlock extends AbstractDumper<ABState> implemen
     public handleLocoNetReceive(data: LocoNetMessage): void {
         switch (data.type) {
             case 'd':
-                this.dir = (<ABDir> data.value);
+                this.dir = (<ABDir>data.value);
                 this.sendState();
                 return;
         }

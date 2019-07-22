@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux';
-import { messages } from './messages';
+import {combineReducers} from 'redux';
+import {messages} from './messages';
 import {
     ObjectState,
     objectState,

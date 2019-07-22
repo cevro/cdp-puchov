@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Signals from './Parts/Signals/Signals';
-import Points from './Parts/Points/Points';
+import Turnouts from './Parts/Turnouts/Turnouts';
 import Sectors from './Parts/Sectors/Sectors';
 import { SchemeItem } from '../../definition/all';
 import BanalizedABs from './Parts/BanalizedAB/Index';
@@ -18,7 +18,7 @@ export default class Scheme extends React.Component<Props, {}> {
 
 
                 <Sectors sectors={scheme.objects.sectors}/>
-                <Points points={scheme.objects.points}/>
+                <Turnouts points={scheme.objects.points}/>
                 <Signals signals={scheme.objects.signals}/>
                 <BanalizedABs ABs={scheme.objects.banalizedAB}/>
 

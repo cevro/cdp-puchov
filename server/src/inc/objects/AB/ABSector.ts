@@ -1,14 +1,15 @@
-import { AutoBlockSectorState } from '../../../definitions/interfaces';
-import { Message } from '../../../definitions/interfaces';
+import {AutoBlockSectorState} from '../../../../../definitions/interfaces';
+import {Message} from '../../../../../definitions/interfaces';
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from '../../Factories/DateReceiver';
-import { locoNetConnector } from '../../SerialConnector/SerialConnector';
-import AbstractDumper from './../AbstractDumper';
+import {locoNetConnector} from '../../SerialConnector/SerialConnector';
+import AbstractDumper from '../AbstractDumper';
+import {ENTITY_AB_SECTOR} from "../../../definitions/consts";
 
-export default class AutoBlockSector extends AbstractDumper<AutoBlockSectorState> implements MessageReciever, LocoNetReciever {
+export default class ABSector extends AbstractDumper<AutoBlockSectorState> implements MessageReciever, LocoNetReceiver {
     public readonly locoNetId: number;
     private _error: number;
     private _state: number;
@@ -65,7 +66,7 @@ export default class AutoBlockSector extends AbstractDumper<AutoBlockSectorState
     }
 
     public getEntityName() {
-        return 'auto-block-sector';
+        return ENTITY_AB_SECTOR;
     }
 
     public dumpData(): AutoBlockSectorState {

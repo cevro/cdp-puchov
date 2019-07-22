@@ -8,7 +8,7 @@ import {
 } from '../../definitions/interfaces';
 import { NAVEST_STOJ } from '../../consts/signal/signals';
 import { STATUS_BUSY } from '../../consts/obvod/status';
-import TrainRouteLock from './TrainRouteLock';
+import TrainRouteLock from '../objects/Routes/TrainRouteLock';
 import {
     LocoNetMessage,
     MessageReciever,
@@ -178,7 +178,7 @@ class RouteBuilder implements MessageReciever {
             const unalockIndex = busyIndex - 1;
             if (sectors.hasOwnProperty(unalockIndex)) {
                 if (sectors[unalockIndex].locked == locker.getId()) {
-                    locker.route.pointPositions.forEach((pointPosition) => {
+                    locker.route.turnoutPositions.forEach((pointPosition) => {
                         pointPosition.unlockBySector(locker.getId(), sectors[unalockIndex].id);
                     });
                     sectors[unalockIndex].unlock(locker.getId());

@@ -1,10 +1,10 @@
-import PointPosition from '../../../inc/objects/PointPosition';
+import TurnoutPosition from '../../../inc/objects/Turnout/TurnoutPosition';
 
 export interface TrainRouteDefinition {
     id: number;
     name: string;
     sectorIds: number[];
-    pointPositions: PointPosition[];
+    turnoutPositions: TurnoutPosition[];
     startSignalId: number;
     endSignalId?: number;
     endSectorId: number;
@@ -24,10 +24,10 @@ const routes1L: TrainRouteDefinition[] = [
             1004,
             1005,
         ],
-        pointPositions: [
-            new PointPosition(2, 1, [{id: 4, position: 1}]),
-            new PointPosition(7, 1, [{id: 5, position: 1}]),
-            new PointPosition(9, 1),
+        turnoutPositions: [
+            new TurnoutPosition(2, 1, [{id: 4, position: 1}]),
+            new TurnoutPosition(7, 1, [{id: 5, position: 1}]),
+            new TurnoutPosition(9, 1),
         ],
         startSignalId: 1,
         endSignalId: 3,
@@ -44,9 +44,9 @@ const routes1L: TrainRouteDefinition[] = [
             1005,
         ],
         pointPositions: [
-            new PointPosition(2, 1, [{id: 4, position: 1}]),
-            new PointPosition(7, 1, [{id: 5, position: 1}]),
-            new PointPosition(9, 1),
+            new TurnoutPosition(2, 1, [{id: 4, position: 1}]),
+            new TurnoutPosition(7, 1, [{id: 5, position: 1}]),
+            new TurnoutPosition(9, 1),
         ],
         startSignalId: 1,
         endSignalId: 3,
@@ -64,11 +64,11 @@ const routes1L: TrainRouteDefinition[] = [
             3001,
             3010,
         ],
-        pointPositions: [
-            new PointPosition(2, 1, [{id: 4, position: 1}]),
-            new PointPosition(7, 1, [{id: 5, position: 1}]),
-            new PointPosition(9, -1),
-            new PointPosition(13, 1),
+        turnoutPositions: [
+            new TurnoutPosition(2, 1, [{id: 4, position: 1}]),
+            new TurnoutPosition(7, 1, [{id: 5, position: 1}]),
+            new TurnoutPosition(9, -1),
+            new TurnoutPosition(13, 1),
         ],
         startSignalId: 1,
         endSignalId: 106,
@@ -85,8 +85,8 @@ export const routes3L: TrainRouteDefinition[] = [
             3021,
             3110,
         ],
-        pointPositions: [
-            new PointPosition(23, 1),
+        turnoutPositions: [
+            new TurnoutPosition(23, 1),
         ],
         startSignalId: 106,
         endSignalId: 5,
@@ -103,15 +103,15 @@ export const routes3L: TrainRouteDefinition[] = [
             2009,
             102,
         ],
-        pointPositions: [
-            new PointPosition(33, -1),
+        turnoutPositions: [
+            new TurnoutPosition(33, -1),
 
-            new PointPosition(36, -1),
-            new PointPosition(41, -1),
+            new TurnoutPosition(36, -1),
+            new TurnoutPosition(41, -1),
 
-            new PointPosition(42, 1, [{id: 40, position: 1}]),
+            new TurnoutPosition(42, 1, [{id: 40, position: 1}]),
 
-            new PointPosition(43, 1, [{id: 44, position: 1}]),
+            new TurnoutPosition(43, 1, [{id: 44, position: 1}]),
 
         ],
         startSignalId: 5,
@@ -130,10 +130,10 @@ export const routes3L: TrainRouteDefinition[] = [
             1010,
             102,
         ],
-        pointPositions: [
-            new PointPosition(33, -1),
-            new PointPosition(36, 1, [{id: 41, position: 1}]),
-            new PointPosition(43, 1, [{id: 44, position: 1}]),
+        turnoutPositions: [
+            new TurnoutPosition(33, -1),
+            new TurnoutPosition(36, 1, [{id: 41, position: 1}]),
+            new TurnoutPosition(43, 1, [{id: 44, position: 1}]),
         ],
         startSignalId: 5,
         endSignalId: null,
@@ -151,8 +151,8 @@ export const routes3S: TrainRouteDefinition[] = [
             3021,
             3010,
         ],
-        pointPositions: [
-            new PointPosition(23, 1),
+        turnoutPositions: [
+            new TurnoutPosition(23, 1),
         ],
         startSignalId: 24,
         endSignalId: 28,
@@ -179,9 +179,9 @@ export const route_1L_L1 = new TrainRoute(
         1005,
     ],
     [
-        new PointPosition(2, 1, [{id: 4, position: 1}]),
-        new PointPosition(7, 1, [{id: 5, position: 1}]),
-        new PointPosition(9, 1),
+        new TurnoutPosition(2, 1, [{id: 4, position: 1}]),
+        new TurnoutPosition(7, 1, [{id: 5, position: 1}]),
+        new TurnoutPosition(9, 1),
     ],
     1,
     3,
@@ -200,12 +200,12 @@ export const route_1L_L1 = new TrainRoute(
         3010,
     ],
     [
-        new PointPosition(2, 1, [{id: 4, position: 1}]),
+        new TurnoutPosition(2, 1, [{id: 4, position: 1}]),
 
-        new PointPosition(7, 1, [{id: 5, position: 1}]),
+        new TurnoutPosition(7, 1, [{id: 5, position: 1}]),
 
-        new PointPosition(9, -1),
-        new PointPosition(13, 1),
+        new TurnoutPosition(9, -1),
+        new TurnoutPosition(13, 1),
     ],
     1,
     106,
@@ -224,18 +224,18 @@ export const route_2L_L4 = new TrainRoute(
         4010,
     ],
     [
-        new PointPosition(3, 1, [{id: 1, position: 1}]),
+        new TurnoutPosition(3, 1, [{id: 1, position: 1}]),
 
-        new PointPosition(4, 1, [{id: 2, position: 1}]),
+        new TurnoutPosition(4, 1, [{id: 2, position: 1}]),
 
-        new PointPosition(5, 1, [{id: 7, position: 1}]),
+        new TurnoutPosition(5, 1, [{id: 7, position: 1}]),
 
-        new PointPosition(6, 1, [{id: 8, position: 1}]),
+        new TurnoutPosition(6, 1, [{id: 8, position: 1}]),
 
-        new PointPosition(11, -1),
-        new PointPosition(2014, -1),
+        new TurnoutPosition(11, -1),
+        new TurnoutPosition(2014, -1),
 
-        new PointPosition(1014, 1),
+        new TurnoutPosition(1014, 1),
     ],
     2,
     6,
@@ -247,19 +247,19 @@ export const route_1SK_8L = new TrainRoute(
     '1SK_8L',
     [],
     [
-        new PointPosition(24, -1),
-        new PointPosition(25, -1),
+        new TurnoutPosition(24, -1),
+        new TurnoutPosition(25, -1),
 
-        new PointPosition(26, -1),
-        new PointPosition(1029, -1),
+        new TurnoutPosition(26, -1),
+        new TurnoutPosition(1029, -1),
 
-        new PointPosition(2029, -1),
-        new PointPosition(1032, -1),
+        new TurnoutPosition(2029, -1),
+        new TurnoutPosition(1032, -1),
 
-        new PointPosition(2032, -1),
-        new PointPosition(1035, -1),
+        new TurnoutPosition(2032, -1),
+        new TurnoutPosition(1035, -1),
 
-        new PointPosition(2035, 1),
+        new TurnoutPosition(2035, 1),
 
 
     ],

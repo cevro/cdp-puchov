@@ -1,17 +1,17 @@
-import BanalizedAutoBlock from './BanalizedAutoBlock';
+import BanalizedAutoBlock from '../AB/BiDirAB';
 import {
     ABRequestedDir,
     Message,
-} from '../../definitions/interfaces';
-import AbstractDumper from './AbstractDumper';
+} from '../../../../../definitions/interfaces';
+import AbstractDumper from '../AbstractDumper';
 import {
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
-} from '../Factories/DateReceiver';
-import { locoNetConnector } from '../SerialConnector/SerialConnector';
+} from '../../Factories/DateReceiver';
+import { locoNetConnector } from '../../SerialConnector/SerialConnector';
 
-export default class TrackApproval extends AbstractDumper<any> implements LocoNetReciever, MessageReciever {
+export default class TrackApproval extends AbstractDumper<any> implements LocoNetReceiver, MessageReciever {
 
     private readonly locoNetId: number;
     private AB: BanalizedAutoBlock;

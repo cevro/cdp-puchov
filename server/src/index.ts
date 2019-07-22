@@ -1,10 +1,10 @@
 //import serialConnector from './inc/SerialConnector/SerialConnector';
 import { logger } from './webSocetServer';
 import { locoNetConnector } from './inc/SerialConnector/SerialConnector';
-import { autoBlockSectorFactory } from './inc/Factories/AutoBlockSectorFactory';
-import { signalFactory } from './inc/Factories/SignalFactory';
+import { autoBlockSectorFactory } from './inc/Factories/ABSectorsFactory';
+import { signalFactory } from './inc/Factories/SignalsFactory';
 import { sectorFactory } from './inc/Factories/SectorsFactory';
-import { banalizedAutoBlockFactory } from './inc/Factories/BanalizedAutoBlockFactory';
+import { banalizedAutoBlockFactory } from './inc/Factories/BiDirABsFactory';
 
 class Main {
 

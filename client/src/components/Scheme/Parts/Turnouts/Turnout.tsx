@@ -1,22 +1,22 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {Store} from '../../../../reducers';
-import {PointDefinition} from '../../../definitions/Points';
+import {TurnoutDefinition} from '../../../definitions/Points';
 import {getPointState} from '../../../../middleware/objectState';
-import {PointState} from '../../../definitions/interfaces';
+import {TurnoutState} from '../../../definitions/interfaces';
 
 interface Props {
-    definition: PointDefinition;
+    definition: TurnoutDefinition;
 }
 
 interface State {
-    stateObject?: PointState;
+    stateObject?: TurnoutState;
     displayLabel?: boolean;
 
     onPointClick?(id: number): void;
 }
 
-class Point extends React.Component<Props & State, {}> {
+class Turnout extends React.Component<Props & State, {}> {
     public render() {
         const {
             stateObject,
@@ -30,7 +30,7 @@ class Point extends React.Component<Props & State, {}> {
         const requestedState = stateObject ? stateObject.requestedPosition : undefined;
         const locked = stateObject ? stateObject.locked : [];
         return (
-            <g className={'point ' + this.getStateClassName(state, !!locked.length, (requestedState != state))}
+            <g className={'point ' + this.getStateClassName(state, !!locked.length, (requestedState !== state))}
                transform={'translate(' + x + ',' + y + ')'}>
                 {displayLabel && <g transform={'translate(0,-10)'}>
                     <text>{name}</text>
@@ -75,6 +75,6 @@ const mapDispatchToProps = (dispatch, ownProps: Props): State => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Point);
+export default connect(mapStateToProps, mapDispatchToProps)(Turnout);
 
 

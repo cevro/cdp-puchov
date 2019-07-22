@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Message } from '../definitions/interfaces';
+import {connect} from 'react-redux';
+import {Message} from '../definitions/messages';
 import Downloader from '../helpers/Downloader';
-import { Store } from '../../reducers';
-import LocoNetConnector from "./LocoNetConnector";
+import {Store} from '../../reducers';
 
 interface State {
     messages?: Message[];
@@ -31,11 +30,13 @@ class MessageBox extends React.Component<State, {}> {
         });
         return (<div className="list-group list-scroll">
             <Downloader/>
-            <LocoNetConnector/>
+
             {msgs}
         </div>)
     }
 }
+
+// <LocoNetConnector/>
 
 const mapStateToProps = (state: Store): State => {
     return {

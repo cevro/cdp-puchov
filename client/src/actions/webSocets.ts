@@ -1,14 +1,21 @@
-import { Message } from '../components/definitions/interfaces';
+import {Message} from '../components/definitions/messages';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { requestedPointPosition } from '../components/definitions/Points';
+import {RequestedTurnoutPosition} from '../components/definitions/Points';
+import {
+    ENTITY_AB_SECTOR,
+    ENTITY_SECTOR,
+    ENTITY_SIGNAL,
+    ENTITY_TURNOUT,
+} from '../../../definitions/consts';
+import {TurnoutMessages} from "../../../definitions/messages";
 
 export const ACTION_MESSAGE_RETRIEVE = 'ACTION_MESSAGE_RETRIEVE';
 
-export interface ActionMessageRetrieve<T = any> extends Action<string> {
-    data: Message<T>;
+export interface ActionMessageRetrieve<T extends Message<any> = Message<any>> extends Action<string> {
+    data: T;
 }
 
 export const onMessageRetrieve = (data: Message): ActionMessageRetrieve => {
@@ -24,7 +31,8 @@ export interface ActionMessageSend<T = any> extends Action<string> {
     message: Message<T>
 }
 
-export function onSendMessage<T = any>(message: Message<T>): ActionMessageSend<T> {
+export function onSendMessage<T extends Message<any> = Message<any>>(message: T): ActionMessageSend<T> {
+
     return {
         type: ACTION_MESSAGE_SEND,
         message,
@@ -51,22 +59,27 @@ export const successSend = (id: string): ActionSendSuccess => {
     }
 };
 
+export function send<T = any, M extends Message<any> = Message<any>>
+(dispatch: Dispatch<Action<string>>, id: number, entity: string, action: string, data: T): ActionMessageSend<M> {
+    return dispatch(onSendMessage<M>({
+        action,
+        entity,
+        date: new Date(),
+        id,
+        data,
+    }));
+}
+
 export const changeSector =
     (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
-        return dispatch(onSendMessage({
-            action: 'set-state',
-            entity: 'sector',
-            date: new Date(),
-            id,
-            data: {id, state},
-        }));
+        return send(dispatch, id, ENTITY_SECTOR, 'set-state', {id, state});
     };
 
 export const changeSignal =
-    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
+    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<Message<{ id: number, state: number }>> => {
         return dispatch(onSendMessage({
             action: 'set-state',
-            entity: 'signal',
+            entity: ENTITY_SIGNAL,
             date: new Date(),
             id,
             data: {id, state},
@@ -74,10 +87,10 @@ export const changeSignal =
     };
 
 export const changePoint =
-    (dispatch: Dispatch<Action<string>>, id: number, state: requestedPointPosition): ActionMessageSend<{ id: number, state: requestedPointPosition }> => {
+    (dispatch: Dispatch<Action<string>>, id: number, state: RequestedTurnoutPosition): ActionMessageSend<TurnoutMessages.ChangePositionMessage> => {
         return dispatch(onSendMessage({
-            action: 'user-set',
-            entity: 'point',
+            action: TurnoutMessages.MESSAGE_ACTION_SET_POSITION,
+            entity: ENTITY_TURNOUT,
             date: new Date(),
             id,
             data: {id, state},
@@ -85,10 +98,10 @@ export const changePoint =
     };
 
 export const changeABCondition =
-    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<{ id: number, state: number }> => {
+    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<Message<{ id: number, state: number }>> => {
         return dispatch(onSendMessage({
             action: 'switch-block-condition',
-            entity: 'auto-block-sector',
+            entity: ENTITY_AB_SECTOR,
             date: new Date(),
             id,
             data: {id, state},
@@ -96,10 +109,10 @@ export const changeABCondition =
     };
 
 export const removeABError =
-    (dispatch: Dispatch<Action<string>>, id: number): ActionMessageSend<{ id: number }> => {
+    (dispatch: Dispatch<Action<string>>, id: number): ActionMessageSend<Message<{ id: number }>> => {
         return dispatch(onSendMessage({
             action: 'remove-error',
-            entity: 'auto-block-sector',
+            entity: ENTITY_AB_SECTOR,
             date: new Date(),
             id,
             data: {id},
@@ -107,7 +120,7 @@ export const removeABError =
     };
 
 export const changeABDir =
-    (dispatch: Dispatch<Action<string>>, id: number, dir: -1 | 1): ActionMessageSend<{ id: number, dir: -1 | 1 }> => {
+    (dispatch: Dispatch<Action<string>>, id: number, dir: -1 | 1): ActionMessageSend<Message<{ id: number, dir: -1 | 1 }>> => {
         return dispatch(onSendMessage({
             action: 'change-dir',
             entity: 'banalized-auto-block',

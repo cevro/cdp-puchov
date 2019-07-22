@@ -8,13 +8,13 @@ import {
 import {
     DataDumper,
     LocoNetMessage,
-    LocoNetReciever,
+    LocoNetReceiver,
     MessageReciever,
 } from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import {SectorBackEndDefinition} from '../../../data/sectors';
 
-export default class Sector implements DataDumper<SectorState>, LocoNetReciever, MessageReciever {
+export default class Sector implements DataDumper<SectorState>, LocoNetReceiver, MessageReciever {
     public readonly locoNetId;
     private _locked: number;
     private _state: number;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Store} from '../../../../reducers';
 import {getABSectorState} from '../../../../middleware/objectState';
-import {AutoBlockSectorState} from '../../../definitions/interfaces';
+import {ABSectorState} from '../../../definitions/interfaces';
 import {AutoBlockSectorFrontEndDefinition} from '../../../../definition/autoBlock/Pu-LpM';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface State {
-    stateObject?: AutoBlockSectorState;
+    stateObject?: ABSectorState;
 
    // onPointClick?(id: number): void;
 }
@@ -93,7 +93,7 @@ const mapStateToProps = (state: Store, ownProps: Props): State => {
 
 const mapDispatchToProps = (dispatch, ownProps: Props): State => {
     return {
-        //onPointClick: (id) => null,// dispatch(signalSelect(id)),
+        // onPointClick: (id) => null,// dispatch(signalSelect(id)),
     };
 };
 
