@@ -1,6 +1,13 @@
-import {TurnoutMessages} from './messages';
+import {TurnoutMessages} from './messages/turnout';
 
+/**
+ * @deprecated
+ */
 export interface LocoNetObjectState {
+    locoNetId: number;
+}
+
+export interface LocoNetObject {
     locoNetId: number;
 }
 
@@ -45,7 +52,7 @@ export interface ABSectorState extends LocoNetObjectState {
 export type ABRequestedDir = -1 | 0 | 1
 export type ABDir = ABRequestedDir | 0;
 
-export interface BiDirABState extends LocoNetObjectState{
+export interface BiDirABState extends LocoNetObjectState {
     dir: ABDir;
 }
 

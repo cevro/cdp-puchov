@@ -1,4 +1,4 @@
-import { SignalBackEndDefinition } from '../definitions/Signals';
+import { SignalBackEndDefinition } from '../../../definitions/Signals';
 
 export const signals: SignalBackEndDefinition[] = [
     {locoNetId: 500},

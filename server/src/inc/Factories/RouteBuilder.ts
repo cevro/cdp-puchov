@@ -4,7 +4,7 @@ import {
     MESSAGE_ACTION_DUMP,
     TrainRouteBufferItem,
     TrainRouteDump,
-} from '../../definitions/interfaces';
+} from '../../../../definitions/interfaces';
 import {NAVEST_STOJ} from '../../consts/signal/signals';
 import {STATUS_BUSY} from '../../consts/obvod/status';
 import TrainRouteLock from '../objects/Routes/TrainRouteLock';
@@ -12,7 +12,7 @@ import {
     LocoNetMessage,
     MessageReciever,
 } from './DateReceiver';
-import {Message} from '../../definitions/messages';
+import {Message} from '../../../../definitions/messages';
 
 class RouteBuilder implements MessageReciever {
     private readonly LOGGER_ENTITY = 'route-builder';

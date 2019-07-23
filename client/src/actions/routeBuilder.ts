@@ -40,7 +40,6 @@ export const findRoute = (dispatch: Dispatch<Action<string>>, startSignalId: num
     return dispatch(onSendMessage<Message<RouteFinderRequest>>({
         action: 'find',
         entity: 'route-finder',
-        date: new Date(),
         id: 0,
         data: {
             startSignalId,

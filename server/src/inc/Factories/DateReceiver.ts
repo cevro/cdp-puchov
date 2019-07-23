@@ -1,4 +1,4 @@
-import { Message } from '../../definitions/messages';
+import {Message} from '../../../../definitions/messages';
 
 export interface MessageReciever {
     //dataReceive(message: Message): void;

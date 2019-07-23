@@ -1,8 +1,22 @@
-import {Action, Dispatch} from "redux";
-import {Message, TurnoutMessages} from "../../../../definitions/messages";
-import {ENTITY_AB_SECTOR, ENTITY_SECTOR, ENTITY_SIGNAL, ENTITY_TURNOUT} from "../../../../definitions/consts";
+import {
+    Action,
+    Dispatch,
+} from "redux";
+import {
+    Message,
+} from "../../../../definitions/messages";
+import {
+    ENTITY_AB_SECTOR,
+    ENTITY_SECTOR,
+    ENTITY_SIGNAL,
+    ENTITY_TURNOUT,
+} from "../../../../definitions/consts";
 import {RequestedTurnoutPosition} from "../../../../definitions/Points";
-import {ActionMessageSend, onSendMessage} from "../webSocets";
+import {
+    ActionMessageSend,
+    onSendMessage,
+} from "../webSocets";
+import {TurnoutMessages} from '../../../../definitions/messages/turnout';
 
 export function send<T>
 (dispatch: Dispatch<Action<string>>, id: number, entity: string, action: string, data: T): ActionMessageSend<Message<T>> {
@@ -68,7 +82,7 @@ export const changeABDir =
     (dispatch: Dispatch<Action<string>>, id: number, dir: -1 | 1): ActionMessageSend<Message<{ id: number, dir: -1 | 1 }>> => {
         return dispatch(onSendMessage({
             action: 'change-dir',
-            entity: 'banalized-auto-block',
+            entity: 'bi-dir-AB',
             date: new Date(),
             id,
             data: {id, dir},

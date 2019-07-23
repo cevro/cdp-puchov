@@ -6,7 +6,7 @@ import {
 import {
     ABSectorState,
     BiDirABState,
-    DumpData, LocoNetObjectState,
+    DumpData,
     MESSAGE_ACTION_DUMP,
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
@@ -16,7 +16,6 @@ import {
 
 import {
     Message,
-    TurnoutMessages,
 } from '../components/definitions/messages';
 import {
     ENTITY_AB_SECTOR,
@@ -24,6 +23,7 @@ import {
     ENTITY_SIGNAL,
     ENTITY_TURNOUT,
 } from "../../../definitions/consts";
+import {TurnoutMessages} from '../../../definitions/messages/turnout';
 
 export interface SignalsState {
     [id: number]: SignalState;
@@ -51,7 +51,7 @@ export interface LocoNetConnectorState {
     port: string;
 }
 
-interface OS<O extends Object> {
+interface OS<O extends { locoNetId: number } = { locoNetId: number }> {
     [key: string]: {
         [locoNetId: number]: O;
     }
@@ -62,14 +62,14 @@ export interface ObjectState extends OS {
     signals: SignalsState;
     sectors: SectorsState;
     turnouts: TurnoutsState;
-    // routeBuilder: TrainRouteDump;
+
     ABSectors: ABSectorsState;
     biDirABs: BiDirABsState;
     //   oneDirABs: any;
     // locoNetConnector: LocoNetConnectorState;
 }
 
-const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
+const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<any>>): ObjectState => {
     if (action.message.action === MESSAGE_ACTION_STATE_UPDATE) {
         switch (action.message.entity) {
             case ENTITY_SECTOR:
@@ -187,11 +187,7 @@ const initState: ObjectState = {
     turnouts: {},
     ABSectors: {},
 
-    /*    routeBuilder: {
-            buffer: [],
-            hasError: false,
-            locked: false,
-        },*/
+
     biDirABs: {},
     // oneDirABs: {},
     /* locoNetConnector: {

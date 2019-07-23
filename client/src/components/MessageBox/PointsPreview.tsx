@@ -11,7 +11,7 @@ import {
     turnouts,
     RequestedTurnoutPosition,
 } from '../definitions/Points';
-import {changeTurnout} from '../../actions/webSocets';
+import {changeTurnout} from '../../actions/messages';
 
 interface State {
     turnoutsState?: TurnoutsState;

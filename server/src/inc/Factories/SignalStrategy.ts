@@ -1,5 +1,5 @@
 import Signal from '../objects/Signal';
-import { BuildOptions } from '../../definitions/interfaces';
+import { BuildOptions } from '../../../../definitions/interfaces';
 
 export const SignalStrategy = new class {
     readonly NAVEST_40_A_OCAKAVAJ_40 = 7;

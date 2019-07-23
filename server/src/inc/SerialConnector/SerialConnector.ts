@@ -5,10 +5,9 @@ import {
     LocoNetReceiver,
     MessageReciever,
 } from '../Factories/DateReceiver';
-import {Message} from '../../definitions/messages';
 import {PortInfo} from "serialport";
 import {logger} from "../../webSocetServer";
-
+import {Message} from '../../../../definitions/messages';
 
 class SerialConnector implements MessageReciever {
     private listeners: LocoNetReceiver[] = [];

@@ -9,7 +9,7 @@ import {
 import {
     changeABCondition,
     removeABError,
-} from "../../../actions/webSocets";
+} from "../../../actions/messages/";
 import {connect} from "react-redux";
 import {ABSectorsState} from "../../../reducers/objectState";
 

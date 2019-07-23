@@ -9,21 +9,29 @@ import {
     ActionMessageRetrieve,
 } from '../actions/webSocets';
 import {Message} from "../components/definitions/messages";
+import {TrainRouteDump} from '../components/definitions/interfaces';
 
 export interface State {
     startSignalId: number;
     endSectorId: number;
     availableRoutes: any[];
+    routeBuilderState: TrainRouteDump;
 }
 
 const initState: State = {
     startSignalId: null,
     endSectorId: null,
     availableRoutes: [],
+    routeBuilderState: {
+        buffer: [],
+        hasError: false,
+        locked: false,
+    },
 };
 
 const signalSelect = (state: State, action: ActionRouteBuilderSelect): State => {
     return {
+        ...state,
         startSignalId: action.id,
         endSectorId: null,
         availableRoutes: [],
@@ -40,20 +48,25 @@ const sectorSelect = (state: State, action: ActionRouteBuilderSelect): State => 
 };
 
 const registerRoutes = (state: State, action: ActionMessageRetrieve<Message<{ routes: any[] }>>): State => {
-    if (action.data.entity === 'route-finder' && action.data.action === 'found') {
+    if (action.message.entity === 'route-finder' && action.message.action === 'found') {
         return {
             ...state,
             startSignalId: null,
             endSectorId: null,
-            availableRoutes: action.data.data.routes,
+            availableRoutes: action.message.data.routes,
         };
     }
     return state;
 
 };
 
-const clearSelect = (): State => {
-    return initState;
+const clearSelect = (state: State): State => {
+    return {
+        ...state,
+        startSignalId: null,
+        endSectorId: null,
+        availableRoutes: [],
+    };
 };
 
 export const routeBuilder = (state: State = initState, action): State => {
@@ -66,7 +79,7 @@ export const routeBuilder = (state: State = initState, action): State => {
         case ACTION_MESSAGE_RETRIEVE:
             return registerRoutes(state, action);
         case ACTION_CLEAR_SELECT:
-            return clearSelect();
+            return clearSelect(state);
         default:
             return state;
     }

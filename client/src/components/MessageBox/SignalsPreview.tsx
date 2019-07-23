@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '../../reducers';
+import {connect} from 'react-redux';
+import {Store} from '../../reducers';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { SignalsState } from '../../reducers/objectState';
-import { SignalFrontEndDefinition } from '../../definition/all';
-import { changeSignal } from '../../actions/webSocets';
+import {SignalsState} from '../../reducers/objectState';
+import {SignalFrontEndDefinition} from '../../definition/all';
+import {changeSignal} from '../../actions/messages/';
 
 interface State {
     signalsState?: SignalsState;

@@ -10,7 +10,7 @@ import {sectorFactory} from './inc/Factories/SectorsFactory';
 import {
     DumpData,
     MESSAGE_ACTION_DUMP,
-} from './definitions/interfaces';
+} from '../../definitions/interfaces';
 import {MessageReciever} from './inc/Factories/DateReceiver';
 import {routesFactory} from './inc/Factories/RoutesFactory';
 import {autoBlockSectorFactory} from './inc/Factories/ABSectorsFactory';
@@ -30,7 +30,6 @@ httpServer.listen(8081, () => {
 const initClient = (connection: connection) => {
     const message: Message<DumpData> = {
         entity: '*',
-        date: new Date(),
         action: MESSAGE_ACTION_DUMP,
         data: {
             signals: signalFactory.dump(),

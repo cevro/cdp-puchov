@@ -9,7 +9,7 @@ import {
     MessageReciever,
 } from '../../Factories/DateReceiver';
 import { locoNetConnector } from '../../SerialConnector/SerialConnector';
-import {Message} from '../../../definitions/messages';
+import {Message} from '../../../../../definitions/messages';
 
 export default class TrackApproval extends AbstractDumper<any> implements LocoNetReceiver, MessageReciever {
 

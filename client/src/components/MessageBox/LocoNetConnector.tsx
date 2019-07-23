@@ -18,7 +18,7 @@ class LocoNetConnector extends React.Component<State, {}> {
 
 const mapStateToProps = (state: Store): State => {
     return {
-        locoNetConnector: state.objectState.locoNetConnector,
+      //  locoNetConnector: state.objectState.locoNetConnector,
     };
 };
 

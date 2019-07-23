@@ -12,8 +12,8 @@ class MessageBox extends React.Component<State, {}> {
     public render() {
         const {messages} = this.props;
         const msgs = messages.map((message, index) => {
-            let {entity, action, date, data, id} = message;
-            const dateObject = new Date(date);
+            let {entity, action, id} = message;
+            const dateObject = new Date();
             return (<div className="list-group-item" key={index}>
                 <div className="row">
                     <small

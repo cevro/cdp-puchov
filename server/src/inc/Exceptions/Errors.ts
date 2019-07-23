@@ -1,5 +1,5 @@
 import Turnout from '../objects/Turnout/Turnout';
-import {TurnoutPosition} from '../../definitions/Points';
+import {TurnoutPosition} from '../../../../definitions/Points';
 
 export class PointLockedError extends Error {
     constructor(point: Turnout, position: TurnoutPosition) {

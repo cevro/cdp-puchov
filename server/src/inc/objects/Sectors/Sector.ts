@@ -6,7 +6,7 @@ import {
 import {
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
-} from '../../../definitions/interfaces';
+} from '../../../../../definitions/interfaces';
 import {
     DataDumper,
     LocoNetMessage,
@@ -15,7 +15,7 @@ import {
 } from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import {SectorBackEndDefinition} from '../../../data/sectors';
-import {Message} from '../../../definitions/messages';
+import {Message} from '../../../../../definitions/messages';
 
 export default class Sector implements DataDumper<SectorState>, LocoNetReceiver, MessageReciever {
     public readonly locoNetId;

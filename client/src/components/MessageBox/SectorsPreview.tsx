@@ -7,7 +7,7 @@ import {
 } from 'redux';
 import { SectorsState } from '../../reducers/objectState';
 import { SectorDefinition } from '../definitions/Sectors';
-import { changeSector } from '../../actions/webSocets';
+import { changeSector } from '../../actions/messages';
 
 interface Props {
     sectors: SectorDefinition[];

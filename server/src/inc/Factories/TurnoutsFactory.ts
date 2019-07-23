@@ -1,15 +1,15 @@
 import {
     turnouts,
-} from '../../definitions/Points';
+} from '../../../../definitions/Points';
 import Turnout from '../objects/Turnout/Turnout';
-import {Message} from '../../definitions/messages';
+
 import {
     LocoNetMessage,
     LocoNetReceiver,
     MessageReciever,
 } from './DateReceiver';
-import {ENTITY_TURNOUT} from "../../definitions/consts";
-import {TurnoutMessages} from "../../definitions/messages";
+import {ENTITY_TURNOUT} from "../../../../definitions/consts";
+import {TurnoutMessages} from "../../../../definitions/messages/turnout";
 
 class PointsFactory implements LocoNetReceiver, MessageReciever {
 
@@ -41,7 +41,7 @@ class PointsFactory implements LocoNetReceiver, MessageReciever {
     public handleLocoNetReceive(data: LocoNetMessage) {
     }
 
-    public handleMessageReceive(message: Message): void {
+    public handleMessageReceive(message: TurnoutMessages.ClientToServerMessages): void {
         if (message.entity !== ENTITY_TURNOUT) {
             return;
         }

@@ -1,5 +1,7 @@
-import {ABSectorState} from '../../../../../definitions/interfaces';
-import {Message} from '../../../../../definitions/messages';
+import {
+    ABSectorState,
+    MESSAGE_ACTION_STATE_UPDATE,
+} from '../../../../../definitions/interfaces';
 import {
     LocoNetMessage,
     LocoNetReceiver,
@@ -7,7 +9,11 @@ import {
 } from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import AbstractDumper from '../AbstractDumper';
-import {ENTITY_AB_SECTOR} from "../../../definitions/consts";
+
+import {logger} from '../../../webSocetServer';
+import {ENTITY_AB_SECTOR} from '../../../../../definitions/consts';
+import {ABSectorMessages} from '../../../../../definitions/messages/ABSector';
+import {Message} from '../../../../../definitions/messages';
 
 export default class ABSector extends AbstractDumper<ABSectorState> implements MessageReciever, LocoNetReceiver {
     public readonly locoNetId: number;
@@ -15,7 +21,6 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
     private _state: number;
     private active: number;
     private fullBlockConditionActive: number;
-
 
     set state(value: number) {
         if (value === this._state) {
@@ -69,10 +74,10 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
         return ENTITY_AB_SECTOR;
     }
 
-    public dumpData(): ABSectorState {
+    public dumpData(): ABSectorMessages.StateUpdateData {
         return {
             state: this.state,
-            locoNetId: this.getLocoNetId(),
+            locoNetId: this.locoNetId,
             errorCode: this.errorCode,
             errorMessage: this.errorMessage,
             fullBlockConditionActive: this.fullBlockConditionActive,
@@ -118,5 +123,14 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
                 return;
         }
 
+    }
+
+    public sendState() {
+        logger.log<ABSectorMessages.StateUpdateMessage>({
+            action: MESSAGE_ACTION_STATE_UPDATE,
+            entity: ENTITY_AB_SECTOR,
+            data: this.dumpData(),
+            id: this.getLocoNetId(),
+        });
     }
 }

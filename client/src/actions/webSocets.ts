@@ -1,16 +1,5 @@
 import {Message} from '../components/definitions/messages';
-import {
-    Action,
-    Dispatch,
-} from 'redux';
-import {RequestedTurnoutPosition} from '../components/definitions/Points';
-import {
-    ENTITY_AB_SECTOR,
-    ENTITY_SECTOR,
-    ENTITY_SIGNAL,
-    ENTITY_TURNOUT,
-} from '../../../definitions/consts';
-import {TurnoutMessages} from "../../../definitions/messages";
+import {Action} from 'redux';
 
 export const ACTION_MESSAGE_RETRIEVE = 'ACTION_MESSAGE_RETRIEVE';
 

@@ -1,9 +1,11 @@
-import { ACTION_MESSAGE_RETRIEVE } from '../actions/webSocets';
-import { Message } from '../components/definitions/messages';
+import {
+    ACTION_MESSAGE_RETRIEVE,
+    ActionMessageRetrieve,
+} from '../actions/webSocets';
+import {Message} from '../components/definitions/messages';
 
-
-const messageRetrieve = (state, action) => {
-    const newMessages = [action.data, ...state];
+const messageRetrieve = (state, action: ActionMessageRetrieve<Message<any>>) => {
+    const newMessages = [action.message, ...state];
     if (newMessages.length > 20) {
         newMessages.pop();
     }

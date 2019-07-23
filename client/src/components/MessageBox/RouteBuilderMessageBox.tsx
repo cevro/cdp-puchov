@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { Store } from '../../reducers';
-import { TrainRouteDump } from '../definitions/interfaces';
+import {Store} from '../../reducers';
+import {TrainRouteDump} from '../definitions/interfaces';
 
 interface State {
     trainRoute?: TrainRouteDump;
@@ -65,7 +65,7 @@ const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {
 
 const mapStateToProps = (store: Store): State => {
     return {
-        trainRoute: store.objectState.routeBuilder,
+        trainRoute: store.routeBuilder.routeBuilderState,
     };
 };
 

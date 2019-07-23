@@ -6,8 +6,8 @@ import {
 } from '../../../../../definitions/Points';
 import {PointLockedError} from '../../Exceptions/Errors';
 import {DataDumper} from '../../Factories/DateReceiver';
-import {TurnoutMessages} from "../../../definitions/messages";
-import {ENTITY_TURNOUT} from "../../../definitions/consts";
+import {TurnoutMessages} from "../../../../../definitions/messages/turnout";
+import {ENTITY_TURNOUT} from "../../../../../definitions/consts";
 import {locoNetConnector} from "../../SerialConnector/SerialConnector";
 
 export default class Turnout implements DataDumper<TurnoutMessages.StateUpdateData> {
@@ -91,7 +91,6 @@ export default class Turnout implements DataDumper<TurnoutMessages.StateUpdateDa
             action: TurnoutMessages.MESSAGE_ACTION_STATE_UPDATE,
             entity: ENTITY_TURNOUT,
             id: this.locoNetId,
-            date: new Date(),
             data: this.dumpData(),
         });
     }

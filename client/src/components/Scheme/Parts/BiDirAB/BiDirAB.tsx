@@ -4,7 +4,7 @@ import {Store} from '../../../../reducers';
 import {getBiDirABState} from '../../../../middleware/objectState';
 import {BiDirABDefinition} from '../../../../definition/all';
 import {BiDirABState} from '../../../../../../definitions/interfaces';
-import {changeABDir} from '../../../../actions/webSocets';
+import {changeABDir} from '../../../../actions/messages/';
 import {
     Action,
     Dispatch,
@@ -29,7 +29,7 @@ class BiDirAB extends React.Component<Props & State, {}> {
         const dir = stateObject ? stateObject.dir : undefined;
 
         return (
-            <g className={'banalized-AB'}
+            <g className={'bi-dir-AB'}
                transform={'translate(' + definition.SVDData.x + ',' + definition.SVDData.y + ')'}>
                 <g className={'dir-display ' + this.getDirClassName(definition.mainDir, 'L', dir)}>
                     <rect width={30} height={20} x={-30} y={-10} onClick={() => {
