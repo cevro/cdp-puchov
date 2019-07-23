@@ -1,19 +1,19 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Message } from '../definitions/messages';
+import {connect} from 'react-redux';
+import {Message} from '../definitions/messages';
 import {
     connectionClose,
     onMessageRetrieve,
     successSend,
 } from '../../actions/webSocets';
-import { Store } from '../../reducers';
+import {Store} from '../../reducers';
 
 interface State {
     messagesToSend?: {
         [key: number]: Message;
     };
 
-    onMessage?(data: Message): void;
+    onMessage?(data: Message<any>): void;
 
     onConnectionClose?(): void;
 

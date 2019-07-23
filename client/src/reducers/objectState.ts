@@ -6,7 +6,7 @@ import {
 import {
     ABSectorState,
     BiDirABState,
-    DumpData,
+    DumpData, LocoNetObjectState,
     MESSAGE_ACTION_DUMP,
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
@@ -51,20 +51,27 @@ export interface LocoNetConnectorState {
     port: string;
 }
 
-export interface ObjectState {
+interface OS<O extends Object> {
+    [key: string]: {
+        [locoNetId: number]: O;
+    }
+}
+
+export interface ObjectState extends OS {
+
     signals: SignalsState;
     sectors: SectorsState;
     turnouts: TurnoutsState;
-    routeBuilder: TrainRouteDump;
+    // routeBuilder: TrainRouteDump;
     ABSectors: ABSectorsState;
     biDirABs: BiDirABsState;
-    oneDirABs: any;
-    locoNetConnector: LocoNetConnectorState;
+    //   oneDirABs: any;
+    // locoNetConnector: LocoNetConnectorState;
 }
 
 const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): ObjectState => {
-    if (action.data.action === MESSAGE_ACTION_STATE_UPDATE) {
-        switch (action.data.entity) {
+    if (action.message.action === MESSAGE_ACTION_STATE_UPDATE) {
+        switch (action.message.entity) {
             case ENTITY_SECTOR:
                 return sectorRetrieve(store, action);
             case ENTITY_SIGNAL:
@@ -79,8 +86,8 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
                 return store;
         }
     }
-    if (action.data.action === MESSAGE_ACTION_DUMP) {
-        switch (action.data.entity) {
+    if (action.message.action === MESSAGE_ACTION_DUMP) {
+        switch (action.message.entity) {
             case '*':
                 return dumpRetrieve(store, action);
             case 'route-builder':
@@ -95,7 +102,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve): Obj
 const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<DumpData>>): ObjectState => {
     const {
         data: {sectors, signals, points, routeBuilder, ABSectors, biDirABs},
-    } = action.data;
+    } = action.message;
 
     const sectorsData = {};
     sectors.forEach((sector) => {
@@ -127,20 +134,21 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<
         sectors: sectorsData,
         signals: signalsData,
         turnouts: pointsData,
-        routeBuilder: routeBuilder,
+        //  routeBuilder: routeBuilder,
         ABSectors: ABSectorsData,
         biDirABs: biDirABsData,
     };
 };
 
-function objectRetrieve<K extends keyof ObjectState, I extends keyof ObjectState[K]>
-(accessKey: K, store: ObjectState, action: ActionMessageRetrieve<Message<ObjectState[K][I]>>): ObjectState {
-    const {data, data: {locoNetId}} = action.data;
+function objectRetrieve<K extends keyof ObjectState, I extends keyof ObjectState[K], T extends ObjectState[K][I]>
+(accessKey: K, store: ObjectState, action: ActionMessageRetrieve<Message<T>>): ObjectState {
+
+    const {data, id} = action.message;
     return {
         ...store,
         [accessKey]: {
             ...store[accessKey],
-            [+locoNetId]: data,
+            [+id]: data,
         },
     };
 }
@@ -166,10 +174,10 @@ const turnoutRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messa
 };
 
 const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<Message<TrainRouteDump>>): ObjectState => {
-    const {data} = action.data;
+    const {data} = action.message;
     return {
         ...store,
-        routeBuilder: data,
+        //   routeBuilder: data,
     };
 };
 
@@ -179,18 +187,18 @@ const initState: ObjectState = {
     turnouts: {},
     ABSectors: {},
 
-    routeBuilder: {
-        buffer: [],
-        hasError: false,
-        locked: false,
-    },
+    /*    routeBuilder: {
+            buffer: [],
+            hasError: false,
+            locked: false,
+        },*/
     biDirABs: {},
-    oneDirABs: {},
-    locoNetConnector: {
-        availablePorts: [],
-        port: undefined,
-        status: undefined,
-    },
+    // oneDirABs: {},
+    /* locoNetConnector: {
+         availablePorts: [],
+         port: undefined,
+         status: undefined,
+     },*/
 };
 
 export const objectState = (state: ObjectState = initState, action): ObjectState => {

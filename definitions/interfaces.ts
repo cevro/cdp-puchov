@@ -45,9 +45,8 @@ export interface ABSectorState extends LocoNetObjectState {
 export type ABRequestedDir = -1 | 0 | 1
 export type ABDir = ABRequestedDir | 0;
 
-export interface BiDirABState {
+export interface BiDirABState extends LocoNetObjectState{
     dir: ABDir;
-    locoNetId: number;
 }
 
 export interface BuildOptions {

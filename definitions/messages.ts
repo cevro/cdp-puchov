@@ -5,16 +5,17 @@ import {
 import {LocoNetObjectState} from './interfaces';
 
 export interface Message<T = any> {
-    entity: string;
-    action: string;
-    date: Date;
-    id: number;
-    data: T;
+    readonly entity: string;
+    readonly action: string;
+    readonly id: number;
+    readonly data: T;
 }
 
 export namespace TurnoutMessages {
     /* *********** client->server ************************/
-    export type TurnoutMessage<T> = Message<T> ;
+    export interface TurnoutMessage<T> extends Message<T> {
+        readonly entity: 'turnout';
+    }
 
     export const MESSAGE_ACTION_SET_POSITION = 'set-position';
 
@@ -23,7 +24,11 @@ export namespace TurnoutMessages {
         state: RequestedTurnoutPosition;
     }
 
-    export type ChangePositionMessage = TurnoutMessage<ChangePositionData>;
+    export interface ChangePositionMessage extends TurnoutMessage<ChangePositionData> {
+        readonly action: 'set-position';
+    }
+
+    export type ClientToServerMessages = ChangePositionMessage;
 
     /* *********** server->client ************************/
     export const MESSAGE_ACTION_STATE_UPDATE = 'state-update';
@@ -35,4 +40,6 @@ export namespace TurnoutMessages {
     }
 
     export type StateUpdateMessage = TurnoutMessage<StateUpdateData>;
+
+    export type ServerToClientMessages = StateUpdateMessage;
 }
