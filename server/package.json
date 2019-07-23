@@ -11,17 +11,15 @@
   "license": "ISC",
   "dependencies": {
     "serialport": "~7.1.5",
-    "@types/serialport": "~7.0.4",
     "http": "latest",
-    "sleep": "latest",
-    "@types/sleep": "latest",
     "websocket": "latest",
-    "@types/websocket": "latest",
     "ts-loader": "latest",
     "ts": "latest",
     "source-map-loader": "latest"
   },
   "devDependencies": {
-    "typescript": "^2.8.3"
+    "typescript": "~3.5.0",
+    "@types/serialport": "~7.0.4",
+    "@types/websocket": "latest"
   }
 }
