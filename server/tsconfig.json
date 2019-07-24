@@ -10,7 +10,13 @@
       "dom",
       "es2015.promise",
       "es6"
-    ]
+    ],
+    "baseUrl": "..",
+    "paths": {
+      "@definitions/*": ["definitions/*"],
+      "@app/*": ["server/src/*"]
+    }
+
   },
   "include": [
     "./**/*"

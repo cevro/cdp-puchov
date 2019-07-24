@@ -1,15 +1,14 @@
 import * as React from 'react';
-
-import {Store} from '../../../../reducers';
+import {Store} from '@app/reducers';
 import {connect} from 'react-redux';
-import {getSectorState} from '../../../../middleware/objectState';
-import {sectorSelect} from '../../../../actions/routeBuilder';
+import {getSectorState} from '@app/middleware/objectState';
+import {sectorSelect} from '@app/actions/routeBuilder';
 import {
     SECTOR_STATE_FREE,
     SECTOR_STATE_OCCUPIED,
 } from '../../../MessageBox/SectorsPreview';
-import {SectorDefinition} from "../../../../../../definitions/Sectors";
-import {SectorState} from "../../../../../../definitions/interfaces";
+import {SectorDefinition} from "@definitions/sectors";
+import {SectorState} from '@definitions/interfaces';
 
 interface Props {
     definition: SectorDefinition;

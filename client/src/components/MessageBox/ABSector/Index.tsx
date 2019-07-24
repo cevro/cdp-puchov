@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {ABSectorsState} from '../../../reducers/objectState';
-import {AutoBlockSectorFrontEndDefinition} from '../../../definition/autoBlock/Pu-LpM';
-import {Store} from '../../../reducers';
+import {ABSectorsState} from '@app/reducers/objectState';
+import {AutoBlockSectorFrontEndDefinition} from '@app/definition/autoBlock/Pu-LpM';
+import {Store} from '@app/reducers';
 import {connect} from 'react-redux';
 import Row from "./Row";
 

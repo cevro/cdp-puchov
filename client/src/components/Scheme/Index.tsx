@@ -2,7 +2,7 @@ import * as React from 'react';
 import Signals from './Parts/Signals/Signals';
 import Turnouts from './Parts/Turnouts/Turnouts';
 import Sectors from './Parts/Sectors/Sectors';
-import { SchemeItem } from '../../definition/all';
+import { SchemeItem } from '@app/definition/all';
 import BiDirABs from './Parts/BiDirAB/Index';
 
 interface Props {

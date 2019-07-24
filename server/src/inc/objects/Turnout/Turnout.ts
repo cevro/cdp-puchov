@@ -1,26 +1,29 @@
-import {logger} from '../../../webSocetServer';
 import {
     TurnoutDefinition,
     TurnoutPosition,
     RequestedTurnoutPosition,
-} from '../../../../../definitions/Points';
+} from '@definitions/points';
 import {PointLockedError} from '../../Exceptions/Errors';
-import {DataDumper} from '../../Factories/DateReceiver';
-import {TurnoutMessages} from "../../../../../definitions/messages/turnout";
-import {ENTITY_TURNOUT} from "../../../../../definitions/consts";
-import {locoNetConnector} from "../../SerialConnector/SerialConnector";
+import {
+    DataDumper,
+    LocoNetMessage,
+    MessageReceiver,
+} from '../../Factories/DateReceiver';
+import {TurnoutMessages} from '@definitions/messages/turnout';
+import {locoNetConnector} from '../../SerialConnector/SerialConnector';
+import LocoNetObject from '../LocoNetObject';
 
-export default class Turnout implements DataDumper<TurnoutMessages.StateUpdateData> {
+export default class Turnout extends LocoNetObject<TurnoutMessages.ClientToServerMessages, TurnoutMessages.StateUpdateData> implements DataDumper<TurnoutMessages.StateUpdateData>, MessageReceiver<TurnoutMessages.ClientToServerMessages> {
 
     private _position: TurnoutPosition;
     private _requestedPosition: RequestedTurnoutPosition;
 
-    public readonly locoNetId: number;
     private lockedBy: number[] = [];
     public readonly sector: number;
 
     constructor(definition: TurnoutDefinition) {
-        this.locoNetId = definition.locoNetId;
+        super(definition.locoNetId);
+
         this._position = 0;
         this.sector = definition.sector;
         this._requestedPosition = null;
@@ -86,12 +89,23 @@ export default class Turnout implements DataDumper<TurnoutMessages.StateUpdateDa
         };
     }
 
-    public sendState(): void {
-        logger.log<TurnoutMessages.StateUpdateMessage>({
-            action: TurnoutMessages.MESSAGE_ACTION_STATE_UPDATE,
-            entity: ENTITY_TURNOUT,
-            id: this.locoNetId,
-            data: this.dumpData(),
-        });
+    public handleMessageReceive(message: TurnoutMessages.ClientToServerMessages): void {
+        switch (message.action) {
+            case 'set-position':
+                this.handleChangePositionRequest(message.data.requestedPosition);
+                return;
+
+        }
+    }
+
+    private handleChangePositionRequest(requestedPosition: RequestedTurnoutPosition): void {
+        this.changePosition(requestedPosition);
+    }
+
+    public getEntityName(): string {
+        return 'turnout';
+    }
+
+    public handleLocoNetReceive(message: LocoNetMessage): void {
     }
 }

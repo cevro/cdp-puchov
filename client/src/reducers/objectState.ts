@@ -19,10 +19,11 @@ import {
 } from '@definitions/messages';
 import {
     ENTITY_AB_SECTOR,
+    ENTITY_BI_DIR_AB,
     ENTITY_SECTOR,
     ENTITY_SIGNAL,
     ENTITY_TURNOUT,
-} from "@definitions/consts";
+} from '@definitions/consts';
 import {TurnoutMessages} from '@definitions/messages/turnout';
 
 export interface SignalsState {
@@ -80,7 +81,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messa
                 return turnoutRetrieve(store, action);
             case ENTITY_AB_SECTOR:
                 return ABSectorRetrieve(store, action);
-            case 'banalized-auto-block':
+            case ENTITY_BI_DIR_AB:
                 return biDirABRetrieve(store, action);
             default:
                 return store;
@@ -90,8 +91,8 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messa
         switch (action.message.entity) {
             case '*':
                 return dumpRetrieve(store, action);
-            case 'route-builder':
-                return trainRouteBufferDump(store, action);
+            //case 'route-builder':
+            //    return trainRouteBufferDump(store, action);
             default:
                 return store;
         }
@@ -101,7 +102,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messa
 };
 const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<DumpData>>): ObjectState => {
     const {
-        data: {sectors, signals, points, routeBuilder, ABSectors, biDirABs},
+        data: {sectors, signals, points, ABSectors, biDirABs},
     } = action.message;
 
     const sectorsData = {};
@@ -134,7 +135,6 @@ const dumpRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<
         sectors: sectorsData,
         signals: signalsData,
         turnouts: pointsData,
-        //  routeBuilder: routeBuilder,
         ABSectors: ABSectorsData,
         biDirABs: biDirABsData,
     };
@@ -172,7 +172,7 @@ const sectorRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messag
 const turnoutRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Message<TurnoutMessages.StateUpdateData>>): ObjectState => {
     return objectRetrieve('turnouts', store, action);
 };
-
+/*
 const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<Message<TrainRouteDump>>): ObjectState => {
     const {data} = action.message;
     return {
@@ -180,21 +180,14 @@ const trainRouteBufferDump = (store: ObjectState, action: ActionMessageRetrieve<
         //   routeBuilder: data,
     };
 };
-
+*/
 const initState: ObjectState = {
     signals: {},
     sectors: {},
     turnouts: {},
     ABSectors: {},
-
-
     biDirABs: {},
     // oneDirABs: {},
-    /* locoNetConnector: {
-         availablePorts: [],
-         port: undefined,
-         status: undefined,
-     },*/
 };
 
 export const objectState = (state: ObjectState = initState, action): ObjectState => {

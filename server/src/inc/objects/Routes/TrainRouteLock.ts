@@ -1,10 +1,10 @@
 import TrainRoute from './TrainRoute';
-import { logger } from '../../../webSocetServer';
+import { logger } from '@app/webSocetServer';
 import { routesFactory } from '../../Factories/RoutesFactory';
 import {
     MESSAGE_ACTION_STATE_UPDATE,
     TrainRouteBufferItem,
-} from '../../../../../definitions/interfaces';
+} from '@definitions/interfaces';
 
 export default class TrainRouteLock {
     public readonly route: TrainRoute;

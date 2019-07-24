@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import Downloader from '../helpers/Downloader';
-import {Store} from '../../reducers';
+import {Store} from '@app/reducers';
 import {Message} from "@definitions/messages";
 
 interface State {

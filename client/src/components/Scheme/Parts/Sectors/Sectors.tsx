@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Sector from './Sector';
-import { SectorDefinition } from '../../../../../../definitions/Sectors';
+import { SectorDefinition } from '@definitions/sectors';
 
 interface Props {
     sectors: SectorDefinition[];

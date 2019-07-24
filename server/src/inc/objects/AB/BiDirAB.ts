@@ -1,30 +1,25 @@
-import {
-    LocoNetMessage,
-    LocoNetReceiver,
-    MessageReciever,
-} from '../../Factories/DateReceiver';
-import {
-    ABDir,
-} from '../../../../../definitions/interfaces';
+import {LocoNetMessage} from '../../Factories/DateReceiver';
+import {ABDir} from '@definitions/interfaces';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
-import AbstractDumper from '../AbstractDumper';
-import {Message} from '../../../../../definitions/messages';
-
-export const BANALIZERD_AB_ENTITY_NAME = 'bi-dir-AB';
+import {Message} from '@definitions/messages';
+import {ENTITY_BI_DIR_AB} from '@definitions/consts';
+import LocoNetObject from '../LocoNetObject';
 
 export interface ABState {
     dir: ABDir;
     locoNetId: number;
 }
 
-export default class BiDirAB extends AbstractDumper<ABState> implements MessageReciever, LocoNetReceiver {
+export default class BiDirAB extends LocoNetObject<Message<any>, ABState> {
     private dir: ABDir;
-    private readonly locoNetId;
 
     constructor(data: { locoNetId: number }) {
-        super();
-        this.locoNetId = data.locoNetId;
+        super(data.locoNetId);
         this.dir = 0;
+    }
+
+    public getDir(): ABDir {
+        return this.dir;
     }
 
     public handleMessageReceive(message: Message): void {
@@ -48,16 +43,8 @@ export default class BiDirAB extends AbstractDumper<ABState> implements MessageR
         return;
     }
 
-    public getDir(): ABDir {
-        return this.dir;
-    }
-
-    public getLocoNetId(): number {
-        return this.locoNetId;
-    }
-
     public getEntityName(): string {
-        return BANALIZERD_AB_ENTITY_NAME;
+        return ENTITY_BI_DIR_AB;
     }
 
     public dumpData(): ABState {

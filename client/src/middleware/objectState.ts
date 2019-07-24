@@ -5,10 +5,11 @@ import {
     SectorState,
     SignalState,
 } from '@definitions/interfaces';
-import {ObjectState} from "../reducers/objectState";
+import {ObjectState} from '../reducers/objectState';
 import {TurnoutMessages} from '@definitions/messages/turnout';
 
-function getObjectState<K extends keyof ObjectState, I extends keyof ObjectState[K]>(accessKey: K, store: Store, locoNetId: I): ObjectState[K][I] {
+function getObjectState<K extends keyof ObjectState, I extends keyof ObjectState[K]>
+(accessKey: K, store: Store, locoNetId: I): ObjectState[K][I] {
     const objects = store.objectState[accessKey];
     let state = undefined;
     for (const id in objects) {
@@ -21,14 +22,6 @@ function getObjectState<K extends keyof ObjectState, I extends keyof ObjectState
     return state;
 }
 
-/**
- *
- * @param store
- * @param signalId
- */
-export const getSignal = (store: Store, signalId: number): SignalState => {
-    return getObjectState('signals', store, signalId);
-};
 export const getSignalState = (store: Store, signalId: number): SignalState => {
     return getObjectState('signals', store, signalId);
 };

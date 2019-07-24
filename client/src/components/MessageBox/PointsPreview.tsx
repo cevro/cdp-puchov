@@ -1,17 +1,17 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Store} from '../../reducers';
+import {Store} from '@app/reducers';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import {TurnoutsState} from '../../reducers/objectState';
+import {TurnoutsState} from '@app/reducers/objectState';
 import {
     TurnoutPosition,
     turnouts,
     RequestedTurnoutPosition,
-} from '@definitions/Points';
-import {changeTurnout} from '../../actions/messages';
+} from '@definitions/points';
+import {changeTurnout} from '@app/actions/messages';
 
 interface State {
     turnoutsState?: TurnoutsState;

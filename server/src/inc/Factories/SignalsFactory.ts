@@ -1,21 +1,18 @@
 import Signal from '../objects/Signal';
 import {
     SignalState,
-} from '../../../../definitions/interfaces';
-import {
-    LocoNetMessage,
-    LocoNetReceiver,
-    MessageReciever,
-} from './DateReceiver';
-import {signals} from '../../data/signals';
-import {ENTITY_SIGNAL} from "../../../../definitions/consts";
-import {Message} from '../../../../definitions/messages';
+} from '@definitions/interfaces';
+import {signals} from '@app/data/signals';
+import {Message} from '@definitions/messages';
+import LocoNetObjectsFactory from './LocoNetObjectsFactory';
+import LocoNetObject from '../objects/LocoNetObject';
 
-class SignalsFactory implements LocoNetReceiver, MessageReciever {
+class SignalsFactory extends LocoNetObjectsFactory<Message<any>, SignalState> {
 
     private readonly signals: Signal[];
 
     constructor() {
+        super();
         this.signals = signals.map((value => {
             return new Signal(value);
         }));
@@ -25,7 +22,7 @@ class SignalsFactory implements LocoNetReceiver, MessageReciever {
     public findById(id: number): Signal {
         for (const index in this.signals) {
             if (this.signals.hasOwnProperty(index)) {
-                if (this.signals[index].id === id) {
+                if (this.signals[index].getLocoNetId() === id) {
                     return this.signals[index];
                 }
             }
@@ -33,30 +30,8 @@ class SignalsFactory implements LocoNetReceiver, MessageReciever {
         throw new Error();
     }
 
-    public dump(): SignalState[] {
-        return this.signals.map((signal) => {
-            return signal.dumpData();
-        });
-    }
-
-    public handleMessageReceive(message: Message) {
-        //console.log('msq');
-        if (message.entity !== ENTITY_SIGNAL) {
-            return;
-        }
-        this.signals.forEach((signals) => {
-            if (signals.id == message.id) {
-                signals.handleMessageReceive(message);
-            }
-        });
-    }
-
-    public handleLocoNetReceive(data: LocoNetMessage) {
-        this.signals.forEach((signal) => {
-            if (signal.locoNetId == data.locoNetId) {
-                signal.handleLocoNetReceive(data);
-            }
-        });
+    protected getObjects(): LocoNetObject<Message<any>, any>[] {
+        return this.signals;
     }
 }
 

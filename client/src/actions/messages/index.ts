@@ -1,20 +1,21 @@
 import {
     Action,
     Dispatch,
-} from "redux";
+} from 'redux';
 import {
     Message,
-} from "@definitions/messages";
+} from '@definitions/messages';
 import {
-    ENTITY_AB_SECTOR,
+    ENTITY_BI_DIR_AB,
     ENTITY_SECTOR,
     ENTITY_SIGNAL,
-} from "@definitions/consts";
-import {RequestedTurnoutPosition} from "@definitions/Points";
+    ENTITY_TURNOUT,
+} from '@definitions/consts';
+import {RequestedTurnoutPosition} from '@definitions/points';
 import {
     ActionMessageSend,
     onSendMessage,
-} from "../webSocets";
+} from '../webSocets';
 import {TurnoutMessages} from '@definitions/messages/turnout';
 
 export function send<T>
@@ -45,35 +46,17 @@ export const changeSignal =
     };
 
 export const changeTurnout =
-    (dispatch: Dispatch<Action<string>>, id: number, state: RequestedTurnoutPosition): ActionMessageSend<TurnoutMessages.ChangePositionMessage> => {
+    (dispatch: Dispatch<Action<string>>, id: number, requestedPosition: RequestedTurnoutPosition):
+        ActionMessageSend<TurnoutMessages.ChangePositionMessage> => {
         return dispatch(onSendMessage({
             action: TurnoutMessages.MESSAGE_ACTION_SET_POSITION,
-            entity: 'turnout',
+            entity: ENTITY_TURNOUT,
             date: new Date(),
             id,
-            data: {id, state},
-        }));
-    };
-
-export const changeABCondition =
-    (dispatch: Dispatch<Action<string>>, id: number, state: number): ActionMessageSend<Message<{ id: number, state: number }>> => {
-        return dispatch(onSendMessage({
-            action: 'switch-block-condition',
-            entity: ENTITY_AB_SECTOR,
-            date: new Date(),
-            id,
-            data: {id, state},
-        }));
-    };
-
-export const removeABError =
-    (dispatch: Dispatch<Action<string>>, id: number): ActionMessageSend<Message<{ id: number }>> => {
-        return dispatch(onSendMessage({
-            action: 'remove-error',
-            entity: ENTITY_AB_SECTOR,
-            date: new Date(),
-            id,
-            data: {id},
+            data: {
+                id,
+                requestedPosition,
+            },
         }));
     };
 
@@ -81,7 +64,7 @@ export const changeABDir =
     (dispatch: Dispatch<Action<string>>, id: number, dir: -1 | 1): ActionMessageSend<Message<{ id: number, dir: -1 | 1 }>> => {
         return dispatch(onSendMessage({
             action: 'change-dir',
-            entity: 'bi-dir-AB',
+            entity: ENTITY_BI_DIR_AB,
             date: new Date(),
             id,
             data: {id, dir},

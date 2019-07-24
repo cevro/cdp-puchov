@@ -4,7 +4,7 @@ import { locoNetConnector } from './inc/SerialConnector/SerialConnector';
 import { autoBlockSectorFactory } from './inc/Factories/ABSectorsFactory';
 import { signalFactory } from './inc/Factories/SignalsFactory';
 import { sectorFactory } from './inc/Factories/SectorsFactory';
-import { banalizedAutoBlockFactory } from './inc/Factories/BiDirABsFactory';
+import { biDirAutoBlockFactory } from './inc/Factories/BiDirABsFactory';
 
 class Main {
 
@@ -14,7 +14,7 @@ class Main {
         locoNetConnector.registerListener(autoBlockSectorFactory);
         locoNetConnector.registerListener(signalFactory);
         locoNetConnector.registerListener(sectorFactory);
-        locoNetConnector.registerListener(banalizedAutoBlockFactory);
+        locoNetConnector.registerListener(biDirAutoBlockFactory);
         locoNetConnector.tryConnect();
         console.log('run');
     }

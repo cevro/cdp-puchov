@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Icon from './Icon';
-import { getSignal } from '../../../../../middleware/objectState';
-import { connect } from 'react-redux';
-import { SignalState } from '../../../../../../../definitions/interfaces';
-import { Store } from '../../../../../reducers';
+import {getSignalState} from '@app/middleware/objectState';
+import {connect} from 'react-redux';
+import {SignalState} from '@definitions/interfaces';
+import {Store} from '@app/reducers';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { closeContextMenu } from '../../../../../actions/signalContextMenu';
-import { SignalFrontEndDefinition } from '../../../../../definition/all';
+import {closeContextMenu} from '@app/actions/signalContextMenu';
+import {SignalFrontEndDefinition} from '@app/definition/all';
 
 interface Props {
     signals: SignalFrontEndDefinition[];
@@ -71,7 +71,7 @@ const mapStateToProps = (state: Store): State => {
         id: state.signalContextMenu.id,
         active: state.signalContextMenu.active,
         coordinates: state.signalContextMenu.coordinates,
-        stateObject: getSignal(state, state.signalContextMenu.id),
+        stateObject: getSignalState(state, state.signalContextMenu.id),
     };
 };
 const mapDispatchToProps = (dispatch: Dispatch<Action<string>>): State => {

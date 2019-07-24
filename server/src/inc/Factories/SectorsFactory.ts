@@ -1,18 +1,15 @@
 import Sector from '../objects/Sectors/Sector';
-import { Message } from '../../../../definitions/messages';
-import {
-    LocoNetMessage,
-    LocoNetReceiver,
-    MessageReciever,
-} from './DateReceiver';
-import { sectors } from '../../data/sectors';
+import {Message} from '@definitions/messages';
+import {sectors} from '@app/data/sectors';
+import LocoNetObject from '../objects/LocoNetObject';
+import LocoNetObjectsFactory from './LocoNetObjectsFactory';
 
-class SectorsFactory implements MessageReciever, LocoNetReceiver {
+class SectorsFactory extends LocoNetObjectsFactory<Message<any>> {
 
     private readonly sectors: Sector[];
 
     constructor() {
-
+        super();
         this.sectors = sectors.map(value => {
             return new Sector(value);
         });
@@ -21,7 +18,7 @@ class SectorsFactory implements MessageReciever, LocoNetReceiver {
     public findById(id: number): Sector {
         for (const index in this.sectors) {
             if (this.sectors.hasOwnProperty(index)) {
-                if (this.sectors[index].id === id) {
+                if (this.sectors[index].getLocoNetId() === id) {
                     return this.sectors[index];
                 }
             }
@@ -29,29 +26,8 @@ class SectorsFactory implements MessageReciever, LocoNetReceiver {
         throw new Error();
     }
 
-    public dump() {
-        return this.sectors.map((sector) => {
-            return sector.dumpData();
-        });
-    }
-
-    public handleLocoNetReceive(data: LocoNetMessage) {
-        this.sectors.forEach((sector) => {
-            if (sector.id == data.locoNetId) {
-                sector.handleLocoNetReceive(data);
-            }
-        });
-    }
-
-    public handleMessageReceive(message: Message): void {
-        if (message.entity !== 'sector') {
-            return;
-        }
-        this.sectors.forEach((sector) => {
-            if (sector.id == message.id) {
-                sector.handleMessageReceive(message);
-            }
-        });
+    protected getObjects(): LocoNetObject<Message<any>, any>[] {
+        return this.sectors;
     }
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import BiDirAB from './BiDirAB';
-import { BiDirABDefinition } from '../../../../definition/all';
+import { BiDirABDefinition } from '@app/definition/all';
 
 interface Props {
     ABs: BiDirABDefinition[];

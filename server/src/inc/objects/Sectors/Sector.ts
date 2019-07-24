@@ -1,36 +1,24 @@
-import {logger} from '../../../webSocetServer';
 import {
     STATUS_FREE,
     STATUS_UNDEFINED,
-} from '../../../consts/obvod/status';
-import {
-    MESSAGE_ACTION_STATE_UPDATE,
-    SectorState,
-} from '../../../../../definitions/interfaces';
-import {
-    DataDumper,
-    LocoNetMessage,
-    LocoNetReceiver,
-    MessageReciever,
-} from '../../Factories/DateReceiver';
+} from '@app/consts/obvod/status';
+import {SectorState} from '@definitions/interfaces';
+import {LocoNetMessage} from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
-import {SectorBackEndDefinition} from '../../../data/sectors';
-import {Message} from '../../../../../definitions/messages';
+import {SectorBackEndDefinition} from '@app/data/sectors';
+import {Message} from '@definitions/messages';
+import LocoNetObject from '../LocoNetObject';
+import {ENTITY_SECTOR} from '@definitions/consts';
 
-export default class Sector implements DataDumper<SectorState>, LocoNetReceiver, MessageReciever {
-    public readonly locoNetId;
+export default class Sector extends LocoNetObject<Message<any>, SectorState> {
     private _locked: number;
     private _state: number;
 
     constructor(definition: SectorBackEndDefinition) {
-        this.locoNetId = definition.locoNetId;
+        super(definition.locoNetId);
         this._locked = null;
         this._state = STATUS_UNDEFINED;
 
-    }
-
-    get id(): number {
-        return this.locoNetId;
     }
 
     set state(value: number) {
@@ -54,16 +42,6 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReceiver,
         return this._locked;
     }
 
-    public sendState() {
-        logger.log({
-            action: MESSAGE_ACTION_STATE_UPDATE,
-            entity: 'sector',
-            data: this.dumpData(),
-            id: this.id,
-            date: new Date(),
-        });
-    }
-
     public lock(id: number) {
         this.locked = id;
         this.sendState();
@@ -82,14 +60,6 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReceiver,
         if (this.state !== STATUS_FREE) {
             throw Error('Not free');
         }
-    }
-
-    /**
-     * return true if sector is in VC
-     * @deprecated
-     */
-    public isFree(id: number): boolean {
-        return this.isFreeAndAllocated(id);
     }
 
     /**
@@ -125,6 +95,10 @@ export default class Sector implements DataDumper<SectorState>, LocoNetReceiver,
             // this.state = message.data.state;
 
         }
+    }
+
+    public getEntityName(): string {
+        return ENTITY_SECTOR;
     }
 }
 

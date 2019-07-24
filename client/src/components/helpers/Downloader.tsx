@@ -4,8 +4,8 @@ import {
     connectionClose,
     onMessageRetrieve,
     successSend,
-} from '../../actions/webSocets';
-import {Store} from '../../reducers';
+} from '@app/actions/webSocets';
+import {Store} from '@app/reducers';
 import {Message} from "@definitions/messages";
 
 interface State {

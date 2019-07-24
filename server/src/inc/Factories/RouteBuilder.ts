@@ -1,20 +1,20 @@
-import {logger} from '../../webSocetServer';
+import {logger} from '@app/webSocetServer';
 import {
-    BuildOptions,
     MESSAGE_ACTION_DUMP,
     TrainRouteBufferItem,
     TrainRouteDump,
-} from '../../../../definitions/interfaces';
-import {NAVEST_STOJ} from '../../consts/signal/signals';
-import {STATUS_BUSY} from '../../consts/obvod/status';
+} from '@definitions/interfaces';
+import {NAVEST_STOJ} from '@app/consts/signal/signals';
+import {STATUS_BUSY} from '@app/consts/obvod/status';
 import TrainRouteLock from '../objects/Routes/TrainRouteLock';
 import {
     LocoNetMessage,
-    MessageReciever,
+    MessageReceiver,
 } from './DateReceiver';
-import {Message} from '../../../../definitions/messages';
+import {Message} from '@definitions/messages';
+import LocoNetObject from '../objects/LocoNetObject';
 
-class RouteBuilder implements MessageReciever {
+class RouteBuilder extends LocoNetObject<Message<any>, TrainRouteDump> implements MessageReceiver<Message<any>> {
     private readonly LOGGER_ENTITY = 'route-builder';
 
     private _locked: boolean = false;
@@ -22,6 +22,10 @@ class RouteBuilder implements MessageReciever {
     private buffer: TrainRouteLock[] = [];
 
     private hasError: boolean;
+
+    public constructor() {
+        super(0);
+    }
 
     public addToBuffer(trainRouteId: number, buildOptions: any): void {
         const routeLock = new TrainRouteLock(trainRouteId, buildOptions);
@@ -109,26 +113,6 @@ class RouteBuilder implements MessageReciever {
         }
     }
 
-    private handleRequest(message: Message<{ id: number, buildOptions: BuildOptions }>) {
-        switch (message.action) {
-            case 'build':
-                return this.addToBuffer(message.data.id, message.data.buildOptions);
-        }
-    }
-
-    public handleLocoNetReceive(data: LocoNetMessage) {
-    }
-
-    public handleMessageReceive(message: Message): void {
-        if (message.entity !== 'route-builder') {
-            return;
-        }
-        this.handleRequest(message);
-
-        this.refreshRoutes();
-        this.tryBuild();
-    }
-
     private refreshRoute(locker: TrainRouteLock) {
         if (locker.state !== TrainRouteLock.STATE_BUILT) {
             return;
@@ -160,7 +144,7 @@ class RouteBuilder implements MessageReciever {
                  }*/
                 if (sector.state === STATUS_BUSY) {
                     // posledný sektor znamená zhodenie VC
-                    if (sector.id === trainRoute.endSector.id) {
+                    if (sector.getLocoNetId() === trainRoute.endSector.getLocoNetId()) {
                         this.destroyRoute(locker);
                     }
                     busyIndex = +index;
@@ -179,7 +163,7 @@ class RouteBuilder implements MessageReciever {
             if (sectors.hasOwnProperty(unalockIndex)) {
                 if (sectors[unalockIndex].locked == locker.getId()) {
                     locker.route.turnoutPositions.forEach((pointPosition) => {
-                        pointPosition.unlockBySector(locker.getId(), sectors[unalockIndex].id);
+                        pointPosition.unlockBySector(locker.getId(), sectors[unalockIndex].getLocoNetId());
                     });
                     sectors[unalockIndex].unlock(locker.getId());
                 }
@@ -201,6 +185,29 @@ class RouteBuilder implements MessageReciever {
             return locker.getId() !== bufferLock.getId();
         });
         this.printBuffer();
+    }
+
+    public handleLocoNetReceive(data: LocoNetMessage) {
+        // builder is server-side no LN comunication needed
+    }
+
+    public handleMessageReceive(message: Message): void {
+        switch (message.action) {
+            case 'build':
+                this.addToBuffer(message.data.id, message.data.buildOptions);
+                break;
+        }
+
+        this.refreshRoutes();
+        this.tryBuild();
+    }
+
+    public getEntityName(): string {
+        return 'route-builder';
+    }
+
+    public dumpData(): TrainRouteDump {
+        return this.dumpBuffer();
     }
 
 }

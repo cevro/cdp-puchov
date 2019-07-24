@@ -1,10 +1,10 @@
 import TrainRoute from '../objects/Routes/TrainRoute';
-import { Message } from '../../../../definitions/messages';
-import { RouteFinderRequest } from '../../../../definitions/interfaces';
-import { logger } from '../../webSocetServer';
-import { MessageReciever } from './DateReceiver';
+import {Message} from '@definitions/messages';
+import {RouteFinderRequest} from '@definitions/interfaces';
+import {logger} from '@app/webSocetServer';
+import {MessageReceiver} from './DateReceiver';
 
-class RoutesFactory implements MessageReciever {
+class RoutesFactory implements MessageReceiver<Message<any>> {
     private readonly routes: TrainRoute[];
 
     constructor() {

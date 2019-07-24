@@ -1,6 +1,6 @@
 import * as React from 'react';
 import AutoBlockSector from './ABSector';
-import { AutoBlockSectorFrontEndDefinition } from '../../../../definition/autoBlock/Pu-LpM';
+import { AutoBlockSectorFrontEndDefinition } from '@app/definition/autoBlock/Pu-LpM';
 
 interface Props {
     autoBlockSectors: AutoBlockSectorFrontEndDefinition[];

@@ -1,7 +1,7 @@
 import {
     RequestedTurnoutPosition,
     TurnoutPosition,
-} from '../Points';
+} from '../points';
 import {LocoNetObject} from '../interfaces';
 import {
     Message,
@@ -18,7 +18,7 @@ export namespace TurnoutMessages {
 
     export interface ChangePositionData {
         id: number;
-        state: RequestedTurnoutPosition;
+        requestedPosition: RequestedTurnoutPosition;
     }
 
     export type ChangePositionMessage = TurnoutMessage<ChangePositionData, 'set-position'>;

@@ -4,8 +4,8 @@ import {
     Action,
     Dispatch,
 } from 'redux';
-import {Store} from '../../reducers';
-import {TrainRouteDump} from "@definitions/interfaces";
+import {Store} from '@app/reducers';
+import {TrainRouteDump} from '@definitions/interfaces';
 
 interface State {
     trainRoute?: TrainRouteDump;

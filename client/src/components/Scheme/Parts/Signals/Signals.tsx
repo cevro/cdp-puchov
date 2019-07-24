@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Signal from './Signal';
-import { SignalFrontEndDefinition } from '../../../../definition/all';
+import { SignalFrontEndDefinition } from '@app/definition/all';
 
 interface Props {
     signals: SignalFrontEndDefinition[];

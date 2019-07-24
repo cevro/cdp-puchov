@@ -1,26 +1,25 @@
-import BanalizedAutoBlock from '../AB/BiDirAB';
+import BiDirAutoBlock from '../AB/BiDirAB';
 import {
     ABRequestedDir,
-} from '../../../../../definitions/interfaces';
-import AbstractDumper from '../AbstractDumper';
+} from '@definitions/interfaces';
 import {
     LocoNetMessage,
     LocoNetReceiver,
-    MessageReciever,
+    MessageReceiver,
 } from '../../Factories/DateReceiver';
-import { locoNetConnector } from '../../SerialConnector/SerialConnector';
-import {Message} from '../../../../../definitions/messages';
+import {locoNetConnector} from '../../SerialConnector/SerialConnector';
+import {Message} from '@definitions/messages';
 
-export default class TrackApproval extends AbstractDumper<any> implements LocoNetReceiver, MessageReciever {
+export default class TrackApproval implements LocoNetReceiver, MessageReceiver<any> {
 
     private readonly locoNetId: number;
-    private AB: BanalizedAutoBlock;
+    private biDirAB: BiDirAutoBlock;
     private readonly dir: ABRequestedDir;
     private locked: boolean;
     private readonly ABId: number;
 
     constructor(id: number, ABId: number, dir: ABRequestedDir) {
-        super();
+       // super();
         this.locoNetId = id;
         this.dir = dir;
         this.ABId = ABId;
@@ -28,7 +27,7 @@ export default class TrackApproval extends AbstractDumper<any> implements LocoNe
     }
 
     check(): void {
-        if (this.AB.getDir() !== this.dir) {
+        if (this.biDirAB.getDir() !== this.dir) {
             throw Error('AutoBlock on oposite direction');
         }
     }
@@ -65,7 +64,7 @@ export default class TrackApproval extends AbstractDumper<any> implements LocoNe
 
     public lock(id: number) {
         this.locked = true;
-        this.sendState();
+     //   this.sendState();
     }
 
     public unlock(id: number) {
@@ -75,7 +74,7 @@ export default class TrackApproval extends AbstractDumper<any> implements LocoNe
     }
 
     getEntityName() {
-return '';
+        return '';
     }
 
     getLocoNetId() {

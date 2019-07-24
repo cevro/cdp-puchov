@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Store } from '../../reducers';
+import { Store } from '@app/reducers';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { SectorsState } from '../../reducers/objectState';
-import { changeSector } from '../../actions/messages';
-import {SectorDefinition} from "@definitions/Sectors";
+import { SectorsState } from '@app/reducers/objectState';
+import { changeSector } from '@app/actions/messages';
+import {SectorDefinition} from "@definitions/sectors";
 
 interface Props {
     sectors: SectorDefinition[];

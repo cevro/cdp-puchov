@@ -1,4 +1,4 @@
-var path = require('path');
+const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
 
 module.exports = {
     devtool: "source-map",
@@ -8,13 +8,13 @@ module.exports = {
         path: __dirname + "/dist/js"
     },
 
-
     resolve: {
         extensions: [".ts", ".tsx", ".js"],
-        alias: {
-            '@definitions/*': path.resolve(__dirname + "/../definitions/*")
-        }
+        plugins: [
+            new TsConfigPathsPlugin(/* { configFileName, compiler } */)
+        ]
     },
+
 
     module: {
         rules: [
@@ -31,7 +31,8 @@ module.exports = {
             {
                 test: /\.tsx?$/,
                 use: 'awesome-typescript-loader',
-                exclude: /node_modules/
+                //use: 'ts-loader',
+                exclude: /node_modules/,
             }
         ]
     }

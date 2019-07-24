@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Turnout from './Turnout';
-import {TurnoutDefinition} from "../../../../../../definitions/Points";
+import {TurnoutDefinition} from "@definitions/points";
 
 interface Props {
     points: TurnoutDefinition[];

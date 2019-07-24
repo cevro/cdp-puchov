@@ -1,17 +1,17 @@
-import * as React from "react";
-import {AutoBlockSectorFrontEndDefinition} from "../../../definition/autoBlock/Pu-LpM";
-import {ABSectorState} from "@definitions/interfaces";
-import {Store} from "../../../reducers";
+import * as React from 'react';
+import {AutoBlockSectorFrontEndDefinition} from '@app/definition/autoBlock/Pu-LpM';
+import {ABSectorState} from '@definitions/interfaces';
+import {Store} from '@app/reducers';
 import {
     Action,
     Dispatch,
-} from "redux";
+} from 'redux';
 import {
     changeABCondition,
     removeABError,
-} from "../../../actions/messages/";
-import {connect} from "react-redux";
-import {ABSectorsState} from "../../../reducers/objectState";
+} from '@app/actions/messages/ABSector';
+import {connect} from 'react-redux';
+import {ABSectorsState} from '@app/reducers/objectState';
 
 interface Props {
     definition: AutoBlockSectorFrontEndDefinition;
@@ -72,8 +72,9 @@ class Row extends React.Component<Props & State, InnerState> {
                             </span>
                 <span className="col-2">
                                 <span
-                                    className={'badge badge-' + ((ABCondition === undefined) ? 'undefined' : (ABCondition ? 'success' : 'warning'))}
-                                >ABC {ABCondition ? 'ON' : 'OFF'}</span>
+                                    className={'badge badge-' + ((ABCondition === undefined) ?
+                                        'undefined' : (ABCondition ? 'success' : 'warning'))}
+                                >B.C. {ABCondition ? 'ON' : 'OFF'}</span>
                             </span>
                 <span className="col-">
                     <button className="btn btn-link" onClick={(e) => {
@@ -108,13 +109,13 @@ class Row extends React.Component<Props & State, InnerState> {
             return 'list-item-undefined';
         }
         if (!active) {
-            return 'list-item-secondary';
+            return 'bg-secondary';
         }
         if (error > 0) {
-            return 'list-item-danger';
+            return 'bg-danger';
         }
         if (ABCondition === 0) {
-            return 'list-item-warning';
+            return 'bg-warning';
         }
 
     }

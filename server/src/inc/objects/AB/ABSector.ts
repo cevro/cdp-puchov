@@ -1,22 +1,10 @@
-import {
-    ABSectorState,
-    MESSAGE_ACTION_STATE_UPDATE,
-} from '../../../../../definitions/interfaces';
-import {
-    LocoNetMessage,
-    LocoNetReceiver,
-    MessageReciever,
-} from '../../Factories/DateReceiver';
+import {LocoNetMessage} from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
-import AbstractDumper from '../AbstractDumper';
+import {ENTITY_AB_SECTOR} from '@definitions/consts';
+import {ABSectorMessages} from '@definitions/messages/ABSector';
+import LocoNetObject from '../LocoNetObject';
 
-import {logger} from '../../../webSocetServer';
-import {ENTITY_AB_SECTOR} from '../../../../../definitions/consts';
-import {ABSectorMessages} from '../../../../../definitions/messages/ABSector';
-import {Message} from '../../../../../definitions/messages';
-
-export default class ABSector extends AbstractDumper<ABSectorState> implements MessageReciever, LocoNetReceiver {
-    public readonly locoNetId: number;
+export default class ABSector extends LocoNetObject<ABSectorMessages.ClientToServerMessages, ABSectorMessages.StateUpdateData> {
     private _error: number;
     private _state: number;
     private active: number;
@@ -57,17 +45,12 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
     }
 
     constructor(data: any) {
-        super();
-        this.locoNetId = data.locoNetId;
+        super(data.locoNetId);
         this._state = -1;
         this._error = -1;
         this.active = -1;
         this.fullBlockConditionActive = -1;
 
-    }
-
-    public getLocoNetId() {
-        return this.locoNetId;
     }
 
     public getEntityName() {
@@ -105,7 +88,7 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
         // console.log(this);
     }
 
-    public handleMessageReceive(message: Message): void {
+    public handleMessageReceive(message: ABSectorMessages.ClientToServerMessages): void {
         switch (message.action) {
             case 'remove-error':
                 locoNetConnector.send({
@@ -114,7 +97,7 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
                     value: 0,
                 });
                 return;
-            case 'switch-block-condition':
+            case 'set-block-condition':
                 locoNetConnector.send({
                     locoNetId: this.locoNetId,
                     type: 'c',
@@ -123,14 +106,5 @@ export default class ABSector extends AbstractDumper<ABSectorState> implements M
                 return;
         }
 
-    }
-
-    public sendState() {
-        logger.log<ABSectorMessages.StateUpdateMessage>({
-            action: MESSAGE_ACTION_STATE_UPDATE,
-            entity: ENTITY_AB_SECTOR,
-            data: this.dumpData(),
-            id: this.getLocoNetId(),
-        });
     }
 }

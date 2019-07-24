@@ -8,6 +8,16 @@ export namespace ABSectorMessages {
     export type ABSectorMessage<T, A> = Message<T, 'AB-sector', A>;
 
     /* *********** client->server ************************/
+    export interface SetBlockConditionData extends LocoNetObject {
+        state: number;
+    }
+
+    export type RemoveErrorData = LocoNetObject;
+
+    export type SetBlockConditionMessage = ABSectorMessage<SetBlockConditionData, 'set-block-condition'>
+    export type RemoveErrorMessage = ABSectorMessage<RemoveErrorData, 'remove-error'>;
+
+    export type ClientToServerMessages = RemoveErrorMessage | SetBlockConditionMessage;
 
     /* *********** server->client ************************/
     export const MESSAGE_ACTION_STATE_UPDATE = MESSAGE_ACTION_STATE_UPDATE_GLOBAL;

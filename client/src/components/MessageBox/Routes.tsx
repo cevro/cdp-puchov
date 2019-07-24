@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { clearSelect } from '../../actions/routeBuilder';
+import {clearSelect} from '@app/actions/routeBuilder';
 import RouteFinder from '../RouteFinder';
 import RouteBuilder from '../RouteBuilder';
-import { Store } from '../../reducers';
+import {Store} from '@app/reducers';
 
 interface State {
     availableRoutes?: any[];

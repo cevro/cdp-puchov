@@ -1,10 +1,10 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Store} from '../../../../reducers';
-import {getBiDirABState} from '../../../../middleware/objectState';
-import {BiDirABDefinition} from '../../../../definition/all';
-import {BiDirABState} from '../../../../../../definitions/interfaces';
-import {changeABDir} from '../../../../actions/messages/';
+import {Store} from '@app/reducers';
+import {getBiDirABState} from '@app/middleware/objectState';
+import {BiDirABDefinition} from '@app/definition/all';
+import {BiDirABState} from '@definitions/interfaces';
+import {changeABDir} from '@app/actions/messages';
 import {
     Action,
     Dispatch,

@@ -1,15 +1,14 @@
 import * as SerialPort from 'serialport';
 import {
-    DataDumper,
     LocoNetMessage,
     LocoNetReceiver,
-    MessageReciever,
+    MessageReceiver,
 } from '../Factories/DateReceiver';
-import {PortInfo} from "serialport";
-import {logger} from "../../webSocetServer";
-import {Message} from '../../../../definitions/messages';
+import {PortInfo} from 'serialport';
+import {logger} from '@app/webSocetServer';
+import {Message} from '@definitions/messages';
 
-class SerialConnector implements MessageReciever {
+class SerialConnector implements MessageReceiver<Message<any>> {
     private listeners: LocoNetReceiver[] = [];
 
     private connector: SerialPort;
@@ -37,7 +36,7 @@ class SerialConnector implements MessageReciever {
     }
 
     public handleMessageReceive(message: Message<{ port: string, params: SerialPort.OpenOptions }>) {
-        if (message.entity == 'loconet-connector') {
+        if (message.entity == 'locoNet-connector') {
             switch (message.action) {
                 case 'connect':
                     //this.params = message.data.params;
@@ -67,7 +66,7 @@ class SerialConnector implements MessageReciever {
         SerialPort.list().then((list: PortInfo[]) => {
             this.ports = list;
             logger.log({
-                entity: 'loconet-connector',
+                entity: 'locoNet-connector',
                 id: 0,
                 action: 'port-list',
                 data: {

@@ -1,9 +1,7 @@
-import {Message} from '../../../../definitions/messages';
+import {Message} from '@definitions/messages';
 
-export interface MessageReciever {
-    //dataReceive(message: Message): void;
-
-    handleMessageReceive(message: Message): void;
+export interface MessageReceiver<M extends Message<any>> {
+    handleMessageReceive(message: M): void;
 }
 
 export interface LocoNetMessage {

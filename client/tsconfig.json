@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/js/",
-    "sourceMap": true,
+    // "outDir": "./dist/js/",
+    //  "sourceMap": true,
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
-    "preserveSymlinks": false,
-    "baseUrl": "./",
+    "baseUrl": "..",
     "paths": {
       "@definitions/*": [
-        "./../definitions/*"
+        "definitions/*"
+      ],
+      "@app/*": [
+        "client/src/*"
       ]
     }
   },

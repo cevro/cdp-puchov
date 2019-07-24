@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+// noinspection TypeScriptPreferShortImport
 import {Store} from '../../reducers';
 
 interface State {

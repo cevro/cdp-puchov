@@ -4,13 +4,13 @@ import {
     Action,
     Dispatch,
 } from 'redux';
-import {Store} from '../../reducers';
+import {Store} from '@app/reducers';
 import {
     toggleTurnoutText,
     toggleSignalText,
-} from '../../actions/displayOptions';
-import {displayOptionsState} from '../../reducers/displayOptions';
-import {SignalTypes} from "@definitions/Signals";
+} from '@app/actions/displayOptions';
+import {displayOptionsState} from '@app/reducers/displayOptions';
+import {SignalTypes} from "@definitions/signals";
 
 interface State {
     displayState?: displayOptionsState;

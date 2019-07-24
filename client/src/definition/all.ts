@@ -1,13 +1,13 @@
 import {
     SignalBackEndDefinition,
     signalLight,
-} from '@definitions/Signals';
-import {TurnoutDefinition} from '@definitions/Points';
+} from '@definitions/signals';
+import {TurnoutDefinition} from '@definitions/points';
 import {
     autoBlockPuLpM,
     AutoBlockSectorFrontEndDefinition,
 } from './autoBlock/Pu-LpM';
-import {SectorDefinition} from '@definitions/Sectors';
+import {SectorDefinition} from '@definitions/sectors';
 
 export type signalLight = 'HZ' | 'Z' | 'C' | 'B' | 'X' | 'DZ' | 'M';
 

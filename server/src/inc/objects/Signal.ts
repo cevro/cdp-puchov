@@ -1,21 +1,12 @@
-import {SignalBackEndDefinition} from '../../../../definitions/Signals';
-import {logger} from '../../webSocetServer';
-import {
-    MESSAGE_ACTION_STATE_UPDATE,
-    SignalState,
-} from '../../../../definitions/interfaces';
-import {
-    DataDumper,
-    LocoNetMessage,
-    LocoNetReceiver,
-    MessageReciever,
-} from '../Factories/DateReceiver';
+import {SignalBackEndDefinition} from '@definitions/signals';
+import {SignalState} from '@definitions/interfaces';
+import {LocoNetMessage} from '../Factories/DateReceiver';
 import {locoNetConnector} from '../SerialConnector/SerialConnector';
-import {ENTITY_SIGNAL} from "../../../../definitions/consts";
-import {Message} from '../../../../definitions/messages';
+import {ENTITY_SIGNAL} from '@definitions/consts';
+import {Message} from '@definitions/messages';
+import LocoNetObject from './LocoNetObject';
 
-export default class Signal implements LocoNetReceiver, DataDumper<SignalState>, MessageReciever {
-    public locoNetId;
+export default class Signal extends LocoNetObject<Message<any>, SignalState> {
 
     private _displayState: number;
     private _requestedState: number;
@@ -26,7 +17,7 @@ export default class Signal implements LocoNetReceiver, DataDumper<SignalState>,
         }
         this._requestedState = value;
         locoNetConnector.send({
-            locoNetId: this.locoNetId,
+            locoNetId: this.getLocoNetId(),
             type: 's',
             value: value,
         });
@@ -53,23 +44,9 @@ export default class Signal implements LocoNetReceiver, DataDumper<SignalState>,
     }
 
     constructor(definition: SignalBackEndDefinition) {
-        this.locoNetId = definition.locoNetId;
+        super(definition.locoNetId);
         this._displayState = -1;
         this._requestedState = -1;
-    }
-
-    get id(): number {
-        return this.locoNetId;
-    }
-
-    public sendState() {
-        logger.log({
-            action: MESSAGE_ACTION_STATE_UPDATE,
-            entity: ENTITY_SIGNAL,
-            data: this.dumpData(),
-            id: this.locoNetId,
-            date: new Date(),
-        });
     }
 
     public dumpData(): SignalState {
@@ -81,9 +58,6 @@ export default class Signal implements LocoNetReceiver, DataDumper<SignalState>,
     }
 
     public handleLocoNetReceive(data: LocoNetMessage) {
-        if (data.locoNetId != this.locoNetId) {
-            return;
-        }
         switch (data.type) {
             case 's':
                 return this.setState(data.value);
@@ -101,5 +75,9 @@ export default class Signal implements LocoNetReceiver, DataDumper<SignalState>,
                 });
 
         }
+    }
+
+    public getEntityName(): string {
+        return ENTITY_SIGNAL;
     }
 }

@@ -1,6 +1,6 @@
 import Turnout from './Turnout';
 import { turnoutsFactory } from '../../Factories/TurnoutsFactory';
-import { RequestedTurnoutPosition } from '../../../../../definitions/Points';
+import { RequestedTurnoutPosition } from '@definitions/points';
 
 export default class TurnoutPosition {
     private readonly position: RequestedTurnoutPosition;

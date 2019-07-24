@@ -3,9 +3,9 @@ import TurnoutPosition from '../Turnout/TurnoutPosition';
 import Sector from '../Sectors/Sector';
 import { signalFactory } from '../../Factories/SignalsFactory';
 import { sectorFactory } from '../../Factories/SectorsFactory';
-import { TrainRouteDefinition } from '../../../data/puchov/routes/1L';
+import { TrainRouteDefinition } from '@app/data/puchov/routes/1L';
 import { SignalStrategy } from '../../Factories/SignalStrategy';
-import { BuildOptions } from '../../../../../definitions/interfaces';
+import { BuildOptions } from '@definitions/interfaces';
 
 export default class TrainRoute {
     public id;

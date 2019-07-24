@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { SignalTypes } from '../../../../../../../definitions/Signals';
-import { SignalLightDisplay } from '../../../../../middleware/signal';
-import { SignalFrontEndDefinition } from '../../../../../definition/all';
+import { SignalTypes } from '@definitions/signals';
+import { SignalLightDisplay } from '@app/middleware/signal';
+import { SignalFrontEndDefinition } from '@app/definition/all';
 
 interface Props {
     signal: SignalFrontEndDefinition,

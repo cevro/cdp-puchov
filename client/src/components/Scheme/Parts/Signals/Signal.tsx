@@ -1,16 +1,16 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { signalSelect } from '../../../../actions/routeBuilder';
-import { onSignalContextMenu } from '../../../../actions/signalContextMenu';
-import { SignalTypes } from '../../../../../../definitions/Signals';
-import { Store } from '../../../../reducers';
-import { getSignal } from '../../../../middleware/objectState';
+import {connect} from 'react-redux';
+import {signalSelect} from '@app/actions/routeBuilder';
+import {onSignalContextMenu} from '@app/actions/signalContextMenu';
+import {SignalTypes} from '@definitions/signals';
+import {Store} from '@app/reducers';
+import {getSignalState} from '@app/middleware/objectState';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { SignalState } from '../../../../../../definitions/interfaces';
-import { SignalFrontEndDefinition } from '../../../../definition/all';
+import {SignalState} from '@definitions/interfaces';
+import {SignalFrontEndDefinition} from '@app/definition/all';
 
 interface Props {
     definition: SignalFrontEndDefinition;
@@ -109,7 +109,7 @@ class Signal extends React.Component<Props & State, {}> {
 
 const mapStateToProps = (state: Store, ownProps: Props): State => {
     return {
-        stateObject: getSignal(state, ownProps.definition.locoNetId),
+        stateObject: getSignalState(state, ownProps.definition.locoNetId),
         displayLabel: !!state.displayOptions.signals[ownProps.definition.type],
     };
 };
