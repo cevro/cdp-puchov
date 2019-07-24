@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SignalTypes } from '../../../../definitions/Signals';
+import { SignalTypes } from '../../../../../../../definitions/Signals';
 import { SignalLightDisplay } from '../../../../../middleware/signal';
 import { SignalFrontEndDefinition } from '../../../../../definition/all';
 

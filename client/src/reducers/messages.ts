@@ -2,7 +2,7 @@ import {
     ACTION_MESSAGE_RETRIEVE,
     ActionMessageRetrieve,
 } from '../actions/webSocets';
-import {Message} from '../components/definitions/messages';
+import {Message} from '@definitions/messages';
 
 const messageRetrieve = (state, action: ActionMessageRetrieve<Message<any>>) => {
     const newMessages = [action.message, ...state];

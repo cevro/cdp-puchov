@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {Store} from '../../../../reducers';
 import {getABSectorState} from '../../../../middleware/objectState';
-import {ABSectorState} from '../../../definitions/interfaces';
+import {ABSectorState} from '../../../../../../definitions/interfaces';
 import {AutoBlockSectorFrontEndDefinition} from '../../../../definition/autoBlock/Pu-LpM';
 
 interface Props {

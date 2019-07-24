@@ -4,9 +4,9 @@ import {
     BiDirABState,
     SectorState,
     SignalState,
-} from '../components/definitions/interfaces';
+} from '@definitions/interfaces';
 import {ObjectState} from "../reducers/objectState";
-import {TurnoutMessages} from '../components/definitions/messages';
+import {TurnoutMessages} from '@definitions/messages/turnout';
 
 function getObjectState<K extends keyof ObjectState, I extends keyof ObjectState[K]>(accessKey: K, store: Store, locoNetId: I): ObjectState[K][I] {
     const objects = store.objectState[accessKey];

@@ -6,7 +6,7 @@ import {
 } from 'redux';
 import { Store } from '../reducers';
 import { buildRoute } from '../actions/routeBuilder';
-import { BuildOptions } from './definitions/interfaces';
+import { BuildOptions } from '@definitions/interfaces';
 
 interface State {
     availableRoutes?: any[];
@@ -27,7 +27,6 @@ class RouteBuilder extends React.Component<State, BuildOptions> {
     }
 
     public render() {
-
         const {onBuildRoute, availableRoutes} = this.props;
 
         /* const objects = ;*/

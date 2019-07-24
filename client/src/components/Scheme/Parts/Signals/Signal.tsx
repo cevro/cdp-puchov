@@ -2,14 +2,14 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { signalSelect } from '../../../../actions/routeBuilder';
 import { onSignalContextMenu } from '../../../../actions/signalContextMenu';
-import { SignalTypes } from '../../../definitions/Signals';
+import { SignalTypes } from '../../../../../../definitions/Signals';
 import { Store } from '../../../../reducers';
 import { getSignal } from '../../../../middleware/objectState';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { SignalState } from '../../../definitions/interfaces';
+import { SignalState } from '../../../../../../definitions/interfaces';
 import { SignalFrontEndDefinition } from '../../../../definition/all';
 
 interface Props {

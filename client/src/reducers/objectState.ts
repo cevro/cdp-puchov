@@ -12,18 +12,18 @@ import {
     SectorState,
     SignalState,
     TrainRouteDump,
-} from '../components/definitions/interfaces';
+} from '@definitions/interfaces';
 
 import {
     Message,
-} from '../components/definitions/messages';
+} from '@definitions/messages';
 import {
     ENTITY_AB_SECTOR,
     ENTITY_SECTOR,
     ENTITY_SIGNAL,
     ENTITY_TURNOUT,
-} from "../../../definitions/consts";
-import {TurnoutMessages} from '../../../definitions/messages/turnout';
+} from "@definitions/consts";
+import {TurnoutMessages} from '@definitions/messages/turnout';
 
 export interface SignalsState {
     [id: number]: SignalState;

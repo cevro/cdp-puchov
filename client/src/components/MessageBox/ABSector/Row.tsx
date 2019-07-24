@@ -1,6 +1,6 @@
 import * as React from "react";
 import {AutoBlockSectorFrontEndDefinition} from "../../../definition/autoBlock/Pu-LpM";
-import {ABSectorState} from "../../definitions/interfaces";
+import {ABSectorState} from "@definitions/interfaces";
 import {Store} from "../../../reducers";
 import {
     Action,

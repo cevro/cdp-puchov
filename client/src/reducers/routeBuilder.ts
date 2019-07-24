@@ -8,8 +8,8 @@ import {
     ACTION_MESSAGE_RETRIEVE,
     ActionMessageRetrieve,
 } from '../actions/webSocets';
-import {Message} from "../components/definitions/messages";
-import {TrainRouteDump} from '../components/definitions/interfaces';
+import {Message} from "@definitions/messages";
+import {TrainRouteDump} from '@definitions/interfaces';
 
 export interface State {
     startSignalId: number;

@@ -2,7 +2,7 @@ import * as React from 'react';
 import Icon from './Icon';
 import { getSignal } from '../../../../../middleware/objectState';
 import { connect } from 'react-redux';
-import { SignalState } from '../../../../definitions/interfaces';
+import { SignalState } from '../../../../../../../definitions/interfaces';
 import { Store } from '../../../../../reducers';
 import {
     Action,

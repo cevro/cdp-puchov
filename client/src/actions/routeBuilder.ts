@@ -3,9 +3,9 @@ import {
     Dispatch,
 } from 'redux';
 
-import {RouteFinderRequest} from '../components/definitions/interfaces';
+import {RouteFinderRequest} from '@definitions/interfaces';
 import { onSendMessage } from './webSocets';
-import {Message} from '../components/definitions/messages';
+import {Message} from '@definitions/messages';
 
 export const ACTION_SIGNAL_SELECT = 'ACTION_SIGNAL_SELECT';
 

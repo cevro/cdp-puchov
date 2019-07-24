@@ -1,4 +1,4 @@
-import { signalLight } from '../../../definitions/Signals';
+import { signalLight } from '@definitions/Signals';
 
 export class SignalLightDisplay {
 

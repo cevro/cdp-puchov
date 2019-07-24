@@ -1,12 +1,5 @@
 import {TurnoutMessages} from './messages/turnout';
 
-/**
- * @deprecated
- */
-export interface LocoNetObjectState {
-    locoNetId: number;
-}
-
 export interface LocoNetObject {
     locoNetId: number;
 }
@@ -25,23 +18,17 @@ export interface TrainRouteBufferItem {
     buildOptions: BuildOptions;
 }
 
-/**
- * @deprecated use TurnoutMessages.StateUpdateData
- */
-export interface TurnoutState extends TurnoutMessages.StateUpdateData {
-}
-
-export interface SectorState extends LocoNetObjectState {
+export interface SectorState extends LocoNetObject {
     state: number;
     locked: number;
 }
 
-export interface SignalState extends LocoNetObjectState {
+export interface SignalState extends LocoNetObject {
     displayState: number;
     requestedState: number;
 }
 
-export interface ABSectorState extends LocoNetObjectState {
+export interface ABSectorState extends LocoNetObject {
     state: number;
     errorCode: number,
     errorMessage: string,
@@ -52,7 +39,7 @@ export interface ABSectorState extends LocoNetObjectState {
 export type ABRequestedDir = -1 | 0 | 1
 export type ABDir = ABRequestedDir | 0;
 
-export interface BiDirABState extends LocoNetObjectState {
+export interface BiDirABState extends LocoNetObject {
     dir: ABDir;
 }
 

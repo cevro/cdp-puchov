@@ -1,10 +1,10 @@
-import { AutoBlockSectorDefinition } from '../../../../definitions/AutoBlockSectors';
-import { SignalTypes } from '../../components/definitions/Signals';
+import { AutoBlockSectorDefinition } from '@definitions/AutoBlockSectors';
+import { SignalTypes } from '@definitions/Signals';
 import {
     SchemeItem,
     SignalFrontEndDefinition,
 } from '../all';
-import { SectorDefinition } from '../../../../server/src/definitions/Sectors';
+import {SectorDefinition} from "@definitions/Sectors";
 
 export interface AutoBlockSectorFrontEndDefinition extends AutoBlockSectorDefinition {
 }

@@ -9,8 +9,8 @@ import {
     toggleTurnoutText,
     toggleSignalText,
 } from '../../actions/displayOptions';
-import {SignalTypes} from '../definitions/Signals';
 import {displayOptionsState} from '../../reducers/displayOptions';
+import {SignalTypes} from "@definitions/Signals";
 
 interface State {
     displayState?: displayOptionsState;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Message} from '../definitions/messages';
 import Downloader from '../helpers/Downloader';
 import {Store} from '../../reducers';
+import {Message} from "@definitions/messages";
 
 interface State {
     messages?: Message[];

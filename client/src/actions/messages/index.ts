@@ -4,19 +4,18 @@ import {
 } from "redux";
 import {
     Message,
-} from "../../../../definitions/messages";
+} from "@definitions/messages";
 import {
     ENTITY_AB_SECTOR,
     ENTITY_SECTOR,
     ENTITY_SIGNAL,
-    ENTITY_TURNOUT,
-} from "../../../../definitions/consts";
-import {RequestedTurnoutPosition} from "../../../../definitions/Points";
+} from "@definitions/consts";
+import {RequestedTurnoutPosition} from "@definitions/Points";
 import {
     ActionMessageSend,
     onSendMessage,
 } from "../webSocets";
-import {TurnoutMessages} from '../../../../definitions/messages/turnout';
+import {TurnoutMessages} from '@definitions/messages/turnout';
 
 export function send<T>
 (dispatch: Dispatch<Action<string>>, id: number, entity: string, action: string, data: T): ActionMessageSend<Message<T>> {
@@ -49,7 +48,7 @@ export const changeTurnout =
     (dispatch: Dispatch<Action<string>>, id: number, state: RequestedTurnoutPosition): ActionMessageSend<TurnoutMessages.ChangePositionMessage> => {
         return dispatch(onSendMessage({
             action: TurnoutMessages.MESSAGE_ACTION_SET_POSITION,
-            entity: ENTITY_TURNOUT,
+            entity: 'turnout',
             date: new Date(),
             id,
             data: {id, state},

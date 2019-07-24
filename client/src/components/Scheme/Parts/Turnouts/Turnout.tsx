@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {Store} from '../../../../reducers';
-import {TurnoutDefinition} from '../../../definitions/Points';
 import {getTurnoutState} from '../../../../middleware/objectState';
-import {TurnoutMessages} from '../../../definitions/messages';
+import {TurnoutDefinition} from "@definitions/Points";
+import {TurnoutMessages} from "@definitions/messages/turnout";
 
 interface Props {
     definition: TurnoutDefinition;

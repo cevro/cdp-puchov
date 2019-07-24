@@ -10,7 +10,7 @@ import {
     TurnoutPosition,
     turnouts,
     RequestedTurnoutPosition,
-} from '../definitions/Points';
+} from '@definitions/Points';
 import {changeTurnout} from '../../actions/messages';
 
 interface State {

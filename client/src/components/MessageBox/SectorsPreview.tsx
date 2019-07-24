@@ -6,8 +6,8 @@ import {
     Dispatch,
 } from 'redux';
 import { SectorsState } from '../../reducers/objectState';
-import { SectorDefinition } from '../definitions/Sectors';
 import { changeSector } from '../../actions/messages';
+import {SectorDefinition} from "@definitions/Sectors";
 
 interface Props {
     sectors: SectorDefinition[];

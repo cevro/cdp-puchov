@@ -1,4 +1,4 @@
-import {Message} from '../components/definitions/messages';
+import {Message} from '@definitions/messages';
 import {Action} from 'redux';
 
 export const ACTION_MESSAGE_RETRIEVE = 'ACTION_MESSAGE_RETRIEVE';

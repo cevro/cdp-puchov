@@ -5,8 +5,8 @@ import {
     Dispatch,
 } from 'redux';
 import { Store } from '../reducers';
-import { signals } from './definitions/Signals';
-import { sectors } from './definitions/Sectors';
+import { signals } from '@definitions/Signals';
+import { sectors } from '@definitions/Sectors';
 import { findRoute } from '../actions/routeBuilder';
 
 interface State {
