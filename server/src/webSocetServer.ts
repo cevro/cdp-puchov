@@ -14,7 +14,7 @@ import {
 import {MessageReceiver} from './inc/Factories/DateReceiver';
 import {routesFactory} from './inc/Factories/RoutesFactory';
 import {autoBlockSectorFactory} from './inc/Factories/ABSectorsFactory';
-import {banalizedAutoBlockFactory} from './inc/Factories/BiDirABsFactory';
+import {biDirAutoBlockFactory} from './inc/Factories/BiDirABsFactory';
 
 const http = require('http');
 
@@ -37,7 +37,7 @@ const initClient = (connection: connection) => {
             points: turnoutsFactory.dump(),
             routeBuilder: routeBuilder.dumpBuffer(),
             ABSectors: autoBlockSectorFactory.dump(),
-            biDirABs: banalizedAutoBlockFactory.dump(),
+            biDirABs: biDirAutoBlockFactory.dump(),
         },
         id: 0,
     };
@@ -52,7 +52,7 @@ export const logger = new class {
         turnoutsFactory,
         sectorFactory,
         autoBlockSectorFactory,
-        banalizedAutoBlockFactory,
+        biDirAutoBlockFactory,
         signalFactory,
     ];
 

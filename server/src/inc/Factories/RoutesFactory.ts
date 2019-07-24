@@ -15,7 +15,7 @@ class RoutesFactory implements MessageReceiver<Message<any>> {
 
     public findRoute(startSignalId: number, endSectorId: number): TrainRoute[] {
         return this.routes.filter((route) => {
-            return (route.startSignal.id === startSignalId) && (route.endSector.id === endSectorId);
+            return (route.startSignal.getLocoNetId() === startSignalId) && (route.endSector.getLocoNetId() === endSectorId);
         });
     }
 
