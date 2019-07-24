@@ -1,6 +1,7 @@
 */node_modules/*
 */dist/*.js
 server/**/*.js*
+definitions/**/*.js*
 .idea
 client/node_modules/
 server/dist/
