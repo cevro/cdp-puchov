@@ -6,10 +6,17 @@
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
-    "preserveSymlinks": false
+    "preserveSymlinks": false,
+    "baseUrl": "./",
+    "paths": {
+      "@definitions/*": [
+        "./../definitions/*"
+      ]
+    }
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "../definitions/*"
   ]
 }
 
