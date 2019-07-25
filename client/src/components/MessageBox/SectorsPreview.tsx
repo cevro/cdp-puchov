@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { Store } from '@app/reducers';
+import {connect} from 'react-redux';
+import {Store} from '@app/reducers';
 import {
     Action,
     Dispatch,
 } from 'redux';
-import { SectorsState } from '@app/reducers/objectState';
-import { changeSector } from '@app/actions/messages';
-import {SectorDefinition} from "@definitions/sectors";
+import {SectorsState} from '@app/reducers/objectState';
+import {changeSector} from '@app/actions/messages';
+import {SectorDefinition} from '@definitions/sectors';
 
 interface Props {
     sectors: SectorDefinition[];
@@ -36,19 +36,17 @@ class SectorsPreview extends React.Component<State & Props, {}> {
                     const state = sectorsState[sectorDef.id] ? sectorsState[sectorDef.id].state : undefined;
                     const locked = sectorsState[sectorDef.id] ? sectorsState[sectorDef.id].locked : null;
 
-                    return <div className="list-group-item" key={index}>
+                    return <div className={'list-group-item ' + this.getClassNameByState(state)} key={index}>
                         <div className="row">
                             <span className="col-2">{sectorDef.id}</span>
                             <span className="col-2">{sectorDef.name}</span>
-                            <span className="col-1">
-                            <span className={this.getClassNameByState(state)}>
-                               {state === undefined ? 'NA' : state}
-                            </span>
+                            <span className="col-2">
+                                {this.getStateLabel(state)}
                             </span>
                             <div className="col-3">
                                 {this.getButton(sectorDef.id, state)}
                             </div>
-                            <div className="col-4">
+                            <div className="col-3">
                                 {locked}
                             </div>
                         </div>
@@ -58,16 +56,33 @@ class SectorsPreview extends React.Component<State & Props, {}> {
         )
     }
 
+    private getStateLabel(state: number): JSX.Element {
+        if (state === undefined) {
+            return <span className="badge badge-undefined">NA</span>;
+        }
+        switch (state) {
+            case SECTOR_STATE_OCCUPIED:
+                return <span className="badge badge-danger">OCCUPIED</span>;
+            case SECTOR_STATE_FREE:
+                return <span className="badge badge-success">FREE</span>;
+            case SECTOR_STATE_UNDEFINED:
+                return <span className="badge badge-undefined">NA</span>;
+            default:
+                return <span className="badge badge-secondary">WTF</span>;
+        }
+
+    }
+
     private getButton(id: number, state: number): JSX.Element[] {
         const buttons = [];
-        if (state === SECTOR_STATE_UNDEFINED || state === SECTOR_STATE_OCCUPIED) {
+        if (state !== SECTOR_STATE_FREE) {
             buttons.push(<button key={0} className="btn btn-success btn-sm"
                                  onClick={() => {
                                      this.props.onChangeSector(id, SECTOR_STATE_FREE)
                                  }}
             >Set free</button>);
         }
-        if (state === SECTOR_STATE_UNDEFINED || state === SECTOR_STATE_FREE) {
+        if (state !== SECTOR_STATE_OCCUPIED) {
             buttons.push(<button key={1} className="btn btn-danger btn-sm"
                                  onClick={() => {
                                      this.props.onChangeSector(id, SECTOR_STATE_OCCUPIED)
@@ -80,16 +95,17 @@ class SectorsPreview extends React.Component<State & Props, {}> {
 
     private getClassNameByState(state: number) {
         if (state === undefined) {
-            return 'badge badge-undefined';
+            return 'list-item-undefined';
         }
         switch (state) {
             case SECTOR_STATE_OCCUPIED:
-                return 'badge badge-danger';
+                return 'list-item-danger';
             case SECTOR_STATE_FREE:
-                return 'badge badge-secondary';
-
+                return 'list-item-success';
+            case SECTOR_STATE_UNDEFINED:
+                return 'list-item-undefined';
             default:
-                return 'badge badge-dark';
+                return 'list-item-secondary';
         }
     }
 }

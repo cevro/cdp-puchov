@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": false,
-    "module": "CommonJS",
-    "target": "ES6",
-    "rootDir": "./src/",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es6",
     "lib": [
       "dom",
       "es2015.promise",
@@ -13,12 +12,16 @@
     ],
     "baseUrl": "..",
     "paths": {
-      "@definitions/*": ["definitions/*"],
-      "@app/*": ["server/src/*"]
+      "@definitions/*": [
+        "definitions/*"
+      ],
+      "@app/*": [
+        "server/src/*"
+      ]
     }
-
   },
   "include": [
-    "./**/*"
+    "./src/**/*",
+    "../definitions/*"
   ]
 }

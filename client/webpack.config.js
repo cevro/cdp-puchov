@@ -1,4 +1,4 @@
-const { TsConfigPathsPlugin } = require('awesome-typescript-loader');
+const {TsConfigPathsPlugin} = require('awesome-typescript-loader');
 
 module.exports = {
     devtool: "source-map",
@@ -35,5 +35,5 @@ module.exports = {
                 exclude: /node_modules/,
             }
         ]
-    }
+    },
 };

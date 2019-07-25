@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-var messages_1 = require("../messages");
+Object.defineProperty(exports, "__esModule", { value: true });
+const messages_1 = require("../messages");
 var TurnoutMessages;
 (function (TurnoutMessages) {
     /* *********** client->server ************************/
@@ -8,3 +8,4 @@ var TurnoutMessages;
     /* *********** server->client ************************/
     TurnoutMessages.MESSAGE_ACTION_STATE_UPDATE = messages_1.MESSAGE_ACTION_STATE_UPDATE_GLOBAL;
 })(TurnoutMessages = exports.TurnoutMessages || (exports.TurnoutMessages = {}));
+//# sourceMappingURL=turnout.js.map

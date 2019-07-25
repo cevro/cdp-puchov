@@ -235,7 +235,27 @@ svg {
   }
 }
 
-.list-group-item.list-item-undefined {
-  background-color: $disconnect-color;
+.list-group-item {
+  &.list-item-undefined {
+    background-color: rgba($disconnect-color, 0.2);
+  }
+
+  &.list-item-secondary {
+    background-color: rgba(#ccc, 0.2);
+  }
+
+  &.list-item-danger {
+    background-color: rgba(red, 0.2);
+  }
+
+  &.list-item-warning {
+    background-color: rgba(orange, 0.2);
+  }
+
+  &.list-item-success {
+    background-color: rgba(green, 0.2);
+  }
+
 }
+
 

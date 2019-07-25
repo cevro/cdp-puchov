@@ -15,8 +15,7 @@ import {MessageReceiver} from './inc/Factories/DateReceiver';
 import {routesFactory} from './inc/Factories/RoutesFactory';
 import {autoBlockSectorFactory} from './inc/Factories/ABSectorsFactory';
 import {biDirAutoBlockFactory} from './inc/Factories/BiDirABsFactory';
-
-const http = require('http');
+import * as http from 'http';
 
 const httpServer = http.createServer((request, response) => {
     // console.log((new Date()) + ' Received request for ' + request.url);
