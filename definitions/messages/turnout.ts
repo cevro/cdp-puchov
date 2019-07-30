@@ -2,7 +2,10 @@ import {
     RequestedTurnoutPosition,
     TurnoutPosition,
 } from '../points';
-import {LocoNetObject} from '../interfaces';
+import {
+    LocoNetDefinition,
+    TurnoutState,
+} from '../interfaces';
 import {
     Message,
     MESSAGE_ACTION_STATE_UPDATE_GLOBAL,
@@ -28,11 +31,7 @@ export namespace TurnoutMessages {
     /* *********** server->client ************************/
     export const MESSAGE_ACTION_STATE_UPDATE = MESSAGE_ACTION_STATE_UPDATE_GLOBAL;
 
-    export interface StateUpdateData extends LocoNetObject {
-        position: TurnoutPosition;
-        requestedPosition: RequestedTurnoutPosition;
-        locked: number[];
-    }
+    export type StateUpdateData = TurnoutState;
 
     export type StateUpdateMessage = TurnoutMessage<StateUpdateData, 'state-update'>;
 

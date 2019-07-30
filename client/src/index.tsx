@@ -1,42 +1,29 @@
 import * as React from 'react';
+import {Provider} from 'react-redux';
+import {logger} from 'redux-logger';
+import {
+    applyMiddleware,
+    createStore,
+} from 'redux';
+import {app} from './reducers/';
+import Router from './router';
 import * as ReactDOM from 'react-dom';
-import App from './App';
+import Downloader from '@app/components/helpers/Downloader';
+import Menu from '@app/menu';
 
-interface State {
-    route: string;
-}
-
-class Main extends React.Component<{}, State> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            route: window.location.hash.substr(1),
-        }
-    }
-
-    public componentDidMount() {
-        window.addEventListener('hashchange', () => {
-            this.setState({
-                route: window.location.hash.substr(1),
-            })
-        })
-    }
+class Main extends React.Component<{}, {}> {
 
     public render() {
-        let accessKey;
-        switch (this.state.route) {
-            case '/ab-pu-lpm':
-                accessKey = 'ab-PuLpM';
-                break;
-            default:
-            case '/pu':
-                accessKey = 'ZSTPu';
-                break;
-        }
-
+        const store = createStore(app, applyMiddleware(logger));
         return (
-            <App accessKey={accessKey}/>
-        )
+            <Provider store={store}>
+                <>
+                    <Menu/>
+                    <Router/>
+                    <Downloader/>
+                </>
+            </Provider>
+        );
     }
 }
 

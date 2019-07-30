@@ -12,7 +12,6 @@ import {
 } from '@app/actions/messages/ABSector';
 import {connect} from 'react-redux';
 import {ABSectorsState} from '@app/reducers/objectState';
-import {stat} from 'fs';
 
 interface Props {
     definition: AutoBlockSectorFrontEndDefinition;
@@ -40,34 +39,30 @@ class Row extends React.Component<Props & State, InnerState> {
 
     public render() {
         const {objectState, definition} = this.props;
-        const active = objectState ? objectState.active : undefined;
-        const error = objectState ? objectState.errorCode : undefined;
-        const state = objectState ? objectState.state : undefined;
-        const ABCondition = state ? objectState.fullBlockConditionActive : undefined;
 
-        if (this.props.displayOnlyInterest) {
-            if (active === 0) {
-                return null;
-            }
-            if (ABCondition === 1 && error === 0) {
-                return null;
-            }
-        }
+        /*   if (this.props.displayOnlyInterest) {
+               if (active === 0) {
+                   return null;
+               }
+               if (ABCondition === 1 && error === 0) {
+                   return null;
+               }
+           }*/
         return <div
-            className={'list-group-item ' + this.getListClassName(objectState, active, error, ABCondition)}>
+            className={'list-group-item ' + this.getListClassName(objectState)}>
             <div className="row">
                 <span className="col-2">{definition.locoNetId}</span>
                 <span className="col-2">
-                    {this.getActiveLabel(active)}
+                    {this.getActiveLabel(objectState)}
                 </span>
                 <span className="col-2">
-                    {this.getErrorLabel(error)}
+                    {this.getErrorLabel(objectState)}
                 </span>
                 <span className="col-2">
-                    {this.getStateLabel(state)}
+                    {this.getStateLabel(objectState)}
                 </span>
                 <span className="col-2">
-                    {this.getBlockConditionLabel(ABCondition)}
+                    {this.getBlockConditionLabel(objectState)}
                             </span>
                 <span className="col-1">
                     <button className="btn btn-link" onClick={(e) => {
@@ -76,49 +71,57 @@ class Row extends React.Component<Props & State, InnerState> {
                     }}><span className={this.state.display ? 'fa fa-chevron-up' : 'fa fa-chevron-down'}/></button>
                 </span>
             </div>
-            <div className={'row border-top ' + (this.state.display ? '' : 'd-none')}>
-                {error > 0 ?
-                    <button className="btn btn-sm btn-primary"
-                            onClick={() => this.props.onRemoveABError()}>remove ERR
-                    </button> : null}
-                {ABCondition ?
-                    <button
-                        className="btn btn-sm btn-danger"
-                        onClick={() => this.props.onChangeABCondition(0)}>Turn OFF
-                        AB condition
-                    </button> :
-                    <button
-                        className="btn btn-sm btn-success"
-                        onClick={() => this.props.onChangeABCondition(1)}>Turn ON
-                        AB condition
-                    </button>
-                }
-            </div>
+            {objectState && (
+                <div className={'row border-top ' + (this.state.display ? '' : 'd-none')}>
+                    {objectState.errorCode > 0 ?
+                        <button className="btn btn-sm btn-primary"
+                                onClick={() => this.props.onRemoveABError()}>remove ERR
+                        </button> : null}
+                    {objectState.fullBlockConditionActive ?
+                        <button
+                            className="btn btn-sm btn-danger"
+                            onClick={() => this.props.onChangeABCondition(0)}>Turn OFF
+                            AB condition
+                        </button> :
+                        <button
+                            className="btn btn-sm btn-success"
+                            onClick={() => this.props.onChangeABCondition(1)}>Turn ON
+                            AB condition
+                        </button>
+                    }
+                </div>)}
         </div>
     }
 
-    private getListClassName(objectState: ABSectorState, active: number, error: number, blockCondition: number, state: number) {
-        if (objectState === undefined || error === -1 || active === -1 || blockCondition === -1 || state === -1) {
+    private getListClassName(objectState: ABSectorState) {
+        if (!objectState) {
             return 'list-item-undefined';
         }
-        if (!active) {
+        if (objectState.errorCode === -1 ||
+            objectState.active === -1 ||
+            objectState.fullBlockConditionActive === -1 ||
+            objectState.state === -1) {
+            return 'list-item-undefined';
+        }
+        if (!objectState.active) {
             return 'list-item-secondary';
         }
-        if (error > 0) {
+        if (objectState.errorCode > 0) {
             return 'list-item-danger';
         }
-        if (blockCondition === 0) {
+        if (objectState.fullBlockConditionActive === 0) {
             return 'list-item-warning';
         }
         return '';
 
     }
 
-    private getStateLabel(state: number) {
-        if (state === undefined || state === -1) {
+    private getStateLabel(objectState: ABSectorState) {
+
+        if (!objectState) {
             return <span className="badge badge-undefined">undefined</span>;
         }
-        switch (state) {
+        switch (objectState.state) {
             case 1:
                 return <span className="badge badge-danger">used</span>;
             case 2:
@@ -128,11 +131,13 @@ class Row extends React.Component<Props & State, InnerState> {
         }
     }
 
-    private getActiveLabel(active: number): JSX.Element {
-        if (active === undefined || active === -1) {
+    private getActiveLabel(objectState: ABSectorState): JSX.Element {
+        if (!objectState) {
             return <span className="badge badge-undefined">undefined</span>;
         }
-        switch (active) {
+        switch (objectState.active) {
+            case -1:
+                return <span className="badge badge-undefined">undefined</span>;
             case 0:
                 return <span className="badge badge-secondary">inactive</span>;
             default:
@@ -140,26 +145,27 @@ class Row extends React.Component<Props & State, InnerState> {
         }
     }
 
-    private getErrorLabel(error: number): JSX.Element {
-        if (error === undefined || error === -1) {
+    private getErrorLabel(objectState: ABSectorState): JSX.Element {
+        if (!objectState) {
             return <span className="badge badge-undefined">undefined</span>;
         }
-        switch (error) {
+        switch (objectState.errorCode) {
+            case -1:
+                return <span className="badge badge-undefined">undefined</span>;
             case 0:
                 return null;
-            case 1:
-                return <span className="badge badge-danger">BC error</span>;
             default:
-                return <span className="badge badge-danger">error</span>;
+                return <span className="badge badge-danger">{objectState.errorMessage}</span>;
         }
     }
 
-    private getBlockConditionLabel(blockCondition: number): JSX.Element {
-
-        if (blockCondition === undefined || blockCondition === -1) {
+    private getBlockConditionLabel(objectState: ABSectorState): JSX.Element {
+        if (!objectState) {
             return <span className="badge badge-undefined">undefined</span>;
         }
-        switch (blockCondition) {
+        switch (objectState.fullBlockConditionActive) {
+            case -1:
+                return <span className="badge badge-undefined">undefined</span>
             case 0:
                 return <span className="badge badge-warning">bc: OFF</span>;
             default:

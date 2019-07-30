@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {signalSelect} from '@app/actions/routeBuilder';
 import {onSignalContextMenu} from '@app/actions/signalContextMenu';
-import {SignalTypes} from '@definitions/signals';
+import {signalTypes} from '@definitions/signals/signalTypes';
 import {Store} from '@app/reducers';
 import {getSignalState} from '@app/middleware/objectState';
 import {
@@ -10,10 +10,10 @@ import {
     Dispatch,
 } from 'redux';
 import {SignalState} from '@definitions/interfaces';
-import {SignalFrontEndDefinition} from '@app/definition/all';
+import {SignalSchemeDefinition} from '@definitions/signals/interfaces';
 
 interface Props {
-    definition: SignalFrontEndDefinition;
+    definition: SignalSchemeDefinition;
 }
 
 interface State {
@@ -63,12 +63,12 @@ class Signal extends React.Component<Props & State, {}> {
 
     private getIconByType(type: number, rotate: number): JSX.Element {
         switch (type) {
-            case SignalTypes.TYPE_SHUNT:
+            case signalTypes.TYPE_SHUNT:
                 return <polyline
                     points="0,7 7,0 0,-7"
                     transform={'rotate(' + rotate + ')'}
                 />;
-            case SignalTypes.TYPE_AB:
+            case signalTypes.TYPE_AB:
                 return <>
                     <polyline
                         points="0,7 7,0 0,-7"

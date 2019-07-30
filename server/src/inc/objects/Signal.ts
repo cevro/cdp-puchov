@@ -1,10 +1,10 @@
-import {SignalBackEndDefinition} from '@definitions/signals';
 import {SignalState} from '@definitions/interfaces';
 import {LocoNetMessage} from '../Factories/DateReceiver';
 import {locoNetConnector} from '../SerialConnector/SerialConnector';
 import {ENTITY_SIGNAL} from '@definitions/consts';
 import {Message} from '@definitions/messages';
 import LocoNetObject from './LocoNetObject';
+import {LocoNetDefinition} from '@definitions/interfaces';
 
 export default class Signal extends LocoNetObject<Message<any>, SignalState> {
 
@@ -43,7 +43,7 @@ export default class Signal extends LocoNetObject<Message<any>, SignalState> {
         return this._displayState;
     }
 
-    constructor(definition: SignalBackEndDefinition) {
+    constructor(definition: LocoNetDefinition) {
         super(definition.locoNetId);
         this._displayState = -1;
         this._requestedState = -1;

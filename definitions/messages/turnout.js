@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const messages_1 = require("../messages");
+var messages_1 = require("../messages");
 var TurnoutMessages;
 (function (TurnoutMessages) {
     /* *********** client->server ************************/

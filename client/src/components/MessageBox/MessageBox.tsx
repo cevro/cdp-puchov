@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import Downloader from '../helpers/Downloader';
 import {Store} from '@app/reducers';
 import {Message} from "@definitions/messages";
 
@@ -29,7 +28,7 @@ class MessageBox extends React.Component<State, {}> {
             </div>);
         });
         return (<div className="list-group list-scroll">
-            <Downloader/>
+
 
             {msgs}
         </div>)

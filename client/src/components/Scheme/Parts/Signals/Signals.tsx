@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Signal from './Signal';
-import { SignalFrontEndDefinition } from '@app/definition/all';
+import {SignalSchemeDefinition} from '@definitions/signals/interfaces';
 
 interface Props {
-    signals: SignalFrontEndDefinition[];
+    signals: SignalSchemeDefinition[];
 }
 
 export default class Signals extends React.Component<Props, {}> {

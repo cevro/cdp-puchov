@@ -1,6 +1,10 @@
 import {TurnoutMessages} from './messages/turnout';
+import {
+    RequestedTurnoutPosition,
+    TurnoutPosition,
+} from './points';
 
-export interface LocoNetObject {
+export interface LocoNetDefinition {
     locoNetId: number;
 }
 
@@ -18,17 +22,23 @@ export interface TrainRouteBufferItem {
     buildOptions: BuildOptions;
 }
 
-export interface SectorState extends LocoNetObject {
+export interface SectorState extends LocoNetDefinition {
     state: number;
     locked: number;
 }
 
-export interface SignalState extends LocoNetObject {
+export interface SignalState extends LocoNetDefinition {
     displayState: number;
     requestedState: number;
 }
 
-export interface ABSectorState extends LocoNetObject {
+export interface TurnoutState extends LocoNetDefinition {
+    position: TurnoutPosition;
+    requestedPosition: RequestedTurnoutPosition;
+    locked: number[];
+}
+
+export interface ABSectorState extends LocoNetDefinition {
     state: number;
     errorCode: number,
     errorMessage: string,
@@ -39,7 +49,7 @@ export interface ABSectorState extends LocoNetObject {
 export type ABRequestedDir = -1 | 0 | 1
 export type ABDir = ABRequestedDir | 0;
 
-export interface BiDirABState extends LocoNetObject {
+export interface BiDirABState extends LocoNetDefinition {
     dir: ABDir;
 }
 

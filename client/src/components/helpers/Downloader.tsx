@@ -6,7 +6,7 @@ import {
     successSend,
 } from '@app/actions/webSocets';
 import {Store} from '@app/reducers';
-import {Message} from "@definitions/messages";
+import {Message} from '@definitions/messages';
 
 interface State {
     messagesToSend?: {
@@ -42,7 +42,7 @@ class Downloader extends React.Component<State, {}> {
     }
 
     public render() {
-        return <div className="list-group-item">
+        return <div className="fixed-bottom">
             {this.ws && this.getStateLabel(this.ws.readyState)}
         </div>;
     }
@@ -63,7 +63,9 @@ class Downloader extends React.Component<State, {}> {
     }
 
     private connect() {
-        const url = 'ws://' + window.location.hostname + ':8081/';
+        // const wsServer = window.location.hostname;
+        const wsServer = '192.168.1.144';
+        const url = 'ws://' + wsServer + ':8081/';
         this.ws = new WebSocket(url, 'echo-protocol');
         this.ws.onmessage = ({data}) => {
             const parsedData: Message = JSON.parse(data);

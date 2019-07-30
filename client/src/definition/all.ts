@@ -1,27 +1,11 @@
-import {
-    SignalBackEndDefinition,
-    signalLight,
-} from '@definitions/signals';
+import {SignalSchemeDefinition} from '@definitions/signals/interfaces';
 import {TurnoutDefinition} from '@definitions/points';
 import {
     autoBlockPuLpM,
     AutoBlockSectorFrontEndDefinition,
 } from './autoBlock/Pu-LpM';
 import {SectorDefinition} from '@definitions/sectors';
-
-export type signalLight = 'HZ' | 'Z' | 'C' | 'B' | 'X' | 'DZ' | 'M';
-
-export interface SignalFrontEndDefinition extends SignalBackEndDefinition {
-    name: string;
-    type: number;
-    construction?: 'T' | 'K';
-    SVGData: {
-        rotate: number;
-        x: number;
-        y: number;
-    };
-    lights: signalLight [];
-}
+import {signals} from '@definitions/signals';
 
 export interface SchemeItem {
     cards: {
@@ -34,7 +18,7 @@ export interface SchemeItem {
     };
     objects: {
         sectors: SectorDefinition[]
-        signals: SignalFrontEndDefinition[];
+        signals: SignalSchemeDefinition[];
         points: TurnoutDefinition[];
         ABSectors: AutoBlockSectorFrontEndDefinition[];
         biDirAB: BiDirABDefinition[];
@@ -68,7 +52,7 @@ export const frontEndScheme: frontEndScheme = {
         },
         objects: {
             sectors: [],
-            signals: [],
+            signals: signals,
             points: [],
             ABSectors: [],
             biDirAB: [],
@@ -76,3 +60,4 @@ export const frontEndScheme: frontEndScheme = {
         viewBox: '-300 -90 2650 400',
     },
 };
+

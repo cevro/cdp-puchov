@@ -1,8 +1,6 @@
-export interface AutoBlockSectorDefinition {
-    locoNetId: number;
-}
+import {AutoBlockSectorDefinition} from './interfaces';
 
-export const autoBlockSectors: AutoBlockSectorDefinition[] = [
+export const ABSectors: AutoBlockSectorDefinition[] = [
     {locoNetId: 700},
     {locoNetId: 701},
     {locoNetId: 702},

@@ -11,7 +11,6 @@ import {
     MESSAGE_ACTION_STATE_UPDATE,
     SectorState,
     SignalState,
-    TrainRouteDump,
 } from '@definitions/interfaces';
 
 import {
@@ -91,7 +90,7 @@ const messageRetrieve = (store: ObjectState, action: ActionMessageRetrieve<Messa
         switch (action.message.entity) {
             case '*':
                 return dumpRetrieve(store, action);
-            //case 'route-builder':
+            // case 'route-builder':
             //    return trainRouteBufferDump(store, action);
             default:
                 return store;

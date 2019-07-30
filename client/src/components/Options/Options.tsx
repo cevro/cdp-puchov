@@ -10,7 +10,7 @@ import {
     toggleSignalText,
 } from '@app/actions/displayOptions';
 import {displayOptionsState} from '@app/reducers/displayOptions';
-import {SignalTypes} from "@definitions/signals";
+import {signalTypes} from '@definitions/signals/signalTypes';
 
 interface State {
     displayState?: displayOptionsState;
@@ -27,7 +27,7 @@ class Options extends React.Component<State, {}> {
         return (<div className="card-body row">
             <div className="col-6">
                 <h6>Toggle label on signals</h6>
-                {SignalTypes.getAllTypes().map((type: number) => {
+                {signalTypes.getAllTypes().map((type: number) => {
                     return <div className="row" key={type}>
                         <button className="btn btn-link" onClick={() => {
                             this.props.onToggleSignal(type);
@@ -35,7 +35,7 @@ class Options extends React.Component<State, {}> {
                     <span
                         className={displayState.signals[type] ? 'text-success fa fa-check-square-o' : 'text-danger fa fa-square-o'}/>
                             <span
-                                className={'ml-3 badge signal-badge-' + type}>{SignalTypes.getLabel(type)}</span>
+                                className={'ml-3 badge signal-badge-' + type}>{signalTypes.getLabel(type)}</span>
                         </button>
                     </div>
                 })

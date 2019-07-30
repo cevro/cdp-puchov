@@ -1,8 +1,8 @@
-import { signalLight } from '@definitions/signals';
+import { SignalLight } from '@definitions/signals/interfaces';
 
 export class SignalLightDisplay {
 
-    public static getColorById(type: signalLight): string {
+    public static getColorById(type: SignalLight): string {
         switch (type) {
             case 'HZ':
             case 'DZ':
@@ -20,7 +20,7 @@ export class SignalLightDisplay {
         }
     }
 
-    public static getColorCallBack(type: signalLight, state: number): string {
+    public static getColorCallBack(type: SignalLight, state: number): string {
         const className = 'signal-light ';
         if (state === undefined || state === -1) {
             return className + 'undefined';
@@ -113,3 +113,42 @@ export class SignalLightDisplay {
         }
     }
 }
+
+export const signalStateMapping = (state: number): string => {
+    switch (state) {
+        case 0:
+            return 'stoj';
+        case 1:
+            return 'volno';
+        case 2:
+            return 'výstraha';
+        case 3:
+            return 'očakávaj 40 km/h';
+        case 4:
+            return 'rýchlosť 40km/h a voľno';
+        case 5:
+            return 'test';
+        case 6:
+            return 'rýchlost 40 km/h a výstraha';
+        case 7:
+            return 'rýchlost 40 km/h a očakávaj 40 km/h';
+        case 8:
+            return 'privolávacia návest';
+        case 9:
+            return 'posun dovolený';
+        case 10:
+            return 'nezabepečený posun dovolený';
+        case 11:
+            return 'opakované voľno';
+        case 12:
+            return 'opakovaná výstraha';
+        case 13:
+            return 'vypnuté';
+        case 14:
+            return 'opakovanie očakavaj rýchlost 40 km/h';
+        case 15:
+            return 'rýchlost 40 km/h a opakovanie výstrahy';
+        default:
+            return 'undefined';
+    }
+};

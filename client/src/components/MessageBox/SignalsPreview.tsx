@@ -6,8 +6,8 @@ import {
     Dispatch,
 } from 'redux';
 import {SignalsState} from '@app/reducers/objectState';
-import {SignalFrontEndDefinition} from '@app/definition/all';
 import {changeSignal} from '@app/actions/messages';
+import {SignalDefinition} from '@definitions/signals/interfaces';
 
 interface State {
     signalsState?: SignalsState;
@@ -16,7 +16,7 @@ interface State {
 }
 
 interface Props {
-    signals: SignalFrontEndDefinition[];
+    signals: SignalDefinition[];
 
 }
 

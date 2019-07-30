@@ -9,10 +9,10 @@ import {
     Dispatch,
 } from 'redux';
 import {closeContextMenu} from '@app/actions/signalContextMenu';
-import {SignalFrontEndDefinition} from '@app/definition/all';
+import {SignalSchemeDefinition} from '@definitions/signals/interfaces';
 
 interface Props {
-    signals: SignalFrontEndDefinition[];
+    signals: SignalSchemeDefinition[];
 }
 
 interface State {

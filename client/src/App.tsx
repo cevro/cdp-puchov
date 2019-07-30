@@ -1,11 +1,4 @@
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { logger } from 'redux-logger';
-import {
-    applyMiddleware,
-    createStore,
-} from 'redux';
-import { app } from './reducers/';
 import MessageBox from './components/MessageBox/MessageBox';
 import Options from './components/Options/Options';
 import RouteBuilderMessageBox from './components/MessageBox/RouteBuilderMessageBox';
@@ -15,7 +8,7 @@ import Card from './components/helpers/Card';
 import Routes from './components/MessageBox/Routes';
 import SignalsPreview from './components/MessageBox/SignalsPreview';
 import ContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
-import { frontEndScheme } from './definition/all';
+import {frontEndScheme} from './definition/all';
 import Scheme from './components/Scheme/Index';
 import ABSectorsPreview from './components/MessageBox/ABSector/Index';
 
@@ -26,10 +19,9 @@ interface Props {
 export default class App extends React.Component<Props, {}> {
 
     public render() {
-        const store = createStore(app, applyMiddleware(logger));
         const scheme = frontEndScheme[this.props.accessKey];
         return (
-            <Provider store={store}>
+            <>
                 <div className="container-fluid">
                     <div className="row col-12 top-panel">
 
@@ -96,7 +88,7 @@ export default class App extends React.Component<Props, {}> {
                 </div>
 
                 <ContextMenu signals={scheme.objects.signals}/>
-            </Provider>
+            </>
         );
     }
 }

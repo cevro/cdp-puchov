@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { SignalTypes } from '@definitions/signals';
-import { SignalLightDisplay } from '@app/middleware/signal';
-import { SignalFrontEndDefinition } from '@app/definition/all';
+import {signalTypes} from '@definitions/signals/signalTypes';
+import {SignalDefinition} from '@definitions/signals/interfaces';
+import {SignalLightDisplay} from '@app/middleware/signal';
 
 interface Props {
-    signal: SignalFrontEndDefinition,
+    signal: SignalDefinition,
     state: number;
 }
 
@@ -24,9 +24,25 @@ export default class Icon extends React.Component<Props, {}> {
                     {this.getLights()}
                     {this.getLabel()}
                     {this.getStage()}
+                    {this.getSpec()}
                 </g>
             </g>
         </svg>)
+    }
+
+    private getSpec(): JSX.Element {
+        const {signal: {spec}} = this.props;
+        if (!spec) {
+            return null;
+        }
+        if (spec === 'last-AB') {
+            return <g transform={'translate(0,' + (this.getShieldHeight() + 35) + ')'}>
+                <rect x="-15" y="-15" height="30" width="30" fill="white" stroke="black" strokeWidth="1"/>
+                <circle cx={0} cy={0} r={10} strokeWidth={3} fill="white" stroke="black"/>
+                <circle cx={0} cy={0} r={2} strokeWidth={3} fill="black" stroke="black"/>
+            </g>
+        }
+        return null;
     }
 
     private getStage(): JSX.Element {
@@ -196,13 +212,13 @@ export default class Icon extends React.Component<Props, {}> {
         const {signal: {type}} = this.props;
         const width = 10;
         switch (type) {
-            case SignalTypes.TYPE_ENTRY:
+            case signalTypes.TYPE_ENTRY:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={25} width={width} height={25} fill={'red'}/>
                 </g>;
-            case SignalTypes.TYPE_PATH:
-            case SignalTypes.TYPE_EXIT:
+            case signalTypes.TYPE_PATH:
+            case signalTypes.TYPE_EXIT:
                 return <g/>;
             /*  <rect x={0} y={0} width={width} height={26} fill={'red'}/>
               <rect x={0} y={26} width={width} height={11} fill={'white'}/>
@@ -210,12 +226,12 @@ export default class Icon extends React.Component<Props, {}> {
               <rect x={0} y={63} width={width} height={11} fill={'white'}/>
               <rect x={0} y={74} width={width} height={26} fill={'red'}/>
           </g>;*/
-            case SignalTypes.TYPE_SHUNT:
+            case signalTypes.TYPE_SHUNT:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={25} width={width} height={25} fill={'blue'}/>
                 </g>;
-            case SignalTypes.TYPE_AB:
+            case signalTypes.TYPE_AB:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={50} fill={'white'}/>
                 </g>;
@@ -225,15 +241,15 @@ export default class Icon extends React.Component<Props, {}> {
     private getStageLabel(type: number): JSX.Element {
         const width = 10;
         switch (type) {
-            case SignalTypes.TYPE_ENTRY:
+            case signalTypes.TYPE_ENTRY:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={25} width={width} height={25} fill={'red'}/>
                     <rect x={-width / 2} y={50} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={75} width={width} height={25} fill={'red'}/>
                 </g>;
-            case SignalTypes.TYPE_PATH:
-            case SignalTypes.TYPE_EXIT:
+            case signalTypes.TYPE_PATH:
+            case signalTypes.TYPE_EXIT:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={26} fill={'red'}/>
                     <rect x={-width / 2} y={26} width={width} height={11} fill={'white'}/>
@@ -241,14 +257,14 @@ export default class Icon extends React.Component<Props, {}> {
                     <rect x={-width / 2} y={63} width={width} height={11} fill={'white'}/>
                     <rect x={-width / 2} y={74} width={width} height={26} fill={'red'}/>
                 </g>;
-            case SignalTypes.TYPE_SHUNT:
+            case signalTypes.TYPE_SHUNT:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={25} width={width} height={25} fill={'blue'}/>
                     <rect x={-width / 2} y={50} width={width} height={25} fill={'white'}/>
                     <rect x={-width / 2} y={75} width={width} height={25} fill={'blue'}/>
                 </g>;
-            case SignalTypes.TYPE_AB:
+            case signalTypes.TYPE_AB:
                 return <g>
                     <rect x={-width / 2} y={0} width={width} height={100} fill={'white'}/>
                 </g>;

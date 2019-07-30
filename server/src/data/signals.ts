@@ -1,6 +1,6 @@
-import { SignalBackEndDefinition } from '@definitions/signals';
+import {LocoNetDefinition} from '@definitions/interfaces';
 
-export const signals: SignalBackEndDefinition[] = [
+export const signals: LocoNetDefinition[] = [
     {locoNetId: 500},
     {locoNetId: 501},
     {locoNetId: 502},
