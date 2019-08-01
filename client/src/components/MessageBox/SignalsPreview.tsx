@@ -8,6 +8,7 @@ import {
 import {SignalsState} from '@app/reducers/objectState';
 import {changeSignal} from '@app/actions/messages';
 import {SignalDefinition} from '@definitions/signals/interfaces';
+import SignalChange from '@app/components/fullControl/signals/signalChange';
 
 interface State {
     signalsState?: SignalsState;
@@ -35,13 +36,8 @@ class SignalsPreview extends React.Component<State & Props, {}> {
                             <span className="col-1">{displayState}</span>
                             <span className="col-1">{requestedState}</span>
                             <span className="col-6">
-                                <select className={'form-control'} value={displayState} onChange={(e) => {
-                                    this.props.onChangeSignal(signalDef.locoNetId, +e.target.value);
-                                }}>
-                                    {[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16].map((value) => {
-                                        return <option key={value} value={value}>{value}</option>
-                                    })}
-                                    </select>
+                            <SignalChange signalState={signalsState[signalDef.locoNetId]}
+                                          locoNetId={signalDef.locoNetId}/>
                             </span>
                         </div>
                     </div>

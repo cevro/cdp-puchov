@@ -58,9 +58,9 @@ const entrySignals: SignalBuffer = {
         lights: ['HZ', 'Z', 'C', 'B', 'X', 'DZ'],
     },
 };
-/*
-const exitSignalsL: SignalBuffer = [
-    {
+
+const exitSignalsL: SignalBuffer = {
+    'zst.pu.L1': {
         name: 'L1',
         locoNetId: 3,
         type: signalTypes.TYPE_EXIT,
@@ -68,14 +68,14 @@ const exitSignalsL: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L2': {
         name: 'L2',
         locoNetId: 4,
         type: signalTypes.TYPE_EXIT,
 
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
-    {
+    'zst.pu.L3a': {
         name: 'L3a',
         locoNetId: 5,
         type: signalTypes.TYPE_EXIT,
@@ -83,7 +83,7 @@ const exitSignalsL: SignalBuffer = [
         lights: ['Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L4': {
         name: 'L4',
         locoNetId: 6,
         type: signalTypes.TYPE_EXIT,
@@ -91,7 +91,7 @@ const exitSignalsL: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L6': {
         name: 'L6',
         locoNetId: 7,
         type: signalTypes.TYPE_EXIT,
@@ -99,7 +99,7 @@ const exitSignalsL: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L8': {
         name: 'L8',
         locoNetId: 8,
         type: signalTypes.TYPE_EXIT,
@@ -107,7 +107,7 @@ const exitSignalsL: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L10': {
         name: 'L10',
         locoNetId: 9,
         type: signalTypes.TYPE_EXIT,
@@ -115,7 +115,7 @@ const exitSignalsL: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L12': {
         name: 'L12',
         locoNetId: 10,
         type: signalTypes.TYPE_EXIT,
@@ -123,16 +123,16 @@ const exitSignalsL: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.L14a': {
         name: 'L14a',
         locoNetId: 11,
         type: signalTypes.TYPE_EXIT,
 
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
-];
-const exitSignalsS: SignalBuffer = [
-    {
+};
+const exitSignalsS: SignalBuffer = {
+    'zst.pu.S1': {
         name: 'S1',
         locoNetId: 26,
         type: signalTypes.TYPE_EXIT,
@@ -140,7 +140,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S2': {
         name: 'S2',
         locoNetId: 27,
         type: signalTypes.TYPE_EXIT,
@@ -148,7 +148,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S3': {
         name: 'S3',
         locoNetId: 28,
         type: signalTypes.TYPE_EXIT,
@@ -156,7 +156,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S4': {
         name: 'S4',
         locoNetId: 29,
         type: signalTypes.TYPE_EXIT,
@@ -164,7 +164,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S6': {
         name: 'S6',
         locoNetId: 30,
         type: signalTypes.TYPE_EXIT,
@@ -172,7 +172,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S8': {
         name: 'S8',
         locoNetId: 31,
         type: signalTypes.TYPE_EXIT,
@@ -180,7 +180,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S10': {
         name: 'S10',
         locoNetId: 32,
         type: signalTypes.TYPE_EXIT,
@@ -188,7 +188,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S12': {
         name: 'S12',
         locoNetId: 33,
         type: signalTypes.TYPE_EXIT,
@@ -196,7 +196,7 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S14': {
         name: 'S14',
         locoNetId: 34,
         type: signalTypes.TYPE_EXIT,
@@ -204,23 +204,23 @@ const exitSignalsS: SignalBuffer = [
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
 
-    {
+    'zst.pu.S16': {
         name: 'S16',
         locoNetId: 35,
         type: signalTypes.TYPE_EXIT,
 
         lights: ['HZ', 'Z', 'C', 'B', 'DZ'],
     },
-];
-const pathSignalsL: SignalBuffer = [
-    {
+};
+const pathSignalsL: SignalBuffer = {
+    'zst.pu.Lc3': {
         name: 'Lc3',
         locoNetId: 106,
         type: signalTypes.TYPE_PATH,
 
         lights: ['HZ', 'C', 'B', 'X', 'DZ'],
     },
-    {
+    'zst.pu.Lc14': {
         name: 'Lc14',
         locoNetId: 12,
         type: signalTypes.TYPE_PATH,
@@ -228,16 +228,16 @@ const pathSignalsL: SignalBuffer = [
         lights: ['HZ', 'C', 'B', 'X', 'DZ'],
     },
 
-    {
+    'zst.pu.Lc16': {
         name: 'Lc16',
         locoNetId: 13,
         type: signalTypes.TYPE_PATH,
 
         lights: ['HZ', 'C', 'B', 'X', 'DZ'],
     },
-];
-const pathSignalsS: SignalBuffer = [
-    {
+};
+const pathSignalsS: SignalBuffer = {
+    'zst.pu.Sc3a': {
         name: 'Sc3a',
         locoNetId: 24,
         type: signalTypes.TYPE_PATH,
@@ -245,242 +245,206 @@ const pathSignalsS: SignalBuffer = [
         lights: ['HZ', 'C', 'B', 'X', 'DZ'],
     },
 
-    {
+    'zst.pu.Sc14a': {
         name: 'Sc14a',
         locoNetId: 25,
         type: signalTypes.TYPE_PATH,
 
         lights: ['HZ', 'C', 'B', 'X', 'DZ'],
     },
-];
+};
 
-const shiftSignals: SignalBuffer = [
-    {
+const shiftSignals: SignalBuffer = {
+    'zst.pu.Se1': {
         name: 'Se1',
         locoNetId: 2001,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se2': {
         name: 'Se2',
         locoNetId: 2002,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se3': {
         name: 'Se3',
         locoNetId: 2003,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se4': {
         name: 'Se4',
         locoNetId: 2004,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se5': {
         name: 'Se5',
         locoNetId: 2005,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se6': {
         name: 'Se6',
         locoNetId: 2006,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se7': {
         name: 'Se7',
         locoNetId: 2007,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se8': {
         name: 'Se8',
         locoNetId: 2008,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se9': {
         name: 'Se9',
         locoNetId: 2009,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se11': {
         name: 'Se11',
         locoNetId: 2011,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se19': {
         name: 'Se19',
         locoNetId: 2019,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se20': {
         name: 'Se20',
         locoNetId: 2020,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se102': {
         name: 'Se102',
         locoNetId: 2102,
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se21': {
         name: 'Se21',
         locoNetId: 2021,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se22': {
         name: 'Se22',
         locoNetId: 2022,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se23': {
         name: 'Se23',
         locoNetId: 2023,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se24': {
         name: 'Se24',
         locoNetId: 2024,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se25': {
         name: 'Se25',
         locoNetId: 2025,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se26': {
         name: 'Se26',
         locoNetId: 2026,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se27': {
         name: 'Se27',
         locoNetId: 2027,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se29': {
         name: 'Se29',
         locoNetId: 2029,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se34': {
         name: 'Se34',
         locoNetId: 2034,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se35': {
         name: 'Se35',
         locoNetId: 2035,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se36': {
         name: 'Se36',
         locoNetId: 2036,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se37': {
         name: 'Se37',
         locoNetId: 2037,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se38': {
         name: 'Se38',
         locoNetId: 2038,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se39': {
         name: 'Se39',
         locoNetId: 2039,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
+    'zst.pu.Se40': {
         name: 'Se40',
         locoNetId: 2040,
         construction: 'T',
         type: signalTypes.TYPE_SHUNT,
-
         lights: ['M', 'B'],
     },
-    {
-        name: 'Se40',
-        locoNetId: 2040,
-        construction: 'T',
-        type: signalTypes.TYPE_SHUNT,
+};
 
-        lights: ['M', 'B'],
-    },
-];
-*/
 const signalAB_LM: SignalBuffer = {
     'ab.pu-lpm.1-22': {
         name: '1-22',
@@ -704,12 +668,11 @@ const signalABPB: SignalBuffer = [
 const signals: SignalBuffer = {
     ...entrySignals,
     ...signalAB_LM,
-    //...exitSignalsL,
-    // ...exitSignalsS,
-    // ...pathSignalsL,
-    // ...pathSignalsS,
-    // ...shiftSignals,
-    // ...signalAutoblokLM,
+    ...exitSignalsL,
+    ...exitSignalsS,
+    ...pathSignalsL,
+    ...pathSignalsS,
+    ...shiftSignals,
     // ...signalAutoblokPB,
 };
 
