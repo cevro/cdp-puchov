@@ -35,11 +35,15 @@ class SerialConnector implements MessageReceiver<Message<any>> {
         }
     }
 
+    public registerListener(listener: LocoNetReceiver) {
+        this.listeners.push(listener);
+    }
+
     public handleMessageReceive(message: Message<{ port: string, params: SerialPort.OpenOptions }>) {
-        if (message.entity == 'locoNet-connector') {
+        if (message.entity === 'locoNet-connector') {
             switch (message.action) {
                 case 'connect':
-                    //this.params = message.data.params;
+                    // this.params = message.data.params;
                     this.port = message.data.port;
                     if (this.port === message.data.port) {
                         return;
@@ -101,10 +105,6 @@ class SerialConnector implements MessageReceiver<Message<any>> {
             });
             // console.log('parsed received:' + data);
         });
-    }
-
-    public registerListener(listener: LocoNetReceiver) {
-        this.listeners.push(listener);
     }
 
     private parseMessage(msg: string): LocoNetMessage {

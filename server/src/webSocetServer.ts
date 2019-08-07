@@ -24,7 +24,7 @@ const httpServer = http.createServer((request, response) => {
 });
 
 httpServer.listen(8081, () => {
-    //console.log((new Date()) + ' Server is listening on port 8081');
+    // console.log((new Date()) + ' Server is listening on port 8081');
 });
 const initClient = (connection: connection) => {
     const message: Message<DumpData> = {

@@ -6,15 +6,6 @@ export const NAVEST_40_A_VOLNO = 4;
 export const NAVEST_TEST = 5;
 export const NAVEST_40_A_VYSTRAHA = 6;
 export const NAVEST_40_A_OCAKAVAJ_40 = 7;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
-//export const NAVEST_STOJ =0;
 
 export const signalsToNames = [
     {

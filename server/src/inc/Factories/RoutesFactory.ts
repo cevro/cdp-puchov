@@ -13,6 +13,16 @@ class RoutesFactory implements MessageReceiver<Message<any>> {
         });
     }
 
+    public handleMessageReceive(message: Message): void {
+        if (message.entity !== 'route-finder') {
+            return;
+        }
+        switch (message.action) {
+            case 'find':
+                return this.handelFindRoute(message);
+        }
+    }
+
     public findRoute(startSignalId: number, endSectorId: number): TrainRoute[] {
         return this.routes.filter((route) => {
             return (route.startSignal.getLocoNetId() === startSignalId) && (route.endSector.getLocoNetId() === endSectorId);
@@ -21,7 +31,7 @@ class RoutesFactory implements MessageReceiver<Message<any>> {
 
     public findById(id: number): TrainRoute {
         for (const i in this.routes) {
-            if (id == this.routes[i].id) {
+            if (id === this.routes[i].id) {
                 return this.routes[i];
             }
         }
@@ -40,15 +50,6 @@ class RoutesFactory implements MessageReceiver<Message<any>> {
         });
     }
 
-    public handleMessageReceive(message: Message): void {
-        if (message.entity !== 'route-finder') {
-            return;
-        }
-        switch (message.action) {
-            case 'find':
-                return this.handelFindRoute(message);
-        }
-    }
 }
 
 export const routesFactory = new RoutesFactory();

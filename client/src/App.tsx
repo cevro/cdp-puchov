@@ -6,7 +6,6 @@ import SectorsPreview from './components/MessageBox/SectorsPreview';
 import PointsPreview from './components/MessageBox/PointsPreview';
 import Card from './components/helpers/Card';
 import Routes from './components/MessageBox/Routes';
-import SignalsPreview from './components/MessageBox/SignalsPreview';
 import ContextMenu from './components/Scheme/Parts/Signals/ContextMenu/ContextMenu';
 import {frontEndScheme} from './definition/all';
 import Scheme from './components/Scheme/Index';
@@ -57,13 +56,6 @@ export default class App extends React.Component<Props, {}> {
 
                     </div>
                     <div className="row col-12 bottom-panel">
-                        {scheme.cards.signals &&
-                        <div className="col-3">
-                            <Card name={'Signals'}>
-                                <SignalsPreview signals={scheme.objects.signals}/>
-                            </Card>
-                        </div>
-                        }
                         {scheme.cards.sectors &&
                         <div className="col-3">
                             <Card name={'Sectors'}>

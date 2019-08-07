@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-// noinspection TypeScriptPreferShortImport
-import {Store} from '../../reducers';
+import {Store} from '@app/reducers';
 
 interface State {
     locoNetConnector?: any;

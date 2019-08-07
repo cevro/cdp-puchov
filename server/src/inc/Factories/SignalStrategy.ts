@@ -1,17 +1,17 @@
 import Signal from '../objects/Signal';
-import { BuildOptions } from '@definitions/interfaces';
+import {BuildOptions} from '@definitions/interfaces';
 
 export const SignalStrategy = new class {
-    readonly NAVEST_40_A_OCAKAVAJ_40 = 7;
-    readonly NAVEST_40_A_VOLNO = 4;
-    readonly NAVEST_40_A_VYSTRAHA = 6;
-    readonly NAVEST_OCAKAVAJ_40 = 3;
-    readonly NAVEST_STOJ = 0;
-    readonly NAVEST_VOLNO = 1;
-    readonly NAVEST_VYSTRAHA = 2;
+    public readonly NAVEST_40_A_OCAKAVAJ_40 = 7;
+    public readonly NAVEST_40_A_VOLNO = 4;
+    public readonly NAVEST_40_A_VYSTRAHA = 6;
+    public readonly NAVEST_OCAKAVAJ_40 = 3;
+    public readonly NAVEST_STOJ = 0;
+    public readonly NAVEST_VOLNO = 1;
+    public readonly NAVEST_VYSTRAHA = 2;
 
     public calculate(endSignal: Signal, speed: number | null, sufficientDistance: boolean = true, buildOptions: BuildOptions): number {
-        let endSignalId = endSignal ? endSignal.state : 1;
+        let endSignalId = endSignal ? endSignal.getDisplayAspect() : 1;
         if (buildOptions.PN) {
             return 8;
         }

@@ -19,27 +19,27 @@ export default class TrackApproval implements LocoNetReceiver, MessageReceiver<a
     private readonly ABId: number;
 
     constructor(id: number, ABId: number, dir: ABRequestedDir) {
-       // super();
+        // super();
         this.locoNetId = id;
         this.dir = dir;
         this.ABId = ABId;
         this.locked = false;
     }
 
-    check(): void {
+    public check(): void {
         if (this.biDirAB.getDir() !== this.dir) {
             throw Error('AutoBlock on oposite direction');
         }
     }
 
-    handleLocoNetReceive(data: LocoNetMessage) {
+    public handleLocoNetReceive(data: LocoNetMessage) {
         switch (data.type) {
             case 'l':
                 this.locked = true;
         }
     }
 
-    handleMessageReceive(message: Message) {
+    public handleMessageReceive(message: Message) {
         if (message.id !== this.locoNetId) {
             return;
         }
@@ -64,7 +64,7 @@ export default class TrackApproval implements LocoNetReceiver, MessageReceiver<a
 
     public lock(id: number) {
         this.locked = true;
-     //   this.sendState();
+        //   this.sendState();
     }
 
     public unlock(id: number) {
@@ -73,15 +73,15 @@ export default class TrackApproval implements LocoNetReceiver, MessageReceiver<a
         }
     }
 
-    getEntityName() {
+    public getEntityName() {
         return '';
     }
 
-    getLocoNetId() {
+    public getLocoNetId() {
         return this.locoNetId;
     }
 
-    dumpData() {
+    public dumpData() {
         return {};
     }
 

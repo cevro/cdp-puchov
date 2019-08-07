@@ -1,4 +1,3 @@
-//import serialConnector from './inc/SerialConnector/SerialConnector';
 import { logger } from './webSocetServer';
 import { locoNetConnector } from './inc/SerialConnector/SerialConnector';
 import { autoBlockSectorFactory } from './inc/Factories/ABSectorsFactory';

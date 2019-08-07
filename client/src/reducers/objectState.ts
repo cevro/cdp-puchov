@@ -22,7 +22,7 @@ import {
     ENTITY_SECTOR,
     ENTITY_SIGNAL,
     ENTITY_TURNOUT,
-} from '@definitions/consts';
+} from '@definitions/entity';
 import {TurnoutMessages} from '@definitions/messages/turnout';
 
 export interface SignalsState {

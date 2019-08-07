@@ -21,7 +21,7 @@ class SignalChange extends React.Component<State & Props, {}> {
     public render() {
         const {signalState} = this.props;
         return (
-            <select className={'form-control'} value={signalState ? signalState.displayState : -1} onChange={(e) => {
+            <select className={'form-control'} value={signalState ? signalState.displayAspect : -1} onChange={(e) => {
                 if (+e.target.value !== -1) {
                     this.props.onChangeSignal(+e.target.value);
                 }

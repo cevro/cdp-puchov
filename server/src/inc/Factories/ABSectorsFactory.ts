@@ -2,10 +2,13 @@ import ABSector from '../objects/AB/ABSector';
 import {ABSectors} from '@definitions/ABSectors/ABSectors';
 import LocoNetObjectsFactory from './LocoNetObjectsFactory';
 import LocoNetObject from '../objects/LocoNetObject';
-import {ABSectorMessages} from '@definitions/messages/ABSector';
 import {LocoNetDefinition} from '@definitions/interfaces';
+import {
+    ClientToServerMessages,
+    StateUpdateData,
+} from '@definitions/messages/ABSector';
 
-class ABSectorsFactory extends LocoNetObjectsFactory<ABSectorMessages.ClientToServerMessages, ABSectorMessages.StateUpdateData> {
+class ABSectorsFactory extends LocoNetObjectsFactory<ClientToServerMessages, StateUpdateData> {
     private readonly ABSectors: ABSector[];
 
     constructor() {
@@ -15,7 +18,7 @@ class ABSectorsFactory extends LocoNetObjectsFactory<ABSectorMessages.ClientToSe
         });
     }
 
-    protected getObjects(): LocoNetObject<ABSectorMessages.ClientToServerMessages, ABSectorMessages.StateUpdateData>[] {
+    protected getObjects(): LocoNetObject<ClientToServerMessages, StateUpdateData>[] {
         return this.ABSectors;
     }
 }

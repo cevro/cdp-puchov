@@ -1,10 +1,13 @@
 import {LocoNetMessage} from '../../Factories/DateReceiver';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
-import {ENTITY_AB_SECTOR} from '@definitions/consts';
-import {ABSectorMessages} from '@definitions/messages/ABSector';
+import {ENTITY_AB_SECTOR} from '@definitions/entity';
 import LocoNetObject from '../LocoNetObject';
+import {
+    ClientToServerMessages,
+    StateUpdateData,
+} from '@definitions/messages/ABSector';
 
-export default class ABSector extends LocoNetObject<ABSectorMessages.ClientToServerMessages, ABSectorMessages.StateUpdateData> {
+export default class ABSector extends LocoNetObject<ClientToServerMessages, StateUpdateData> {
     private _error: number;
     private _state: number;
     private active: number;
@@ -57,7 +60,7 @@ export default class ABSector extends LocoNetObject<ABSectorMessages.ClientToSer
         return ENTITY_AB_SECTOR;
     }
 
-    public dumpData(): ABSectorMessages.StateUpdateData {
+    public dumpData(): StateUpdateData {
         return {
             state: this.state,
             locoNetId: this.locoNetId,
@@ -88,7 +91,7 @@ export default class ABSector extends LocoNetObject<ABSectorMessages.ClientToSer
         // console.log(this);
     }
 
-    public handleMessageReceive(message: ABSectorMessages.ClientToServerMessages): void {
+    public handleMessageReceive(message: ClientToServerMessages): void {
         switch (message.action) {
             case 'remove-error':
                 locoNetConnector.send({

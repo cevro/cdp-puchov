@@ -63,8 +63,8 @@ class Downloader extends React.Component<State, {}> {
     }
 
     private connect() {
-        // const wsServer = window.location.hostname;
-        const wsServer = '192.168.1.144';
+         const wsServer = window.location.hostname;
+        // const wsServer = '192.168.1.144';
         const url = 'ws://' + wsServer + ':8081/';
         this.ws = new WebSocket(url, 'echo-protocol');
         this.ws.onmessage = ({data}) => {

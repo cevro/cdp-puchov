@@ -53,6 +53,52 @@ class RouteBuilder extends LocoNetObject<Message<any>, TrainRouteDump> implement
         });
     }
 
+    public refreshRoutes() {
+        for (let i = 0; i < this.buffer.length; i++) {
+            this.buffer.forEach((locker) => {
+                this.refreshRoute(locker);
+            });
+        }
+    }
+
+    public handleMessageReceive(message: Message): void {
+        switch (message.action) {
+            case 'build':
+                this.addToBuffer(message.data.id, message.data.buildOptions);
+                break;
+        }
+
+        this.refreshRoutes();
+        this.tryBuild();
+    }
+
+    public getEntityName(): string {
+        return 'route-builder';
+    }
+
+    public dumpData(): TrainRouteDump {
+        return this.dumpBuffer();
+    }
+
+    public handleLocoNetReceive(data: LocoNetMessage) {
+        // builder is server-side no LN comunication needed
+    }
+
+    public destroyRoute(locker: TrainRouteLock) {
+        locker.destroyRoute();
+
+        this.buffer = this.buffer.filter((bufferLock) => {
+            return locker.getId() !== bufferLock.getId();
+        });
+        this.printBuffer();
+    }
+
+    public handleError(message: string) {
+        this.hasError = true;
+        console.log('route builder hadle error');
+        this.refreshRoutes();
+    }
+
     public dumpBuffer(): TrainRouteDump {
         return {
             buffer: this.buffer.map((routeLock): TrainRouteBufferItem => {
@@ -105,14 +151,6 @@ class RouteBuilder extends LocoNetObject<Message<any>, TrainRouteDump> implement
         return null;
     }
 
-    public refreshRoutes() {
-        for (let i = 0; i < this.buffer.length; i++) {
-            this.buffer.forEach((locker) => {
-                this.refreshRoute(locker);
-            });
-        }
-    }
-
     private refreshRoute(locker: TrainRouteLock) {
         if (locker.state !== TrainRouteLock.STATE_BUILT) {
             return;
@@ -161,7 +199,7 @@ class RouteBuilder extends LocoNetObject<Message<any>, TrainRouteDump> implement
             }*/
             const unalockIndex = busyIndex - 1;
             if (sectors.hasOwnProperty(unalockIndex)) {
-                if (sectors[unalockIndex].locked == locker.getId()) {
+                if (sectors[unalockIndex].locked === locker.getId()) {
                     locker.route.turnoutPositions.forEach((pointPosition) => {
                         pointPosition.unlockBySector(locker.getId(), sectors[unalockIndex].getLocoNetId());
                     });
@@ -170,44 +208,6 @@ class RouteBuilder extends LocoNetObject<Message<any>, TrainRouteDump> implement
             }
         }
 
-    }
-
-    public handleError(message: string) {
-        this.hasError = true;
-        console.log('route builder hadle error');
-        this.refreshRoutes();
-    }
-
-    public destroyRoute(locker: TrainRouteLock) {
-        locker.destroyRoute();
-
-        this.buffer = this.buffer.filter((bufferLock) => {
-            return locker.getId() !== bufferLock.getId();
-        });
-        this.printBuffer();
-    }
-
-    public handleLocoNetReceive(data: LocoNetMessage) {
-        // builder is server-side no LN comunication needed
-    }
-
-    public handleMessageReceive(message: Message): void {
-        switch (message.action) {
-            case 'build':
-                this.addToBuffer(message.data.id, message.data.buildOptions);
-                break;
-        }
-
-        this.refreshRoutes();
-        this.tryBuild();
-    }
-
-    public getEntityName(): string {
-        return 'route-builder';
-    }
-
-    public dumpData(): TrainRouteDump {
-        return this.dumpBuffer();
     }
 
 }

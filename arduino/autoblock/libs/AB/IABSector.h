@@ -142,14 +142,14 @@ namespace AutomaticBlock {
             ABSectorState_t newState = this->getABSectorState();
             this->setState(newState);
 
-            uint8_t newEntrySignalId = this->getABSignal();
+            Signals::SignalAspect_t newEntrySignalId = this->getABSignal();
             if (this->entrySignal->getState() != newEntrySignalId) {
-                this->entrySignal->setState(newEntrySignalId);
+                this->entrySignal->setAspect(newEntrySignalId);
             }
         };
 
     protected:
-        Signals::SignalState_t getABSignal() {
+        Signals::SignalAspect_t getABSignal() {
             if (!this->getActive()) {
                 return 13;
             }
@@ -158,7 +158,7 @@ namespace AutomaticBlock {
             }
 
             if (this->getState() == AB_SECTOR_STATE_FREE) {
-                return Signals::signalStrategy(this->exitSignal->getState());
+                return Signals::signalStrategy(this->exitSignal->getAspect());
             } else {
                 return Signals::SIGNAL_STATE_SIGNAL_STOJ;
             }

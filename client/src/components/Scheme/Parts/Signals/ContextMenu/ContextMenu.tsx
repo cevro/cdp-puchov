@@ -30,7 +30,7 @@ interface State {
 class ContextMenu extends React.Component<State & Props, {}> {
     public render() {
         const {id, stateObject, coordinates, active, onCloseContext} = this.props;
-        const state = stateObject ? stateObject.displayState : undefined;
+        const state = stateObject ? stateObject.displayAspect : undefined;
         const signal = this.props.signals.filter((signal) => {
             return signal.locoNetId === id;
         })[0];

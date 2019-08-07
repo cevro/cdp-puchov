@@ -22,15 +22,15 @@ class TurnoutChange extends React.Component<State & Props, {}> {
         const {turnoutState} = this.props;
         const buttons = [];
         const state = turnoutState ? turnoutState.position : 0;
-        if (state === 0 || state === 1) {
-            buttons.push(<button className="btn btn-sm btn-secondary"
+        if (state !== -1) {
+            buttons.push(<button key={'-'} className="btn btn-sm btn-secondary"
                                  onClick={() => {
                                      this.props.onChangeTurnout(-1)
                                  }}
             >Set position closed (-)</button>);
         }
-        if (state === 0 || state === -1) {
-            buttons.push(<button className="btn btn-sm btn-primary"
+        if (state !== 1) {
+            buttons.push(<button key={'+'} className="btn btn-sm btn-primary"
                                  onClick={() => {
                                      this.props.onChangeTurnout(1)
                                  }}

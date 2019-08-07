@@ -14,12 +14,11 @@ import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import LocoNetObject from '../LocoNetObject';
 
 export default class Turnout extends LocoNetObject<TurnoutMessages.ClientToServerMessages, TurnoutMessages.StateUpdateData> implements DataDumper<TurnoutMessages.StateUpdateData>, MessageReceiver<TurnoutMessages.ClientToServerMessages> {
-
+    public readonly sector: number;
     private _position: TurnoutPosition;
     private _requestedPosition: RequestedTurnoutPosition;
 
     private lockedBy: number[] = [];
-    public readonly sector: number;
 
     constructor(definition: TurnoutDefinition) {
         super(definition.locoNetId);
@@ -48,7 +47,7 @@ export default class Turnout extends LocoNetObject<TurnoutMessages.ClientToServe
     }
 
     public check(position: RequestedTurnoutPosition): void {
-        if (this.position == position) {
+        if (this.position === position) {
             return;
         }
         if (this.lockedBy.length) {
@@ -71,15 +70,6 @@ export default class Turnout extends LocoNetObject<TurnoutMessages.ClientToServe
         this.sendState();
     }
 
-    private changePosition(position: RequestedTurnoutPosition) {
-        this.requestedPosition = position;
-        locoNetConnector.send({
-            locoNetId: this.locoNetId,
-            type: 's',
-            value: position,
-        });
-    }
-
     public dumpData(): TurnoutMessages.StateUpdateData {
         return {
             locoNetId: this.locoNetId,
@@ -87,6 +77,13 @@ export default class Turnout extends LocoNetObject<TurnoutMessages.ClientToServe
             requestedPosition: this.requestedPosition,
             locked: this.lockedBy,
         };
+    }
+
+    public getEntityName(): string {
+        return 'turnout';
+    }
+
+    public handleLocoNetReceive(message: LocoNetMessage): void {
     }
 
     public handleMessageReceive(message: TurnoutMessages.ClientToServerMessages): void {
@@ -98,14 +95,17 @@ export default class Turnout extends LocoNetObject<TurnoutMessages.ClientToServe
         }
     }
 
+    private changePosition(position: RequestedTurnoutPosition) {
+        this.requestedPosition = position;
+        locoNetConnector.send({
+            locoNetId: this.locoNetId,
+            type: 's',
+            value: position,
+        });
+    }
+
     private handleChangePositionRequest(requestedPosition: RequestedTurnoutPosition): void {
         this.changePosition(requestedPosition);
     }
 
-    public getEntityName(): string {
-        return 'turnout';
-    }
-
-    public handleLocoNetReceive(message: LocoNetMessage): void {
-    }
 }

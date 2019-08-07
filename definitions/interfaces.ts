@@ -28,8 +28,8 @@ export interface SectorState extends LocoNetDefinition {
 }
 
 export interface SignalState extends LocoNetDefinition {
-    displayState: number;
-    requestedState: number;
+    displayAspect: number,
+    requestedAspect: number,
 }
 
 export interface TurnoutState extends LocoNetDefinition {

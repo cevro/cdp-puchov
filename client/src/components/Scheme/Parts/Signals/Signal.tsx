@@ -39,7 +39,7 @@ class Signal extends React.Component<Props & State, {}> {
                 SVGData: {x, y, rotate},
             },
         } = this.props;
-        const state = stateObject ? stateObject.displayState : undefined;
+        const state = stateObject ? stateObject.displayAspect : undefined;
         return (
             <g
                 className={'signal signal-type-' + type + ' ' + this.getStateClassName(state)}

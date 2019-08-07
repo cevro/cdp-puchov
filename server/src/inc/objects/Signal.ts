@@ -1,83 +1,87 @@
 import {SignalState} from '@definitions/interfaces';
 import {LocoNetMessage} from '../Factories/DateReceiver';
 import {locoNetConnector} from '../SerialConnector/SerialConnector';
-import {ENTITY_SIGNAL} from '@definitions/consts';
+import {ENTITY_SIGNAL} from '@definitions/entity';
 import {Message} from '@definitions/messages';
 import LocoNetObject from './LocoNetObject';
 import {LocoNetDefinition} from '@definitions/interfaces';
 
 export default class Signal extends LocoNetObject<Message<any>, SignalState> {
 
-    private _displayState: number;
-    private _requestedState: number;
+    private _displayAspect: number;
+    private _requestedAspect: number;
 
-    public changeState(value: number) {
-        if (value === this.requestedState) {
-            return;
-        }
-        this._requestedState = value;
-        locoNetConnector.send({
-            locoNetId: this.getLocoNetId(),
-            type: 's',
-            value: value,
-        });
-    }
-
-    get displayState(): number {
-        return this._displayState;
-    }
-
-    get requestedState(): number {
-        return this._requestedState;
-    }
-
-    private setState(value: number) {
-        if (value === this._displayState) {
-            return;
-        }
-        this._displayState = value;
-        this.sendState();
-    }
-
-    get state() {
-        return this._displayState;
-    }
-
-    constructor(definition: LocoNetDefinition) {
+    public constructor(definition: LocoNetDefinition) {
         super(definition.locoNetId);
-        this._displayState = -1;
-        this._requestedState = -1;
+        this._displayAspect = -1;
+        this._requestedAspect = -1;
+    }
+
+    public getDisplayAspect() {
+        return this._displayAspect;
+    }
+
+    public getRequestedAspect() {
+        return this._requestedAspect;
+    }
+
+    /**
+     * @deprecated
+     * @param value
+     */
+    public changeState(value: number) {
+        return this.requestChange(value);
     }
 
     public dumpData(): SignalState {
         return {
-            displayState: this.displayState,
+            displayAspect: this._displayAspect,
+            requestedAspect: this._requestedAspect,
             locoNetId: this.locoNetId,
-            requestedState: this.requestedState,
         };
     }
 
-    public handleLocoNetReceive(data: LocoNetMessage) {
+    public handleLocoNetReceive(data: LocoNetMessage): void {
         switch (data.type) {
-            case 's':
-                return this.setState(data.value);
+            case 'a':
+                console.log('a');
+                return this.confirmChange(data.value);
+            case 'r':
+                return console.log('r');
         }
-        return
+        return;
+    }
+
+    public requestChange(aspect: number): void {
+        if (aspect === this._requestedAspect) {
+            return;
+        }
+        this._requestedAspect = aspect;
+        locoNetConnector.send({
+            locoNetId: this.locoNetId,
+            type: 'a',
+            value: aspect,
+        });
+        this.sendState();
     }
 
     public handleMessageReceive(message: Message) {
         switch (message.action) {
             case 'set-state':
-                locoNetConnector.send({
-                    locoNetId: this.locoNetId,
-                    type: 's',
-                    value: message.data.state,
-                });
+                this.requestChange(message.data.state);
 
         }
     }
 
     public getEntityName(): string {
         return ENTITY_SIGNAL;
+    }
+
+    private confirmChange(value: number) {
+        if (value === this._displayAspect) {
+            return;
+        }
+        this._displayAspect = value;
+        this.sendState();
     }
 }

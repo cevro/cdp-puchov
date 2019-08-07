@@ -14,11 +14,10 @@ interface Props {
 export default class Row extends React.Component<Props, {}> {
     public render() {
         const {signalDef, signalState} = this.props;
-        const displayState = signalState ? signalState.displayState : undefined;
-        const requestedState = signalState ? signalState.requestedState : undefined;
-        return <tr>
+        const displayState = signalState ? signalState.displayAspect : undefined;
+        const requestedState = signalState ? signalState.requestedAspect : undefined;
+        return <>
             <td>
-
                 <div className="col-12 text-center">
                     <h1>
                         <span className={'badge signal-badge-' + signalDef.type}>{signalDef.name}</span>
@@ -46,7 +45,7 @@ export default class Row extends React.Component<Props, {}> {
             <td>
                 <Icon signal={signalDef} state={displayState}/>
             </td>
-        </tr>;
+        </>;
     }
 }
 

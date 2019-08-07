@@ -12,9 +12,7 @@
     "file-name-casing": [
       true,
       {
-        ".*.tsx": "pascal-case",
-        ".*.ts": "camel-case",
-        "^[a-z]*": "kebab-case"
+        ".*.tsx?": "camel-case"
       }
     ],
     "cyclomatic-complexity": false,

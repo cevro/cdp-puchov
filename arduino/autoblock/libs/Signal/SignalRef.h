@@ -14,8 +14,8 @@ namespace Signals {
     public:
         void clock() {};
 
-        void setState(SignalState_t receivedState) {
-            this->state = receivedState;
+        void setAspect(SignalAspect_t receivedState) {
+            this->aspect = receivedState;
         };
     };
 

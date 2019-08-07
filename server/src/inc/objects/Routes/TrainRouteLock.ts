@@ -1,21 +1,23 @@
 import TrainRoute from './TrainRoute';
-import { logger } from '@app/webSocetServer';
-import { routesFactory } from '../../Factories/RoutesFactory';
+import {logger} from '@app/webSocetServer';
+import {routesFactory} from '../../Factories/RoutesFactory';
 import {
     MESSAGE_ACTION_STATE_UPDATE,
     TrainRouteBufferItem,
 } from '@definitions/interfaces';
 
 export default class TrainRouteLock {
-    public readonly route: TrainRoute;
-    private readonly id: number;
-    private _state: string;
     public readonly buildOptions: any;
     public reason: string;
 
     public static readonly STATE_WAITING = 'waiting';
     public static readonly STATE_BUILDING = 'building';
     public static readonly STATE_BUILT = 'built';
+
+    public readonly route: TrainRoute;
+
+    private readonly id: number;
+    private _state: string;
 
     constructor(routeId: number, buildOptions: any) {
         this.route = routesFactory.findById(routeId);
@@ -77,10 +79,10 @@ export default class TrainRouteLock {
                 const sector = sectors[id];
                 sector.check();
             }
-            //const knot = route.knot;
-           // if (knot) {
+            // const knot = route.knot;
+            // if (knot) {
             //    knot.check();
-          //  }
+            //  }
         } catch (e) {
             console.log('try build reason:' + e.message);
             this.reason = e.message;
@@ -110,9 +112,7 @@ export default class TrainRouteLock {
 
             this.state = TrainRouteLock.STATE_BUILT;
             routeBuilder.printBuffer();
-        }
-
-        catch (e) {
+        } catch (e) {
             this.rollBack();
         }
     }

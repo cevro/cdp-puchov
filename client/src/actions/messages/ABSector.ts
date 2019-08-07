@@ -6,12 +6,15 @@ import {
     ActionMessageSend,
     onSendMessage,
 } from '../webSocets';
-import {ABSectorMessages} from '@definitions/messages/ABSector';
-import {ENTITY_AB_SECTOR} from '@definitions/consts';
+import {
+    RemoveErrorMessage,
+    SetBlockConditionMessage,
+} from '@definitions/messages/ABSector';
+import {ENTITY_AB_SECTOR} from '@definitions/entity';
 
 export const changeABCondition =
     (dispatch: Dispatch<Action<string>>, locoNetId: number, state: number):
-        ActionMessageSend<ABSectorMessages.SetBlockConditionMessage> => {
+        ActionMessageSend<SetBlockConditionMessage> => {
         return dispatch(onSendMessage({
             action: 'set-block-condition',
             entity: ENTITY_AB_SECTOR,
@@ -23,7 +26,7 @@ export const changeABCondition =
 
 export const removeABError =
     (dispatch: Dispatch<Action<string>>, locoNetId: number):
-        ActionMessageSend<ABSectorMessages.RemoveErrorMessage> => {
+        ActionMessageSend<RemoveErrorMessage> => {
         return dispatch(onSendMessage({
             action: 'remove-error',
             entity: ENTITY_AB_SECTOR,

@@ -25,7 +25,7 @@ module.exports = {
                 exclude: /node_modules/,
                 options: {
                     failOnHint: false,
-                    configuration: require('./tslint.json')
+                    configuration: require('../tslint.json')
                 }
             },
             {

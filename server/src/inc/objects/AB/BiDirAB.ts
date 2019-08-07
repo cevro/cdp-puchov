@@ -2,7 +2,7 @@ import {LocoNetMessage} from '../../Factories/DateReceiver';
 import {ABDir} from '@definitions/interfaces';
 import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import {Message} from '@definitions/messages';
-import {ENTITY_BI_DIR_AB} from '@definitions/consts';
+import {ENTITY_BI_DIR_AB} from '@definitions/entity';
 import LocoNetObject from '../LocoNetObject';
 
 export interface ABState {

@@ -1,11 +1,5 @@
-import {
-    RequestedTurnoutPosition,
-    TurnoutPosition,
-} from '../points';
-import {
-    LocoNetDefinition,
-    TurnoutState,
-} from '../interfaces';
+import {RequestedTurnoutPosition} from '../points';
+import {TurnoutState} from '../interfaces';
 import {
     Message,
     MESSAGE_ACTION_STATE_UPDATE_GLOBAL,

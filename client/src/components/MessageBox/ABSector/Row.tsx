@@ -165,7 +165,7 @@ class Row extends React.Component<Props & State, InnerState> {
         }
         switch (objectState.fullBlockConditionActive) {
             case -1:
-                return <span className="badge badge-undefined">undefined</span>
+                return <span className="badge badge-undefined">undefined</span>;
             case 0:
                 return <span className="badge badge-warning">bc: OFF</span>;
             default:

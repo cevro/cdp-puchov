@@ -10,7 +10,7 @@ import {
     ENTITY_SECTOR,
     ENTITY_SIGNAL,
     ENTITY_TURNOUT,
-} from '@definitions/consts';
+} from '@definitions/entity';
 import {RequestedTurnoutPosition} from '@definitions/points';
 import {
     ActionMessageSend,

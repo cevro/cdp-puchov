@@ -8,7 +8,7 @@ import {locoNetConnector} from '../../SerialConnector/SerialConnector';
 import {SectorBackEndDefinition} from '@app/data/sectors';
 import {Message} from '@definitions/messages';
 import LocoNetObject from '../LocoNetObject';
-import {ENTITY_SECTOR} from '@definitions/consts';
+import {ENTITY_SECTOR} from '@definitions/entity';
 
 export default class Sector extends LocoNetObject<Message<any>, SectorState> {
     private _locked: number;
@@ -48,7 +48,7 @@ export default class Sector extends LocoNetObject<Message<any>, SectorState> {
     }
 
     public unlock(id: number) {
-        if (this.locked == id) {
+        if (this.locked === id) {
             this.locked = null;
         }
     }

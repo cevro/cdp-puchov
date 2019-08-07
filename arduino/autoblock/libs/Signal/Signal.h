@@ -11,25 +11,36 @@ namespace Signals {
         int8_t scomPin;
         uint8_t mask;
         int lockTime;
+
+
     private:
         uint8_t status;
+        SignalAspect_t requestedAspect;
+        uint8_t times;
     public:
-        Signal(int scomPin, int id) : ISignal(id) {
-            // this->state = 5;
+        Signal(int scomPin, locoNetAddress_t id) : ISignal(id) {
+            this->requestedAspect = 0;
+            this->aspect = 0;
             this->status = 1;
             this->setPin(scomPin);
         };
 
     public:
 
-        void setState(SignalState_t receivedState) {
-            this->state = receivedState;
-            this->mask = 0x00000001;
-            this->dumpState();
+        void setAspect(SignalAspect_t receivedState) {
+            if (this->requestedAspect != receivedState) {
+                this->requestedAspect = receivedState;
+                this->mask = 0x00000001;
+                this->times = 0;
+            }
         };
 
     public:
         void clock() {
+            if (this->times > 2 && this->requestedAspect != this->aspect) {
+                this->aspect = this->requestedAspect;
+                this->dumpAspect();
+            }
             if (this->lockTime < 300) {
                 this->lockTime += 10;
                 return;
@@ -46,7 +57,7 @@ namespace Signals {
                     break;
                 case 3:
 
-                    digitalWrite(this->scomPin, (this->state & this->mask) ? HIGH : LOW);
+                    digitalWrite(this->scomPin, (this->requestedAspect & this->mask) ? HIGH : LOW);
                     this->mask <<= 1;
                     if (!this->mask) {
                         this->status = 4;
@@ -55,7 +66,7 @@ namespace Signals {
                 case 4:
                     digitalWrite(this->scomPin, HIGH);
                     this->lockTime = 0;
-
+                    this->times = this->times + 1;
                     this->status = 1;
                     break;
             };
@@ -64,14 +75,21 @@ namespace Signals {
 
     public:
         void dump() {
-            this->dumpState();
+            this->dumpAspect();
+           // this->dumpRequestedAspect();
         };
 
-        void dumpState() {
+        void dumpAspect() {
             Serial.print(this->getLocoNetId());
-            Serial.print(":s:");
-            Serial.println(this->getState());
+            Serial.print(":a:");
+            Serial.println(this->getAspect());
         };
+/*
+        void dumpRequestedAspect() {
+            Serial.print(this->getLocoNetId());
+            Serial.print(":r:");
+            Serial.println(this->requestedAspect);
+        };*/
 
     private:
         void setPin(int8_t pin) {

@@ -7,24 +7,27 @@
 namespace Signals {
     class ISignal : public LocoNetObject {
     protected:
-        SignalState_t state;
+        SignalAspect_t aspect;
     public:
         ISignal(int locoNetId) : LocoNetObject(locoNetId) {};
 
 
     public:
-        virtual void setState(SignalState_t receivedState) = 0;
+        virtual void setAspect(SignalAspect_t receivedState) = 0;
 
     public:
-        SignalState_t getState() {
-            return this->state;
+        SignalAspect_t getState() {
+            return this->aspect;
+        }
+        SignalAspect_t getAspect() {
+            return this->aspect;
         }
 
     public:
         void handleCmd(char cmd, int value) {
             switch (cmd) {
-                case 's':
-                    this->setState(value);
+                case 'a':
+                    this->setAspect(value);
             }
             return;
         }
